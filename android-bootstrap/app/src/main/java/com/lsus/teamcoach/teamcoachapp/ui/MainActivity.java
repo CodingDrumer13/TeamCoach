@@ -63,7 +63,7 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         // Set up navigation drawer
         title = drawerTitle = getTitle();
-
+//        Commiting
         if(!isTablet()) {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawerToggle = new ActionBarDrawerToggle(

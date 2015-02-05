@@ -3,7 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:background="@drawable/main_background">
 
     <RelativeLayout
             android:layout_width="fill_parent"
@@ -13,7 +14,6 @@
             <LinearLayout android:id="@+id/header"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#444"
                 android:paddingTop="5dip"
                 android:paddingBottom="5dip">
                 <!-- Logo Start-->
@@ -49,6 +49,8 @@
                     android:textColor="#372c24"
                     android:text="First Name"/>
                 <EditText android:id="@+id/reg_fullname"
+                    style="@style/SignInEditText"
+                    android:imeOptions="actionDone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
@@ -64,6 +66,8 @@
 
                 <EditText
                     android:id="@+id/editText"
+                    style="@style/SignInEditText"
+                    android:imeOptions="actionDone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
@@ -75,6 +79,8 @@
                     android:textColor="#372c24"
                     android:text="Email"/>
                 <EditText android:id="@+id/reg_email"
+                    style="@style/SignInEditText"
+                    android:imeOptions="actionDone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
@@ -86,6 +92,8 @@
                     android:textColor="#372c24"
                     android:text="Password"/>
                 <EditText android:id="@+id/reg_password"
+                    style="@style/SignInEditText"
+                    android:imeOptions="actionDone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:password="true"
@@ -93,10 +101,15 @@
                     android:layout_marginTop="5dip"/>
                 <!-- Register Button -->
                 <Button android:id="@+id/btnRegister"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="15dip"
+                    android:background="@drawable/button_background_states"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:text="Register New Account"/>
+
                 <!-- Link to Login Screen -->
                 <TextView android:id="@+id/link_to_login"
                     android:layout_width="fill_parent"

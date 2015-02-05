@@ -166,6 +166,14 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         emailText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
+
+        registerButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                    handleRegister(registerButton);
+            }
+        });
     }
 
     private List<String> userEmailAccounts() {
@@ -296,6 +304,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * @param view
      */
     public void handleRegister(final View view) {
+        
     }
     /**
      * Called when response is received from the server for confirm credentials

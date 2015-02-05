@@ -87,8 +87,6 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @InjectView(id.et_email) protected AutoCompleteTextView emailText;
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
-    @InjectView(id.b_register) protected Button registerButton;
-
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -167,13 +165,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         emailText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
 
-        registerButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                    handleRegister(registerButton);
-            }
-        });
+        final TextView signUpText = (TextView) findViewById(id.tv_signup);
+        signUpText.setMovementMethod(LinkMovementMethod.getInstance());
+        signUpText.setText(Html.fromHtml(getString(string.signup_link)));
     }
 
     private List<String> userEmailAccounts() {
@@ -304,7 +298,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * @param view
      */
     public void handleRegister(final View view) {
-        
+
     }
     /**
      * Called when response is received from the server for confirm credentials

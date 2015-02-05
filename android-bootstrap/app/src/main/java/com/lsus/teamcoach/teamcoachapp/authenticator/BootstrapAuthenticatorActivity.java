@@ -126,6 +126,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         Injector.inject(this);
 
+        //Making Changes
         accountManager = AccountManager.get(this);
 
         final Intent intent = getIntent();

@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -167,13 +168,13 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         emailText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
 
-        registerButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                    handleRegister(registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                handleRegister(registerButton);
             }
         });
+
+
     }
 
     private List<String> userEmailAccounts() {
@@ -304,7 +305,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * @param view
      */
     public void handleRegister(final View view) {
-
+        // Switching to Register screen
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(i);
     }
     /**
      * Called when response is received from the server for confirm credentials

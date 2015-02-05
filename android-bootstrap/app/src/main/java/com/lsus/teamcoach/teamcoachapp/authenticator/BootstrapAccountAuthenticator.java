@@ -113,4 +113,5 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
                                     final Bundle options) {
         return null;
     }
+
 }

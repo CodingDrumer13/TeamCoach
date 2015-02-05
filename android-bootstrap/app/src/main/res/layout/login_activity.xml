@@ -73,17 +73,20 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_signup"
+            <Button
+                android:id="@+id/b_register"
                 style="@style/ShadowText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/stripe_repeat"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background_states"
                 android:gravity="center"
-                android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:onClick="handleRegister"
+                android:padding="10dp"
+                android:text="@string/label_register"
                 android:textColor="@color/text"
-                android:textColorLink="@color/text_link" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

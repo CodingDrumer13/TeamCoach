@@ -126,7 +126,6 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         accountManager = AccountManager.get(this);
 
         final Intent intent = getIntent();
-        email = intent.getStringExtra(PARAM_USERNAME);
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
         confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRM_CREDENTIALS, false);
 

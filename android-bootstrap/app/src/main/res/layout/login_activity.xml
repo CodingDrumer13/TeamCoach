@@ -55,8 +55,7 @@
                 android:id="@+id/et_password"
                 style="@style/SignInEditText"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:password="true" />
+                android:password="false" />
 
             <Button
                 android:id="@+id/b_signin"

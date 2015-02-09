@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 
-public class RegisterActivity extends ActionBarActivity {
+public class  RegisterActivity extends ActionBarActivity {
 
 
     @Override

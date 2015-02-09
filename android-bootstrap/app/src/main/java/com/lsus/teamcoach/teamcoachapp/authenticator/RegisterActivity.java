@@ -1,5 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,8 +15,10 @@ import android.widget.Toast;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.R.id;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import butterknife.InjectView;
 
@@ -45,25 +48,60 @@ public class  RegisterActivity extends ActionBarActivity {
                 password.getText();
                 int selectedId = radioButtons.getCheckedRadioButtonId();
 
-                ParseObject parseObject = new ParseObject("User");
 
                 ParseUser user = new ParseUser();
-                user.put("fisrtName", firstName.getText());
+                user.put("firstName", firstName.getText());
                 user.put("lastName", lastName.getText());
-                user.put("username", email.getText());
-                user.put("email",email.getText());
+                user.put("alias", firstName.getText());
+
+                //ADD CHECKS LATER!!!!!!!!
+                user.setUsername(email.toString());
+                user.setPassword(password.toString());
+                user.setEmail(email.toString());
+
+                boolean givenRole = false;
 
                 switch(selectedId){
                     case 0:
                         user.put("role", "Coach");
+                        givenRole = true;
                         break;
                     case 1:
                         user.put("role", "Player");
+                        givenRole = true;
                         break;
                     default:
-                        // handle no selection
+                        //handle no selection
+                        Context context = getApplicationContext();
+                        CharSequence text = "No Role Selected";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
                         break;
                 }
+
+                if (givenRole = true){
+                user.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null)
+                        {
+                           //Continue to app!
+                            Context context = getApplicationContext();
+                            CharSequence text = "User Created!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(context, text, duration).show();
+                        }
+                        else
+                        {
+                            //Failed. Find error :(
+                            Context context = getApplicationContext();
+                            CharSequence text = "Error!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(context, text, duration).show();
+                        }
+                    }
+                });}
+
 
             }
         });

@@ -1,5 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -13,18 +14,28 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lsus.teamcoach.teamcoachapp.Injector;
+import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.R.id;
+import android.support.v7.app.ActionBarActivity;
+
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.squareup.otto.Bus;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.Views;
 
-public class  RegisterActivity extends ActionBarActivity {
+public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
-
+    @Inject BootstrapService bootstrapService;
+    @Inject Bus bus;
 
     @InjectView(id.btnRegister) protected Button confirmRegisterButton;
     @InjectView(id.tvRegisterCancel) protected TextView cancelRegister;
@@ -37,74 +48,17 @@ public class  RegisterActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        Injector.inject(this);
+
+        setContentView(layout.activity_register);
+        Views.inject(this);
 
         confirmRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                lastName.getText();
-                email.getText();
-                password.getText();
-                int selectedId = radioButtons.getCheckedRadioButtonId();
-
-
-                ParseUser user = new ParseUser();
-                user.put("firstName", firstName.getText());
-                user.put("lastName", lastName.getText());
-                user.put("alias", firstName.getText());
-
-                //ADD CHECKS LATER!!!!!!!!
-                user.setUsername(email.toString());
-                user.setPassword(password.toString());
-                user.setEmail(email.toString());
-
-                boolean givenRole = false;
-
-                switch(selectedId){
-                    case 0:
-                        user.put("role", "Coach");
-                        givenRole = true;
-                        break;
-                    case 1:
-                        user.put("role", "Player");
-                        givenRole = true;
-                        break;
-                    default:
-                        //handle no selection
-                        Context context = getApplicationContext();
-                        CharSequence text = "No Role Selected";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast.makeText(context, text, duration).show();
-                        break;
-                }
-
-                if (givenRole = true){
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null)
-                        {
-                           //Continue to app!
-                            Context context = getApplicationContext();
-                            CharSequence text = "User Created!";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(context, text, duration).show();
-                        }
-                        else
-                        {
-                            //Failed. Find error :(
-                            Context context = getApplicationContext();
-                            CharSequence text = "Error!";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(context, text, duration).show();
-                        }
-                    }
-                });}
-
-
+            public void onClick(View v) {
+                onRegister();
             }
         });
+
     }
 
 
@@ -132,14 +86,65 @@ public class  RegisterActivity extends ActionBarActivity {
 
     public boolean onRegister()
     {
-        confirmRegisterButton.setOnClickListener(new View.OnClickListener()
-        {
-                public void onClick(View v)
-                {
+            lastName.getText();
+            email.getText();
+            password.getText();
+            int selectedId = radioButtons.getCheckedRadioButtonId();
 
-                }
 
-        });
-        return true;
+            ParseUser user = new ParseUser();
+            user.put("firstName", firstName.getText());
+            user.put("lastName", lastName.getText());
+            user.put("alias", firstName.getText());
+
+            //ADD CHECKS LATER!!!!!!!!
+            user.setUsername(email.toString());
+            user.setPassword(password.toString());
+            user.setEmail(email.toString());
+
+            boolean givenRole = false;
+
+            switch(selectedId){
+                case 0:
+                    user.put("role", "Coach");
+                    givenRole = true;
+                    break;
+                case 1:
+                    user.put("role", "Player");
+                    givenRole = true;
+                    break;
+                default:
+                    //handle no selection
+                    Context context = getApplicationContext();
+                    CharSequence text = "No Role Selected";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast.makeText(context, text, duration).show();
+                    break;
+            }
+
+            if (givenRole = true){
+                user.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null)
+                        {
+                            //Continue to app!
+                            Context context = getApplicationContext();
+                            CharSequence text = "User Created!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(context, text, duration).show();
+                        }
+                        else
+                        {
+                            //Failed. Find error :(
+                            Context context = getApplicationContext();
+                            CharSequence text = "Error!";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(context, text, duration).show();
+                        }
+                    }
+                });}
+
+                return true;
     }
 }

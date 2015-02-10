@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
+import com.lsus.teamcoach.teamcoachapp.authenticator.ActionBarAccountAuthenticatorActivity;
 
 import butterknife.Views;
 
@@ -15,7 +16,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 /**
  * Base activity for a Bootstrap activity which does not use fragments.
  */
-public abstract class BootstrapActivity extends ActionBarActivity {
+public abstract class BootstrapActivity extends ActionBarAccountAuthenticatorActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

@@ -9,29 +9,31 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:background="#fff">
 
-            <!--  Header  Starts-->
-            <LinearLayout android:id="@+id/header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#444"
-                android:paddingTop="5dip"
-                android:paddingBottom="50dip">
-                <!-- Logo Start-->
-                <!--<ImageView android:src="@drawable/logo"-->
-                <!--android:layout_width="wrap_content"-->
+            <!--&lt;!&ndash;  Header  Starts&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/header"-->
+                <!--android:layout_width="fill_parent"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="10dip"/>-->
-                <!-- Logo Ends -->
-            </LinearLayout>
-            <!--  Header Ends -->
-            <!-- Footer Start -->
-            <LinearLayout android:id="@+id/footer"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="#444"
-                android:layout_alignParentBottom="true">
-            </LinearLayout>
-            <!-- Footer Ends -->
+                <!--android:background="#444"-->
+                <!--android:paddingTop="5dip"-->
+                <!--android:paddingBottom="50dip">-->
+                <!--&lt;!&ndash; Logo Start&ndash;&gt;-->
+                <!--&lt;!&ndash;<ImageView android:src="@drawable/logo"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginLeft="10dip"/>&ndash;&gt;-->
+                <!--&lt;!&ndash; Logo Ends &ndash;&gt;-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;  Header Ends &ndash;&gt;-->
+            <!--&lt;!&ndash; Footer Start &ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/footer"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="90dip"-->
+                <!--android:background="#444"-->
+                <!--android:layout_alignParentBottom="true">-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash; Footer Ends &ndash;&gt;-->
 
             <!-- Registration Form -->
             <LinearLayout
@@ -40,10 +42,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dip"
-                android:background="#ddd"
-                android:layout_above="@+id/footer"
-                android:layout_below="@+id/header"
-                >
+                android:background="#ddd"></LinearLayout>
+                <!--android:layout_above="@+id/footer"-->
+                <!--android:layout_below="@+id/header"-->
+                <!-->-->
                 <!-- Full Name Label -->
                 <TextView android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +142,7 @@
                     android:textSize="20dip"
                     android:textColor="#025f7c"/>
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
             <!-- Registration Form Ends -->
         </RelativeLayout>
     </ScrollView>

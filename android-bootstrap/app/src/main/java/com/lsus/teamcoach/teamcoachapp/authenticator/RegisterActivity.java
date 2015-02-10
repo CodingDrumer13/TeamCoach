@@ -21,6 +21,7 @@ import com.lsus.teamcoach.teamcoachapp.R.id;
 import android.support.v7.app.ActionBarActivity;
 
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -55,7 +56,7 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
         confirmRegisterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onRegister();
+                onRegister(confirmRegisterButton);
             }
         });
 
@@ -84,13 +85,9 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean onRegister()
+    public boolean onRegister(final View view)
     {
-            lastName.getText();
-            email.getText();
-            password.getText();
             int selectedId = radioButtons.getCheckedRadioButtonId();
-
 
             ParseUser user = new ParseUser();
             user.put("firstName", firstName.getText());

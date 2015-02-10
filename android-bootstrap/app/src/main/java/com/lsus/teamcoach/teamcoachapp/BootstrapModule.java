@@ -40,6 +40,7 @@ import retrofit.converter.GsonConverter;
 @Module(
         complete = false,
 
+        //Have to add new Fragments and Activities here
         injects = {
                 BootstrapApplication.class,
                 BootstrapAuthenticatorActivity.class,

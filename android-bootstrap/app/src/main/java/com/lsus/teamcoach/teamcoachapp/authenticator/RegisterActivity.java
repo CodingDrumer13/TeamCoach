@@ -88,26 +88,24 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
     public boolean onRegister(final View view)
     {
-            int selectedId = radioButtons.getCheckedRadioButtonId();
+        int selectedId = radioButtons.getCheckedRadioButtonId();
 
-
-        ParseObject.registerSubclass(ParseUser.class);
         ParseUser user = new ParseUser();
         //ParseObject user = new ParseObject("User");
 
 
         user.put("firstName", firstName.getText().toString());
         user.put("lastName", lastName.getText().toString());
-        user.put("email", email.getText().toString());
-        user.put("password", password.getText().toString());
-        user.put("username", email.getText().toString());
+        //user.put("email", email.getText().toString());
+        //user.put("password", password.getText().toString());
+        //user.put("username", email.getText().toString());
         user.put("alias", firstName.getText().toString());
 
 
         //ADD CHECKS LATER!!!!!!!!
-        //user.setUsername(email.toString());
-        //user.setPassword(password.toString());
-        //user.setEmail(email.toString());
+        user.setUsername(email.toString());
+        user.setPassword(password.toString());
+        user.setEmail(email.toString());
 
         boolean givenRole = false;
 
@@ -130,6 +128,7 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
         }
 
         if (givenRole = true){
+
             user.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {

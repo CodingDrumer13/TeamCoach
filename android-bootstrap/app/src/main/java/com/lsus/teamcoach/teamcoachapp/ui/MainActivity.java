@@ -16,10 +16,12 @@ import android.view.Window;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.lsus.teamcoach.teamcoachapp.util.UIUtils;
+import com.parse.Parse;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
@@ -51,6 +53,12 @@ public class MainActivity extends BootstrapFragmentActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);
+
+        //Enables local data storage
+        Parse.enableLocalDatastore(this);
+
+        //Initializes Parse
+        Parse.initialize(this, Constants.Http.PARSE_APP_ID, Constants.Http.PARSE_CLIENT_KEY_ID);
 
         if(isTablet()) {
             setContentView(R.layout.main_activity_tablet);

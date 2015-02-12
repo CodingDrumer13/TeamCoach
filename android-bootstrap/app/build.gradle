@@ -12,6 +12,8 @@ apply plugin: 'android'
 android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
+    productFlavors {
+    }
 }
 repositories {
     maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
@@ -44,7 +46,7 @@ android {
     buildToolsVersion '19.1.0'
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 11
         targetSdkVersion 19
         versionCode 102
         versionName '1.0'

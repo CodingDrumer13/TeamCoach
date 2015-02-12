@@ -4,7 +4,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.lsus.teamcoach.teamcoachapp.authenticator.ApiKeyProvider;
-import com.lsus.teamcoach.teamcoachapp.authenticator.RegisterActivity;
+import com.lsus.teamcoach.teamcoachapp.authenticator.RegisterFragment;
 import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
@@ -53,7 +53,7 @@ import retrofit.converter.GsonConverter;
                 UserActivity.class,
                 UserListFragment.class,
                 TimerService.class,
-                RegisterActivity.class
+                RegisterFragment.class
         }
 )
 public class BootstrapModule {

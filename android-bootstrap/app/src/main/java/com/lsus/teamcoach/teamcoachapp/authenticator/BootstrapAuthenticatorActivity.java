@@ -11,6 +11,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.view.Choreographer;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -27,6 +29,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -89,6 +93,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
     @InjectView(id.b_register) protected Button registerButton;
+    @InjectView(id.loginLayout) protected LinearLayout loginLayout;
 
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -107,6 +112,8 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
     private String password;
 
+    private Bundle bundle;
+
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
@@ -123,6 +130,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        this.bundle = bundle;
 
         Injector.inject(this);
 
@@ -307,8 +315,29 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      */
     public void handleRegister(final View view) {
         // Switching to Register screen
-        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(getApplicationContext(), RegisterFragment.class);
+//        startActivity(i);]]
+
+        if (loginLayout != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (bundle != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+           RegisterFragment registerFragment = new RegisterFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            registerFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(id.loginLayout, registerFragment).commit();
+        }
     }
     /**
      * Called when response is received from the server for confirm credentials

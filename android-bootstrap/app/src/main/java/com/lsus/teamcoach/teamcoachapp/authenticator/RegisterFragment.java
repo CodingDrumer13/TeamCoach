@@ -1,10 +1,13 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,13 +24,14 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.squareup.otto.Bus;
+import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
 
-public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
+public class RegisterFragment extends Fragment {
 
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
@@ -43,43 +47,41 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
     @InjectView(id.playerRB) protected RadioButton playerRadioButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(layout.login_activity, container, false);
         Injector.inject(this);
 
-        setContentView(layout.activity_register);
-        Views.inject(this);
-
-        confirmRegisterButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onRegister(confirmRegisterButton);
-            }
-        });
+//        confirmRegisterButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                onRegister(confirmRegisterButton);
+//            }
+//        });
+        return view;
 
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_register, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public boolean onRegister(final View view)
     {
@@ -112,7 +114,7 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
             givenRole = true;
         }else{
             //handle no selection
-            Context context = getApplicationContext();
+            Context context = getActivity().getApplicationContext();
             CharSequence text = "No Role Selected";
             int duration = Toast.LENGTH_SHORT;
             Toast.makeText(context, text, duration).show();
@@ -126,15 +128,17 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
                     if (e == null)
                     {
                         //Continue to app!
-                        Context context = getApplicationContext();
+                        Context context = getActivity().getApplicationContext();
                         CharSequence text = "User Created!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast.makeText(context, text, duration).show();
+                        BootstrapAuthenticatorActivity baa = new BootstrapAuthenticatorActivity();
+                        baa.handleLogin(confirmRegisterButton);
                     }
                     else
                     {
                         //Failed. Find error :(
-                        Context context = getApplicationContext();
+                        Context context = getActivity().getApplicationContext();
                         CharSequence text = "Error!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast.makeText(context, text, duration).show();

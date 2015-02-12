@@ -98,7 +98,7 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
         user.put("firstName", firstName.getText().toString());
         user.put("lastName", lastName.getText().toString());
-        //user.put("email", email.getText().toString());
+        user.put("email", email.getText().toString());
         //user.put("password", password.getText().toString());
         //user.put("username", email.getText().toString());
         user.put("alias", firstName.getText().toString());
@@ -107,7 +107,7 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
         //ADD CHECKS LATER!!!!!!!!
         user.setUsername(email.toString());
         user.setPassword(password.toString());
-        user.setEmail(email.toString());
+//        user.setEmail(email.toString());
 
         boolean givenRole = false;
 

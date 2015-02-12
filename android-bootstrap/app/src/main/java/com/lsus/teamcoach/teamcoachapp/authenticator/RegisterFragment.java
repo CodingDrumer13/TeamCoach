@@ -31,11 +31,12 @@ import javax.inject.Inject;
 import butterknife.InjectView;
 import butterknife.Views;
 
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
 
+//    Button confirmRegisterButton;
     @InjectView(id.btnRegister) protected Button confirmRegisterButton;
     @InjectView(id.tvRegisterCancel) protected TextView cancelRegister;
     @InjectView(id.etEmail) protected EditText email;
@@ -48,19 +49,21 @@ public class RegisterFragment extends Fragment {
 
     @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(layout.login_activity, container, false);
+        View view = inflater.inflate(layout.activity_register, container, false);
         Injector.inject(this);
 
-//        confirmRegisterButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                onRegister(confirmRegisterButton);
-//            }
-//        });
+//        confirmRegisterButton = (Button) view.findViewById(id.btnRegister);
+//
         return view;
 
     }
 
-
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Views.inject(this, view);
+        confirmRegisterButton.setOnClickListener(this);
+    }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
@@ -132,8 +135,6 @@ public class RegisterFragment extends Fragment {
                         CharSequence text = "User Created!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast.makeText(context, text, duration).show();
-                        BootstrapAuthenticatorActivity baa = new BootstrapAuthenticatorActivity();
-                        baa.handleLogin(confirmRegisterButton);
                     }
                     else
                     {
@@ -147,5 +148,10 @@ public class RegisterFragment extends Fragment {
             });}
 
             return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        onRegister(confirmRegisterButton);
     }
 }

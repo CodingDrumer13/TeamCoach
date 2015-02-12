@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/loginLayout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,8 +19,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:id="@+id/loginLayout">
+            android:paddingTop="5dp">
 
             <TextView
                 style="@style/ShadowText"

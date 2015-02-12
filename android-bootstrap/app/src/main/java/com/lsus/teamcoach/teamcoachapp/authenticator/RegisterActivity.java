@@ -46,6 +46,8 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
     @InjectView(id.etFirstName) protected EditText firstName;
     @InjectView(id.etLastName) protected EditText lastName;
     @InjectView(id.registerRadioGroup) protected RadioGroup radioButtons;
+    @InjectView(id.coachRB) protected RadioButton coachRadioButton;
+    @InjectView(id.playerRB) protected RadioButton playerRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,22 +111,18 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
         boolean givenRole = false;
 
-        switch(selectedId){
-            case 0:
-                user.put("role", "Coach");
-                givenRole = true;
-                break;
-            case 1:
-                user.put("role", "Player");
-                givenRole = true;
-                break;
-            default:
-                //handle no selection
-                Context context = getApplicationContext();
-                CharSequence text = "No Role Selected";
-                int duration = Toast.LENGTH_SHORT;
-                Toast.makeText(context, text, duration).show();
-                break;
+        if(selectedId == coachRadioButton.getId()) {
+            user.put("role", "Coach");
+            givenRole = true;
+        }else if(selectedId == playerRadioButton.getId()){
+            user.put("role", "Player");
+            givenRole = true;
+        }else{
+            //handle no selection
+            Context context = getApplicationContext();
+            CharSequence text = "No Role Selected";
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(context, text, duration).show();
         }
 
         if (givenRole = true){

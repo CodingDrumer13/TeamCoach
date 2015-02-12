@@ -1,9 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,16 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
-import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.R.id;
-import android.support.v7.app.ActionBarActivity;
-
+import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
-import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.squareup.otto.Bus;
@@ -105,8 +98,8 @@ public class  RegisterActivity extends ActionBarAccountAuthenticatorActivity  {
 
 
         //ADD CHECKS LATER!!!!!!!!
-        user.setUsername(email.toString());
-        user.setPassword(password.toString());
+        user.setUsername(email.getText().toString());
+        user.setPassword(password.getText().toString());
 //        user.setEmail(email.toString());
 
         boolean givenRole = false;

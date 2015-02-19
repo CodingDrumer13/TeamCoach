@@ -328,7 +328,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
             }
 
             // Create a new Fragment to be placed in the activity layout
-           RegisterFragment registerFragment = new RegisterFragment();
+            RegisterFragment registerFragment = new RegisterFragment();
+            registerFragment.setBootstrapAcuthenticatorActivity(this);
+
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
@@ -365,6 +367,31 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      */
 
     protected void finishLogin() {
+        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+
+        if (requestNewAccount) {
+            accountManager.addAccountExplicitly(account, password, null);
+        } else {
+            accountManager.setPassword(account, password);
+        }
+
+        authToken = token;
+
+        final Intent intent = new Intent();
+        intent.putExtra(KEY_ACCOUNT_NAME, email);
+        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+
+        if (authTokenType != null
+                && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
+            intent.putExtra(KEY_AUTHTOKEN, authToken);
+        }
+
+        setAccountAuthenticatorResult(intent.getExtras());
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    protected void finishLogin(String token, String email, String password) {
         final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
         if (requestNewAccount) {

@@ -20,6 +20,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.R.id;
 import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -32,6 +33,12 @@ import butterknife.InjectView;
 import butterknife.Views;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
+
+    private BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity;
+    private String emailText;
+    private String passwordText;
+    private String token;
+    private ParseUser user = new ParseUser();
 
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
@@ -51,9 +58,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(layout.activity_register, container, false);
         Injector.inject(this);
-
-//        confirmRegisterButton = (Button) view.findViewById(id.btnRegister);
-//
         return view;
 
     }
@@ -89,8 +93,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public boolean onRegister(final View view)
     {
         int selectedId = radioButtons.getCheckedRadioButtonId();
-
-        ParseUser user = new ParseUser();
+        user = new ParseUser();
         //ParseObject user = new ParseObject("User");
 
 
@@ -105,7 +108,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         //ADD CHECKS LATER!!!!!!!!
         user.setUsername(email.getText().toString());
         user.setPassword(password.getText().toString());
-//        user.setEmail(email.toString());
+        emailText = email.getText().toString();
+        passwordText = password.getText().toString();
+
 
         boolean givenRole = false;
 
@@ -135,6 +140,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         CharSequence text = "User Created!";
                         int duration = Toast.LENGTH_SHORT;
                         Toast.makeText(context, text, duration).show();
+
+                        token = user.getSessionToken();
+                        bootstrapAuthenticatorActivity.finishLogin(token, emailText, passwordText);
                     }
                     else
                     {
@@ -153,5 +161,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         onRegister(confirmRegisterButton);
+    }
+
+    public void setBootstrapAcuthenticatorActivity (BootstrapAuthenticatorActivity bootstrapAcuthenticatorActivity){
+        this.bootstrapAuthenticatorActivity = bootstrapAcuthenticatorActivity;
     }
 }

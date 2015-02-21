@@ -11,17 +11,12 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.view.Choreographer;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -29,7 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -329,7 +323,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
             // Create a new Fragment to be placed in the activity layout
             RegisterFragment registerFragment = new RegisterFragment();
-            registerFragment.setBootstrapAcuthenticatorActivity(this);
+            registerFragment.setBootstrapAuthenticatorActivity(this);
 
 
             // In case this activity was started with special instructions from an

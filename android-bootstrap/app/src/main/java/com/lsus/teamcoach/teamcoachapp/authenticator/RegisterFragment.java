@@ -1,5 +1,8 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +18,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.R.id;
 import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.lsus.teamcoach.teamcoachapp.util.Strings;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -31,14 +37,37 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
+import retrofit.RetrofitError;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity;
-    private String emailText;
-    private String passwordText;
+    private SafeAsyncTask<Boolean> authenticationTask;
+
     private String token;
-    private ParseUser user = new ParseUser();
+
+    private String userRole;
+    private String userFirstName;
+    private String userLastName;
+    private String userEmail;
+    private String userPassword;
+    private String userAlias;
+    private String userUsername;
+
+    protected Dialog onCreateDialog(int id) {
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage(getText(R.string.message_registering));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(true);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(final DialogInterface dialog) {
+                if (authenticationTask != null) {
+                    authenticationTask.cancel(true);
+                }
+            }
+        });
+        return dialog;
+    }
 
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
@@ -68,57 +97,44 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         Views.inject(this, view);
         confirmRegisterButton.setOnClickListener(this);
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_register, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    /**
+     * Hide progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void hideProgress() {
+       getActivity().dismissDialog(0);
+    }
+
+    /**
+     * Show progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void showProgress() {
+        getActivity().showDialog(0);
+    }
 
     public boolean onRegister(final View view)
     {
         int selectedId = radioButtons.getCheckedRadioButtonId();
-        user = new ParseUser();
-        //ParseObject user = new ParseObject("User");
 
-
-        user.put("firstName", firstName.getText().toString());
-        user.put("lastName", lastName.getText().toString());
-        user.put("email", email.getText().toString());
-        //user.put("password", password.getText().toString());
-        //user.put("username", email.getText().toString());
-        user.put("alias", firstName.getText().toString());
-
+        showProgress();
 
         //ADD CHECKS LATER!!!!!!!!
-        user.setUsername(email.getText().toString());
-        user.setPassword(password.getText().toString());
-        emailText = email.getText().toString();
-        passwordText = password.getText().toString();
-
+        userFirstName = firstName.getText().toString();
+        userLastName = lastName.getText().toString();
+        userEmail = email.getText().toString();
+        userPassword = password.getText().toString();
+        userAlias = firstName.getText().toString();
+        userUsername = email.getText().toString();
 
         boolean givenRole = false;
 
         if(selectedId == coachRadioButton.getId()) {
-            user.put("role", "Coach");
+            userRole = "Coach";
             givenRole = true;
         }else if(selectedId == playerRadioButton.getId()){
-            user.put("role", "Player");
+            userRole = "Player";
             givenRole = true;
         }else{
             //handle no selection
@@ -128,42 +144,53 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(context, text, duration).show();
         }
 
-        if (givenRole = true){
+        if (givenRole = true) {
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
 
-            user.signUpInBackground(new SignUpCallback() {
+                    User user = new User(userUsername, userPassword, userAlias, userRole, userEmail, userFirstName, userLastName);
+
+                    User loginResponse = bootstrapService.register(user);
+                    token = loginResponse.getSessionToken();
+
+                    return true;
+                }
+
                 @Override
-                public void done(ParseException e) {
-                    if (e == null)
-                    {
-                        //Continue to app!
-                        Context context = getActivity().getApplicationContext();
-                        CharSequence text = "User Created!";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast.makeText(context, text, duration).show();
-
-                        token = user.getSessionToken();
-                        bootstrapAuthenticatorActivity.finishLogin(token, emailText, passwordText);
-                    }
-                    else
-                    {
-                        //Failed. Find error :(
-                        Context context = getActivity().getApplicationContext();
-                        CharSequence text = "Error!";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast.makeText(context, text, duration).show();
+                protected void onException(final Exception e) throws RuntimeException {
+                    // Retrofit Errors are handled inside of the {
+                    if (!(e instanceof RetrofitError)) {
+                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                        if (cause != null) {
+                            Toaster.showLong(getActivity(), cause.getMessage());
+                        }
                     }
                 }
-            });}
 
-            return true;
+                @Override
+                public void onSuccess(final Boolean authSuccess) {
+                    bootstrapAuthenticatorActivity.finishLogin(token, userEmail, userPassword);;
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+                    hideProgress();
+                    authenticationTask = null;
+                }
+            };
+            authenticationTask.execute();
+
+        }
+        return true;
     }
+
 
     @Override
     public void onClick(View view) {
         onRegister(confirmRegisterButton);
     }
 
-    public void setBootstrapAcuthenticatorActivity (BootstrapAuthenticatorActivity bootstrapAcuthenticatorActivity){
-        this.bootstrapAuthenticatorActivity = bootstrapAcuthenticatorActivity;
+    public void setBootstrapAuthenticatorActivity(BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity){
+        this.bootstrapAuthenticatorActivity = bootstrapAuthenticatorActivity;
     }
 }

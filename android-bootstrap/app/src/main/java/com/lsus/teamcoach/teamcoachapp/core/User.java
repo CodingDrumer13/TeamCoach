@@ -11,6 +11,7 @@ public class User implements Serializable {
     protected String firstName;
     protected String lastName;
     protected String username;
+    protected String password;
     protected String phone;
     protected String objectId;
     protected String sessionToken;
@@ -18,7 +19,17 @@ public class User implements Serializable {
     protected String avatarUrl;
     protected String alias;
     protected String role;
+    protected String email;
 
+    public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
+        this.firstName = userFirstName;
+        this.lastName = userLastName;
+        this.username = userUsername;
+        this.password = userPassword;
+        this.alias = userAlias;
+        this.role = userRole;
+        this.email = userEmail;
+    }
 
     public String getUsername() {
         return username;
@@ -43,6 +54,8 @@ public class User implements Serializable {
     public void setObjectId(final String objectId) {
         this.objectId = objectId;
     }
+
+    public void setPassword(final String password) {this.password = password;}
 
     public String getSessionToken() {
         return sessionToken;
@@ -73,6 +86,14 @@ public class User implements Serializable {
     }
 
     public void setAlias(final String alias) {this.alias = alias;}
+
+    public String getEmail(){return email; }
+
+    public void setEmail(final String email){this.email = email; }
+
+    public String getRole() {return role;}
+
+    public void setRole(final String role) {this.role = role; }
 
     public String getGravatarId() {
         return gravatarId;

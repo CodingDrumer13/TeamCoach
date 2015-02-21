@@ -69,7 +69,7 @@ public class BootstrapService {
         return getUserService().authenticate(email, password);
     }
 
-    public User register(String email, String password, String alias, String role, String firstName, String lastName) {
-        return getUserService().register(email, password, email, alias, role, firstName, lastName );
+    public User register(User user) {
+        return getUserService().register(user);
     }
 }

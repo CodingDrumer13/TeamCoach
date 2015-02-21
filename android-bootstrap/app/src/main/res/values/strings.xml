@@ -28,6 +28,7 @@
     <string name="label_sign_in">Sign In</string>
     <string name="label_register">Register</string>
     <string name="message_signing_in">Signing in…</string>
+    <string name="message_registering">Registering…</string>
     <string name="blank_field_warning">Please populate this field</string>
     <string name="signup_link">New to TeamCoach? &lt;a href=http://www.androidbootstrap.com>Register Here&lt;/a></string>
     <string name="message_bad_credentials">Email Address or Password is incorrect</string>

@@ -11,28 +11,9 @@
             android:layout_height="wrap_content" android:background="#fff">
 
             <!--  Header  Starts-->
-            <LinearLayout android:id="@+id/header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#444"
-                android:paddingTop="5dip"
-                android:paddingBottom="50dip">
-                <!-- Logo Start-->
-                <!--<ImageView android:src="@drawable/logo"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="10dip"/>-->
-                <!-- Logo Ends -->
-            </LinearLayout>
-            <!--  Header Ends -->
+        <!--  Header Ends -->
             <!-- Footer Start -->
-            <LinearLayout android:id="@+id/footer"
-                android:layout_width="fill_parent"
-                android:layout_height="10dip"
-                android:background="#444"
-                android:layout_alignParentBottom="true">
-            </LinearLayout>
-            <!-- Footer Ends -->
+        <!-- Footer Ends -->
 
             <!-- Registration Form -->
             <LinearLayout
@@ -41,10 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dip"
-                android:background="#ddd"
-                android:layout_above="@+id/footer"
-                android:layout_below="@+id/header"
-                >
+                android:background="#ddd">
                 <!-- Full Name Label -->
                 <TextView android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +33,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
                     android:singleLine="true"
-                    android:layout_marginBottom="20dip"/>
+                    android:layout_marginBottom="20dip"
+                    android:textColor="#ff000000" />
                 <!--  Email Label -->
                 <TextView
                     android:layout_width="fill_parent"
@@ -70,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
                     android:singleLine="true"
-                    android:layout_marginBottom="20dip" />
+                    android:layout_marginBottom="20dip"
+                    android:textColor="#ff000000"/>
 
                 <TextView android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -81,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
                     android:singleLine="true"
-                    android:layout_marginBottom="20dip"/>
+                    android:layout_marginBottom="20dip"
+                    android:textColor="#ff000000"/>
                 <!-- Password Label -->
                 <TextView android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -92,7 +73,8 @@
                     android:layout_height="wrap_content"
                     android:password="true"
                     android:singleLine="true"
-                    android:layout_marginTop="5dip"/>
+                    android:layout_marginTop="5dip"
+                    android:textColor="#ff000000"/>
                 <!-- Register Button -->
                 <RadioGroup
                     android:layout_width="match_parent"

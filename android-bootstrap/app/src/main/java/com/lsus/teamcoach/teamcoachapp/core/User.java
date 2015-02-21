@@ -16,6 +16,7 @@ public class User implements Serializable {
     protected String sessionToken;
     protected String gravatarId;
     protected String avatarUrl;
+    protected String alias;
 
 
     public String getUsername() {
@@ -65,6 +66,12 @@ public class User implements Serializable {
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(final String alias) {this.alias = alias;}
 
     public String getGravatarId() {
         return gravatarId;

@@ -36,7 +36,7 @@ public class UserActivity extends BootstrapActivity {
                 .placeholder(R.drawable.gravatar_icon)
                 .into(avatar);
 
-        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+        name.setText(String.format("%s %s %s", user.getFirstName(), user.getLastName(), user.getAlias()));
 
     }
 

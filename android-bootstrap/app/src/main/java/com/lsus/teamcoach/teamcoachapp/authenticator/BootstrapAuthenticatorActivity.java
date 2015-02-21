@@ -394,11 +394,8 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     protected void finishLogin(String token, String email, String password) {
         final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
-        if (requestNewAccount) {
-            accountManager.addAccountExplicitly(account, password, null);
-        } else {
-            accountManager.setPassword(account, password);
-        }
+        accountManager.addAccountExplicitly(account, password, null);
+
 
         authToken = token;
 

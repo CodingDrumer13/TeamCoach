@@ -17,6 +17,7 @@ public class User implements Serializable {
     protected String gravatarId;
     protected String avatarUrl;
     protected String alias;
+    protected String role;
 
 
     public String getUsername() {

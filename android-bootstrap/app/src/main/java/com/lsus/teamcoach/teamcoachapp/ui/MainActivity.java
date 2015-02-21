@@ -54,11 +54,11 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        //Enables local data storage
-        Parse.enableLocalDatastore(this);
-
-        //Initializes Parse
-        Parse.initialize(this, Constants.Http.PARSE_APP_ID, Constants.Http.PARSE_CLIENT_KEY_ID);
+//        //Enables local data storage
+//        Parse.enableLocalDatastore(this);
+//
+//        //Initializes Parse
+//        Parse.initialize(this, Constants.Http.PARSE_APP_ID, Constants.Http.PARSE_CLIENT_KEY_ID);
 
         if(isTablet()) {
             setContentView(R.layout.main_activity_tablet);

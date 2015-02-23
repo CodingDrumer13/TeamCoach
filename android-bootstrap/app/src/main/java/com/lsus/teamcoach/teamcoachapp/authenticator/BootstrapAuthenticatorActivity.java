@@ -332,7 +332,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .replace(id.loginLayout, registerFragment).commit();
+                    .replace(id.content_frame, registerFragment).commit();
         }
     }
     /**

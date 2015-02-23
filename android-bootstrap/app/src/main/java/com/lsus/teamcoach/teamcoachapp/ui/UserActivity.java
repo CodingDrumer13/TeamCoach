@@ -16,6 +16,9 @@ public class UserActivity extends BootstrapActivity {
 
     @InjectView(R.id.iv_avatar) protected ImageView avatar;
     @InjectView(R.id.tv_name) protected TextView name;
+    @InjectView(R.id.tv_role) protected TextView role;
+    @InjectView(R.id.tv_userEmail) protected TextView email;
+    @InjectView(R.id.tv_username) protected TextView username;
 
     private User user;
 
@@ -36,7 +39,15 @@ public class UserActivity extends BootstrapActivity {
                 .placeholder(R.drawable.gravatar_icon)
                 .into(avatar);
 
-        name.setText(String.format("%s %s %s", user.getFirstName(), user.getLastName(), user.getAlias()));
+        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+
+        role.setText(String.format("%s", user.getRole()));
+
+        email.setText(String.format("%s", user.getEmail()));
+
+        username.setText(String.format("%s", user.getUsername()));
+
+
 
     }
 

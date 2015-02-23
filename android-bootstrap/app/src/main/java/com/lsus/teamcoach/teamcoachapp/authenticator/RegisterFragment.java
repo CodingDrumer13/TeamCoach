@@ -196,10 +196,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
     public void onClick(View view) {
         if(view.getId() == confirmRegisterButton.getId())
         {
+            //The register button has been clicked
             onRegister(confirmRegisterButton);
         }else if(view.getId() == cancelRegister.getId()){
+            //The cancel text has been clicked
             bootstrapAuthenticatorActivity.getSupportFragmentManager().beginTransaction().remove(RegisterFragment.this).commit();
-//            bootstrapAuthenticatorActivity.setContentView(layout.login_activity);
         };
     }
 

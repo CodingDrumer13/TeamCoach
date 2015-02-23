@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,7 @@ import com.lsus.teamcoach.teamcoachapp.R.id;
 import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.lsus.teamcoach.teamcoachapp.util.Strings;
 import com.parse.ParseException;
@@ -39,7 +43,10 @@ import butterknife.InjectView;
 import butterknife.Views;
 import retrofit.RetrofitError;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+
+public class RegisterFragment extends Fragment implements View.OnClickListener  {
 
     private BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity;
     private SafeAsyncTask<Boolean> authenticationTask;
@@ -72,7 +79,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
 
-//    Button confirmRegisterButton;
     @InjectView(id.btnRegister) protected Button confirmRegisterButton;
     @InjectView(id.tvRegisterCancel) protected TextView cancelRegister;
     @InjectView(id.etEmail) protected EditText email;
@@ -96,6 +102,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
         confirmRegisterButton.setOnClickListener(this);
+        cancelRegister.setOnClickListener(this);
     }
 
     /**
@@ -187,10 +194,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        onRegister(confirmRegisterButton);
+        if(view.getId() == confirmRegisterButton.getId())
+        {
+            onRegister(confirmRegisterButton);
+        }else if(view.getId() == cancelRegister.getId()){
+            bootstrapAuthenticatorActivity.getSupportFragmentManager().beginTransaction().remove(RegisterFragment.this).commit();
+//            bootstrapAuthenticatorActivity.setContentView(layout.login_activity);
+        };
     }
 
     public void setBootstrapAuthenticatorActivity(BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity){
         this.bootstrapAuthenticatorActivity = bootstrapAuthenticatorActivity;
     }
+
 }

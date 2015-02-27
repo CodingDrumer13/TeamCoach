@@ -1,5 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +22,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
+import static android.accounts.AccountManager.get;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
 public class UserListFragment extends ItemListFragment<User> {
@@ -87,6 +91,8 @@ public class UserListFragment extends ItemListFragment<User> {
         };
 
     }
+
+
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));

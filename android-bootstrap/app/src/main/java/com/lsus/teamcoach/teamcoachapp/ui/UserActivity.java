@@ -1,10 +1,14 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.squareup.picasso.Picasso;
 
@@ -47,9 +51,15 @@ public class UserActivity extends BootstrapActivity {
 
         username.setText(String.format("%s", user.getUsername()));
 
+        // Gets the logged in accounts user information
+        AccountManager accountManager = AccountManager.get(getApplicationContext());
+        Account[] accounts = accountManager.getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        Account myAccount = null;
 
+        myAccount = accounts[0];
 
     }
 
 
 }
+

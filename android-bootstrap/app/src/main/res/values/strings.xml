@@ -7,9 +7,9 @@
     <string name="page_referrers">Referrers</string>
     <string name="refresh_action">Refresh</string>
     <string name="logout_action">Logout</string>
-    <string name="page_news">Messages</string>
-    <string name="page_users">Schedule</string>
-    <string name="page_checkins">Team</string>
+    <string name="page_messages">Messages</string>
+    <string name="page_schedule">Schedule</string>
+    <string name="page_team">Team</string>
     <string name="title_column">Title</string>
     <string name="location_column">Location</string>
     <string name="user_column">User</string>

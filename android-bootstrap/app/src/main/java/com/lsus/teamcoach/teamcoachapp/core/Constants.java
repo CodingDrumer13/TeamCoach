@@ -110,7 +110,6 @@ public final class Constants {
         public static final String NEWS_ITEM = "news_item";
 
         public static final String USER = "user";
-
     }
 
     public static final class Intent {

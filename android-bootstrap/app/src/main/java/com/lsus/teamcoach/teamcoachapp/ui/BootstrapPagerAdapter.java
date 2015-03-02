@@ -60,11 +60,11 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(final int position) {
         switch (position) {
             case 0:
-                return resources.getString(R.string.page_news);
+                return resources.getString(R.string.page_messages);
             case 1:
-                return resources.getString(R.string.page_users);
+                return resources.getString(R.string.page_schedule);
             case 2:
-                return resources.getString(R.string.page_checkins);
+                return resources.getString(R.string.page_team);
             default:
                 return null;
         }

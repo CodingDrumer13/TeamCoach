@@ -54,9 +54,14 @@ public class UserActivity extends BootstrapActivity {
         // Gets the logged in accounts user information
         AccountManager accountManager = AccountManager.get(getApplicationContext());
         Account[] accounts = accountManager.getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-        Account myAccount = null;
+        Account myAccount =  accounts[0];
 
-        myAccount = accounts[0];
+        if(myAccount.name.equalsIgnoreCase(user.getEmail()))
+        {
+            System.out.println("In Email");
+        }else{
+            System.out.println("NOpe");
+        }
 
     }
 

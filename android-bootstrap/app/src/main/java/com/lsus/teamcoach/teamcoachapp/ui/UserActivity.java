@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.User;
@@ -75,12 +76,10 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId() == button_Edit.getId())
         {
-            //The register button has been clicked
-            //onRegister(confirmRegisterButton);
+            //The Edit button has been clicked
             onEdit();
         }else if(view.getId() == button_Submit.getId()){
-            //The cancel text has been clicked
-            //bootstrapAuthenticatorActivity.getSupportFragmentManager().beginTransaction().remove(RegisterFragment.this).commit();
+            //The Submit button has been clicked
             onSubmit();
         };
     }
@@ -106,25 +105,68 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     }
 
     public void onSubmit(){
-        button_Submit.setVisibility(View.GONE);
-        button_Edit.setVisibility(View.VISIBLE);
-
-        //Resets all EditText fields to be TextViews
-        name.setVisibility(View.VISIBLE);
-        et_name.setVisibility(View.GONE);
-        email.setVisibility(View.VISIBLE);
-        et_email.setVisibility(View.GONE);
-        username.setVisibility(View.VISIBLE);
-        et_username.setVisibility(View.GONE);
-        role.setVisibility(View.VISIBLE);
 
 
-        //Sets the text in the TextViews.
-        //Needs to be changed to update Parse using Rest API!  ------------------------------
         //Need to introduce checks here!!!! -------------------------------------------------
-        name.setText(String.format("%s", et_name.getText().toString()));
-        email.setText(String.format("%s", et_email.getText().toString()));
-        username.setText(String.format("%s", et_username.getText().toString()));
+        boolean isValid = validateFields();
+
+        if(isValid){
+            button_Submit.setVisibility(View.GONE);
+            button_Edit.setVisibility(View.VISIBLE);
+
+            //Resets all EditText fields to be TextViews
+            name.setVisibility(View.VISIBLE);
+            et_name.setVisibility(View.GONE);
+            email.setVisibility(View.VISIBLE);
+            et_email.setVisibility(View.GONE);
+            username.setVisibility(View.VISIBLE);
+            et_username.setVisibility(View.GONE);
+            role.setVisibility(View.VISIBLE);
+
+            //Sets the text in the TextViews.
+            // Needs to be changed to update Parse using Rest API!  ------------------------------
+            name.setText(String.format("%s", et_name.getText().toString()));
+            email.setText(String.format("%s", et_email.getText().toString()));
+            username.setText(String.format("%s", et_username.getText().toString()));
+        }
     }
+
+    private boolean validateFields(){
+        //Handles the setting of the first and last name.
+        String fullName = et_name.getText().toString();
+        String[] names = fullName.split(" ");
+        String firstName = names[0];
+        String lastName = "";
+        if (names.length == 1){
+            Toaster.showLong(this, "Please enter full name.");
+            return false;
+        }else{
+            if(names.length < 3){
+                lastName = names[1];
+            }else{
+                for(int i = 1; i < names.length; i++){
+                    if(i == names.length){
+                        lastName = names[i];
+                    }else{
+                        lastName = names[i] + " ";
+                    }
+                }
+            }
+        }
+
+        String userEmail = et_email.getText().toString();
+        if(!userEmail.contains("@")){
+            Toaster.showLong(this, "Invalid Email");
+            return false;
+        }else{
+            if(!userEmail.contains(".com") && !userEmail.contains(".org")){
+                Toaster.showLong(this, "Invalid Email");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
 

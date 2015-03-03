@@ -34,6 +34,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     @InjectView(R.id.et_name) protected EditText et_name;
     @InjectView(R.id.et_userEmail) protected  EditText et_email;
     @InjectView(R.id.et_username) protected EditText et_username;
+    @InjectView(R.id.tv_roleTag) protected TextView tv_roleTag;
 
     private User user;
 
@@ -96,6 +97,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         username.setVisibility(View.GONE);
         et_username.setVisibility(View.VISIBLE);
         role.setVisibility(View.GONE);
+        tv_roleTag.setVisibility(View.GONE);
 
         //Sets the text in the EditText fields
         et_name.setText(String.format("%s", name.getText().toString()));
@@ -105,10 +107,13 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     }
 
     public void onSubmit(){
-
-
         //Need to introduce checks here!!!! -------------------------------------------------
         boolean isValid = validateFields();
+
+        String[] names = et_name.getText().toString().split(" ");
+
+        String firstName = getFirstName(names);
+        String lastName = getLastName(names);
 
         if(isValid){
             button_Submit.setVisibility(View.GONE);
@@ -122,6 +127,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
             username.setVisibility(View.VISIBLE);
             et_username.setVisibility(View.GONE);
             role.setVisibility(View.VISIBLE);
+            tv_roleTag.setVisibility(View.VISIBLE);
 
             //Sets the text in the TextViews.
             // Needs to be changed to update Parse using Rest API!  ------------------------------
@@ -133,25 +139,10 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
     private boolean validateFields(){
         //Handles the setting of the first and last name.
-        String fullName = et_name.getText().toString();
-        String[] names = fullName.split(" ");
-        String firstName = names[0];
-        String lastName = "";
+        String[] names = et_name.getText().toString().split(" ");
         if (names.length == 1){
             Toaster.showLong(this, "Please enter full name.");
             return false;
-        }else{
-            if(names.length < 3){
-                lastName = names[1];
-            }else{
-                for(int i = 1; i < names.length; i++){
-                    if(i == names.length){
-                        lastName = names[i];
-                    }else{
-                        lastName = names[i] + " ";
-                    }
-                }
-            }
         }
 
         String userEmail = et_email.getText().toString();
@@ -166,6 +157,27 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         }
 
         return true;
+    }
+
+    private String getFirstName(String[] names){
+        return names[0];
+    }
+
+    private String getLastName(String[] names){
+        String lastName = "";
+        if(names.length < 3){
+            lastName = names[1];
+        }else{
+            for(int i = 1; i < names.length; i++){
+                if(i == names.length){
+                    lastName = names[i];
+                }else{
+                    lastName = names[i] + " ";
+                }
+            }
+        }
+
+        return lastName;
     }
 
 }

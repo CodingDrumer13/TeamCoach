@@ -16,7 +16,8 @@
             android:text="@string/user_column"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/table_text_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+        />
 
 
 </LinearLayout>

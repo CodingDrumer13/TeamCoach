@@ -47,6 +47,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
                 result = new CheckInsListFragment();
                 break;
             case 3:
+                result = new LibraryAgeListFragment();
+                break;
+            case 4:
                 result = new AdminFragment();
                 break;
             default:
@@ -69,6 +72,8 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return resources.getString(R.string.page_team);
             case 3:
+                return resources.getString(R.string.page_library);
+            case 4:
                 return resources.getString(R.string.page_admin);
             default:
                 return null;

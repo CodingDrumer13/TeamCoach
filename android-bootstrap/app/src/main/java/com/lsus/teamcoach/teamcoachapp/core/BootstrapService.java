@@ -1,8 +1,8 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit.RestAdapter;
 

@@ -14,6 +14,7 @@
     <string name="page_library">Drill Library</string>
     <string name="title_column">Title</string>
     <string name="location_column">Location</string>
+    <string name="age_group_column">Age Group</string>
     <string name="user_column">User</string>
     <string name="date_column">Date</string>
     <string name="error_loading_users">Loading users failed</string>

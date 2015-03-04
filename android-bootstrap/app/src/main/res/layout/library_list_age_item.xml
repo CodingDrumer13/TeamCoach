@@ -11,6 +11,23 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
+        android:textSize="20dp"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         />
-
+<!--
+    <TextView
+        android:id="@+id/tv_arrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:gravity="right"
+        android:singleLine="true"
+        android:textSize="20dp"
+        android:paddingLeft="10dp"
+        />
+-->
 </LinearLayout>

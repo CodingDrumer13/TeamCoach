@@ -78,17 +78,6 @@ public final class Constants {
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
 
-        /**
-         * PARAMS for register
-         */
-        public static final String PARAM_ALIAS = "alias";
-        public static final String PARAM_ROLE = "role";
-        public static final String PARAM_EMAIL = "email";
-        public static final String PARAM_FIRST_NAME = "firstName";
-        public static final String PARAM_LAST_NAME = "lastName";
-
-
-
 
         public static final String PARSE_APP_ID = "SEPDLRAQaBMsThfDV2LoVxT1WTBy5LuzVDM1qRue";
         public static final String PARSE_REST_API_KEY = "T3D6YI8TYJZubA14QflQA62Vavx3bdtNxiTwlqMW";

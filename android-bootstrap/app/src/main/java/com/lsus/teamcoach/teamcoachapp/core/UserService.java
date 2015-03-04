@@ -4,7 +4,10 @@ import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -29,12 +32,19 @@ public interface UserService {
                                @Query(Constants.Http.PARAM_PASSWORD) String password);
 
     /**
-     * The {@link retrofit.http.Query} values will be transform into query string paramters
-     * via Retrofit
      *
      * @param user The user
-     * @return A login response.
+     * @return A register response.
      */
     @POST(Constants.Http.URL_USERS_FRAG)
     User register(@Body User user);
+
+    /**
+     * update a user in the database
+     *
+     * @param user The user
+     * @return A update response.
+     */
+    @PUT(Constants.Http.URL_USERS_FRAG+"/{id}")
+    User update(@Path("id") String id, @Header("X-Parse-Session-Token") String token,  @Body User user);
 }

@@ -378,6 +378,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         if (authTokenType != null
                 && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
             intent.putExtra(KEY_AUTHTOKEN, authToken);
+            accountManager.setAuthToken(account, authTokenType, authToken);
         }
 
         setAccountAuthenticatorResult(intent.getExtras());
@@ -400,6 +401,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         if (authTokenType != null
                 && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
             intent.putExtra(KEY_AUTHTOKEN, authToken);
+            accountManager.setAuthToken(account, authTokenType, authToken);
         }
 
         setAccountAuthenticatorResult(intent.getExtras());

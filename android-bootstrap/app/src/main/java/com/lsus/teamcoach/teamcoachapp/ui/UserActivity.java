@@ -14,15 +14,24 @@ import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 
+import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
 public class UserActivity extends BootstrapActivity implements View.OnClickListener {
+
+    @Inject
+    BootstrapService bootstrapService;
 
     @InjectView(R.id.iv_avatar) protected ImageView avatar;
     @InjectView(R.id.tv_name) protected TextView name;
@@ -37,6 +46,8 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     @InjectView(R.id.tv_roleTag) protected TextView tv_roleTag;
 
     private User user;
+    private SafeAsyncTask<Boolean> authenticationTask;
+    private String authToken;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +58,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         if (getIntent() != null && getIntent().getExtras() != null) {
             user = (User) getIntent().getExtras().getSerializable(USER);
         }
+
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,6 +79,9 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         AccountManager accountManager = AccountManager.get(getApplicationContext());
         Account[] accounts = accountManager.getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         Account myAccount =  accounts[0];
+
+        authToken = accountManager.peekAuthToken(myAccount,Constants.Auth.AUTHTOKEN_TYPE );
+        user.setSessionToken(authToken);
 
         if(myAccount.name.equalsIgnoreCase(user.getUsername())){
             button_Edit.setVisibility(View.VISIBLE);
@@ -131,6 +146,23 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
             //Sets the text in the TextViews.
             // Needs to be changed to update Parse using Rest API!  ------------------------------
+            user.setUsername(et_name.getText().toString());
+            user.setEmail(et_email.getText().toString());
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+
+                    //Implement try/catch for update error
+                    bootstrapService.update(user);
+
+                    return true;
+                }
+            };
+            authenticationTask.execute();
+
+
             name.setText(String.format("%s", et_name.getText().toString()));
             email.setText(String.format("%s", et_email.getText().toString()));
             username.setText(String.format("%s", et_username.getText().toString()));

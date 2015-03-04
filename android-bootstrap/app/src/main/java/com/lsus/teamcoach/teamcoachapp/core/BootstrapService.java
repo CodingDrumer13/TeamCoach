@@ -2,6 +2,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit.RestAdapter;
 
@@ -72,4 +73,9 @@ public class BootstrapService {
     public User register(User user) {
         return getUserService().register(user);
     }
+
+    public Object update(User user) {
+        return getUserService().update(user.objectId, user.getSessionToken() , user);
+    }
+
 }

@@ -14,7 +14,7 @@
         android:layout_width="fill_parent"
         android:singleLine="true"
         android:textStyle="normal"
-        android:textColor="@color/text_title_selector"
+        android:textColor="@color/table_text_selector"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="This is the admin page!"

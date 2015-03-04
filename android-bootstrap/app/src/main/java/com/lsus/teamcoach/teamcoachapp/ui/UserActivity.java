@@ -100,7 +100,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         };
     }
 
-    public void onEdit(){
+    private void onEdit(){
         button_Edit.setVisibility(View.GONE);
         button_Submit.setVisibility(View.VISIBLE);
 
@@ -121,18 +121,17 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
     }
 
-    public void onSubmit(){
+    private void onSubmit(){
         //Need to introduce checks here!!!! -------------------------------------------------
         boolean isValid = validateFields();
-
-        String[] names = et_name.getText().toString().split(" ");
-
-        String firstName = getFirstName(names);
-        String lastName = getLastName(names);
 
         if(isValid){
             button_Submit.setVisibility(View.GONE);
             button_Edit.setVisibility(View.VISIBLE);
+
+            String[] names = et_name.getText().toString().split(" ");
+            String firstName = getFirstName(names);
+            String lastName = getLastName(names);
 
             //Resets all EditText fields to be TextViews
             name.setVisibility(View.VISIBLE);
@@ -146,7 +145,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
             //Sets the text in the TextViews.
             // Needs to be changed to update Parse using Rest API!  ------------------------------
-            user.setUsername(et_name.getText().toString());
+            user.setUsername(et_email.getText().toString());
             user.setEmail(et_email.getText().toString());
             user.setFirstName(firstName);
             user.setLastName(lastName);

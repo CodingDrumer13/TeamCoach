@@ -54,7 +54,6 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-
         if(isTablet()) {
             setContentView(R.layout.main_activity_tablet);
         } else {
@@ -62,7 +61,8 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
         // View injection with Butterknife
-        Views.inject(this);
+
+      Views.inject(this);
 
         // Set up navigation drawer
         title = drawerTitle = getTitle();

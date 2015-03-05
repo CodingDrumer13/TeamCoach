@@ -27,7 +27,8 @@
 
             <EditText android:id="@+id/etFirstName"
                 style="@style/SignInEditText"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/black" />
 
             <!--  Email Label -->
             <TextView

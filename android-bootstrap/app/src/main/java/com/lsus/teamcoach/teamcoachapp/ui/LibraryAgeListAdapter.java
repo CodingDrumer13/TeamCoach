@@ -32,7 +32,7 @@ public class LibraryAgeListAdapter extends AlternatingColorListAdapter<AgeGroup>
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_name};
+        return new int[]{R.id.tv_name, R.id.tv_arrow};
     }
 
     @Override
@@ -40,5 +40,6 @@ public class LibraryAgeListAdapter extends AlternatingColorListAdapter<AgeGroup>
         super.update(position, item);
 
         setText(0, item.getAge());
+        setText(1, ">");
     }
 }

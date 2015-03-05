@@ -10,23 +10,14 @@
     android:paddingTop="5dp" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:text="Team Name"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/table_text_header"
-        android:textStyle="bold" />
-    <!--
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textSize="30dp"
-            android:text=">"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/table_text_header"
-            android:textStyle="bold" />
-    -->
+        android:textStyle="bold"
+        android:gravity="center" />
+
+
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;

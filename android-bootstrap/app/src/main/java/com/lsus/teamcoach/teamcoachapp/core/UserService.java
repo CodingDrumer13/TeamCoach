@@ -47,4 +47,15 @@ public interface UserService {
      */
     @PUT(Constants.Http.URL_USERS_FRAG+"/{id}")
     User update(@Path("id") String id, @Header("X-Parse-Session-Token") String token,  @Body User user);
+
+
+    /**
+     * Retrives the current user from parse.com
+     *
+     * @param token The sessiong token
+     * @return the current user.
+     */
+    @GET(Constants.Http.URL_USERS_FRAG+"/me")
+    User currentUser(@Header("X-Parse-Session-Token") String token);
+
 }

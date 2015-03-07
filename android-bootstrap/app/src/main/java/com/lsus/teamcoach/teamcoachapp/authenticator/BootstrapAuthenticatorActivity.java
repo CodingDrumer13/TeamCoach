@@ -35,6 +35,7 @@ import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.R.string;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.UnAuthorizedErrorEvent;
 import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
@@ -359,38 +360,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * AccountAuthenticatorResult which is sent back to the caller. Also sets
      * the authToken in AccountManager for this account.
      */
-
-    protected void finishLogin() {
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-
-        if (requestNewAccount) {
-            accountManager.addAccountExplicitly(account, password, null);
-        } else {
-            accountManager.setPassword(account, password);
-        }
-
-        authToken = token;
-
-        final Intent intent = new Intent();
-        intent.putExtra(KEY_ACCOUNT_NAME, email);
-        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-
-        if (authTokenType != null
-                && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
-            intent.putExtra(KEY_AUTHTOKEN, authToken);
-            accountManager.setAuthToken(account, authTokenType, authToken);
-        }
-
-        setAccountAuthenticatorResult(intent.getExtras());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
     protected void finishLogin(String token, String email, String password) {
         final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
         accountManager.addAccountExplicitly(account, password, null);
-
 
         authToken = token;
 
@@ -433,7 +406,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     public void onAuthenticationResult(final boolean result) {
         if (result) {
             if (!confirmCredentials) {
-                finishLogin();
+                finishLogin(authToken, email, password);
             } else {
                 finishConfirmCredentials(true);
             }

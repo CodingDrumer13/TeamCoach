@@ -80,6 +80,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         Account[] accounts = accountManager.getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         Account myAccount =  accounts[0];
 
+        //User Singlton to get user or session
         authToken = accountManager.peekAuthToken(myAccount,Constants.Auth.AUTHTOKEN_TYPE );
         user.setSessionToken(authToken);
 
@@ -161,6 +162,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
             };
             authenticationTask.execute();
 
+            //Update user in singlton
 
             name.setText(String.format("%s", et_name.getText().toString()));
             email.setText(String.format("%s", et_email.getText().toString()));

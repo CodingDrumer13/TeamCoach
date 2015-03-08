@@ -1,6 +1,7 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +77,10 @@ public class BootstrapService {
 
     public Object update(User user) {
         return getUserService().update(user.objectId, user.getSessionToken() , user);
+    }
+
+    public User currentUser(String token){
+        return  getUserService().currentUser(token);
     }
 
 }

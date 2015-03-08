@@ -3,6 +3,7 @@ package com.lsus.teamcoach.teamcoachapp.core;
 import android.text.TextUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -20,6 +21,7 @@ public class User implements Serializable {
     protected String alias;
     protected String role;
     protected String email;
+    protected ArrayList<Team> teams;
 
     public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
         this.firstName = userFirstName;
@@ -98,6 +100,10 @@ public class User implements Serializable {
     public String getGravatarId() {
         return gravatarId;
     }
+
+    public ArrayList<Team> getTeams() { return teams;  }
+
+    public void setTeams() { this.teams = teams; }
 
     public String getAvatarUrl() {
         if (TextUtils.isEmpty(avatarUrl)) {

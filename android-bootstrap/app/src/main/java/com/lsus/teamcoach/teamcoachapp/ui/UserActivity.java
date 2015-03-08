@@ -212,6 +212,5 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
         return lastName;
     }
-
 }
 

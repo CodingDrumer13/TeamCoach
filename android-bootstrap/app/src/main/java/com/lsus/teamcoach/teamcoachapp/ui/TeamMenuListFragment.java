@@ -12,7 +12,10 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,10 +25,12 @@ import javax.inject.Inject;
 
 /**
  * Created by Caroline on 3/4/2015.
+ * Modified by Don on 3/7/2015
  */
 public class TeamMenuListFragment extends ItemListFragment<String> {
 
     @Inject protected LogoutService logoutService;
+    @Inject protected BootstrapService bootstrapService;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -102,20 +107,21 @@ public class TeamMenuListFragment extends ItemListFragment<String> {
 
     @Override
     protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_checkins;
+        return R.string.error_loading_teams;
     }
 
     /**
-     * Gets the list of all age groups. THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
+     * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
     public List<String> getTeamMenuItems() {
+        Singleton singleton = Singleton.getInstance();
+        User user = singleton.getCurrentUser();
         List<String> menuItems = new ArrayList<String>();
-        menuItems.add("Team Code");
-        menuItems.add("Roster");
-        menuItems.add("Calendar");
-        menuItems.add("Settings");
-
+        if(!user.getTeams().isEmpty() && user.getTeams() != null)
+            for(Team team : user.getTeams()){
+                menuItems.add(team.getTeamName());
+            }
         return menuItems;
     }
 }

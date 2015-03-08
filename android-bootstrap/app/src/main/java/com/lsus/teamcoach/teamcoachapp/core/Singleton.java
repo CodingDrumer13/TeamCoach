@@ -1,9 +1,13 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
+
+import javax.inject.Inject;
+
 /**
  * Created by Don on 3/7/2015.
  */
 public class Singleton {
+
     private static Singleton mInstance = null;
 
     private User currentUser;

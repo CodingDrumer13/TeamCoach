@@ -17,6 +17,7 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
@@ -151,6 +152,11 @@ public class MainActivity extends BootstrapFragmentActivity {
             @Override
             public Boolean call() throws Exception {
                 final BootstrapService svc = serviceProvider.getService(MainActivity.this);
+                //Finish set up of Singleton
+                Singleton singleton = Singleton.getInstance();
+                if(singleton.getToken() != null){
+                    singleton.setCurrentUser(svc.currentUser(singleton.getToken()));
+                }
                 return svc != null;
             }
 

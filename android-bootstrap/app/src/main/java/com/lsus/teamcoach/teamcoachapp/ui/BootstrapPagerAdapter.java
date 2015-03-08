@@ -28,11 +28,14 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         this.resources = resources;
     }
 
+    //important
+    //Number of Fragments on the Carousel has to be set
     @Override
     public int getCount() {
         return 5;
     }
 
+    // Gets each fragment for the Carousel
     @Override
     public Fragment getItem(final int position) {
         final Fragment result;
@@ -41,10 +44,10 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
                 result = new NewsListFragment();
                 break;
             case 1:
-                result = new TeamMenuListFragment();
+                result = new UserListFragment();
                 break;
             case 2:
-                result = new UserListFragment();
+                result = new TeamMenuListFragment();
                 break;
             case 3:
                 result = new LibraryAgeListFragment();
@@ -62,6 +65,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         return result;
     }
 
+    //Gets the title of each page/fragemnt on the Carousel
     @Override
     public CharSequence getPageTitle(final int position) {
         switch (position) {

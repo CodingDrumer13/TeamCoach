@@ -374,6 +374,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         if (authTokenType != null
                 && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
             intent.putExtra(KEY_AUTHTOKEN, authToken);
+            //Added because intent.putExtra(KEY_AUTHTOKEN, authToken); doesn't work
             accountManager.setAuthToken(account, authTokenType, authToken);
         }
 
@@ -406,7 +407,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     public void onAuthenticationResult(final boolean result) {
         if (result) {
             if (!confirmCredentials) {
-                finishLogin(authToken, email, password);
+                finishLogin(token, email, password);
             } else {
                 finishConfirmCredentials(true);
             }

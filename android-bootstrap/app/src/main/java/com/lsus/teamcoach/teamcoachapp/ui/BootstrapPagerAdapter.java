@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 
 /**
  * Pager adapter
@@ -32,6 +33,8 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     //Number of Fragments on the Carousel has to be set
     @Override
     public int getCount() {
+        Singleton s = Singleton.getInstance();
+        s.getToken();
         return 5;
     }
 

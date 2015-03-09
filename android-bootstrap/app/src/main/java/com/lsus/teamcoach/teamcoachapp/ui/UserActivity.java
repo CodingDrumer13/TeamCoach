@@ -205,7 +205,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
                 if(i == names.length){
                     lastName = names[i];
                 }else{
-                    lastName = names[i] + " ";
+                    lastName += names[i] + " ";
                 }
             }
         }

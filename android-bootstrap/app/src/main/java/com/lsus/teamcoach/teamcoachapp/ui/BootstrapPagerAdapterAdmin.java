@@ -8,13 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 
 /**
  * Pager adapter
  */
-public class BootstrapPagerAdapter extends FragmentPagerAdapter {
+public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -24,7 +26,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    public BootstrapPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
+    public BootstrapPagerAdapterAdmin(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
     }
@@ -32,11 +34,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     //important
     //Number of Fragments on the Carousel has to be set
     @Override
-    public int getCount() {
-        Singleton s = Singleton.getInstance();
-        s.getToken();
-        return 5;
-    }
+    public int getCount() { return 5; }
 
     // Gets each fragment for the Carousel
     @Override

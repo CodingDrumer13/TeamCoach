@@ -6,8 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import butterknife.InjectView;
@@ -35,7 +39,19 @@ public class CarouselFragment extends Fragment {
 
         Views.inject(this, getView());
 
-        pager.setAdapter(new BootstrapPagerAdapter(getResources(), getChildFragmentManager()));
+        Singleton singleton = Singleton.getInstance();
+        User user = singleton.getCurrentUser();
+
+
+        if(user.getRole().equalsIgnoreCase("Admin")){
+            pager.setAdapter(new BootstrapPagerAdapterAdmin(getResources(), getChildFragmentManager()));
+        }if(user.getRole().equalsIgnoreCase("Coach")){
+            pager.setAdapter(new BootstrapPagerAdapterCoach(getResources(), getChildFragmentManager()));
+        }if (user.getRole().equalsIgnoreCase("Player")){
+            pager.setAdapter(new BootstrapPagerAdapterPlayer(getResources(), getChildFragmentManager()));
+        }
+
+
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
 

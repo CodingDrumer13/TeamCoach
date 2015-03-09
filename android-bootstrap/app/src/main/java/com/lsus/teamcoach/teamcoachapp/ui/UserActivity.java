@@ -201,7 +201,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         if(names.length < 3){
             lastName = names[1];
         }else{
-            for(int i = 1; i < names.length; i++){
+            for(int i = 1; i < names.length - 1; i++){
                 if(i == names.length){
                     lastName = names[i];
                 }else{

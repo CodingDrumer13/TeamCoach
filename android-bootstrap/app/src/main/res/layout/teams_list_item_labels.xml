@@ -18,6 +18,16 @@
         android:textStyle="bold"
         android:gravity="center" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add New Team"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/table_text_header"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/btnNewTeam"/>
+
 
 
 </LinearLayout>

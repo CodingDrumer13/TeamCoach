@@ -3,21 +3,21 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 import android.view.LayoutInflater;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
 import com.lsus.teamcoach.teamcoachapp.core.CheckIn;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 
 import java.util.List;
 
 /**
  * Created by Don on 3/11/2015.
  */
-public class TeamsListAdapter extends AlternatingColorListAdapter<String> {
+public class TeamsListAdapter extends AlternatingColorListAdapter<Team> {
     /**
      * @param inflater
      * @param items
      * @param selectable
      */
-    public TeamsListAdapter(final LayoutInflater inflater, final List<String> items,
+    public TeamsListAdapter(final LayoutInflater inflater, final List<Team> items,
                                final boolean selectable) {
         super(R.layout.team_menu_list_item, inflater, items, selectable);
     }
@@ -26,7 +26,7 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<String> {
      * @param inflater
      * @param items
      */
-    public TeamsListAdapter(final LayoutInflater inflater, final List<String> items) {
+    public TeamsListAdapter(final LayoutInflater inflater, final List<Team> items) {
         super(R.layout.team_menu_list_item, inflater, items);
     }
 
@@ -36,9 +36,9 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<String> {
     }
 
     @Override
-    protected void update(final int position, final String item) {
+    protected void update(final int position, final Team item) {
         super.update(position, item);
 
-        setText(0, item);
+        setText(0, item.getTeamName());
     }
 }

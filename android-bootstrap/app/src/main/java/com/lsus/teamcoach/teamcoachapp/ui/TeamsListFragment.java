@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -23,13 +25,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 /**
  * Created by Don on 3/7/2015
  */
-public class TeamsListFragment extends ItemListFragment<String> {
+public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Inject protected LogoutService logoutService;
     @Inject protected BootstrapService bootstrapService;
+
+    @InjectView(R.id.btnNewTeam) protected Button btnNewTeam;
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +54,8 @@ public class TeamsListFragment extends ItemListFragment<String> {
         getListAdapter()
                 .addHeader(activity.getLayoutInflater()
                         .inflate(R.layout.team_menu_list_item_labels, null));
+
+        getListAdapter().addFooter(btnNewTeam);
     }
 
     @Override
@@ -62,14 +71,14 @@ public class TeamsListFragment extends ItemListFragment<String> {
     }
 
     @Override
-    public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
-        final List<String> initialItems = items;
-        return new ThrowableLoader<List<String>>(getActivity(), items) {
+    public Loader<List<Team>> onCreateLoader(final int id, final Bundle args) {
+        final List<Team> initialItems = items;
+        return new ThrowableLoader<List<Team>>(getActivity(), items) {
 
             @Override
-            public List<String> loadData() throws Exception {
+            public List<Team> loadData() throws Exception {
                 if (getActivity() != null) {
-                    return getTeamMenuItems();
+                    return getTeamItems();
                 } else {
                     return Collections.emptyList();
                 }
@@ -78,12 +87,12 @@ public class TeamsListFragment extends ItemListFragment<String> {
     }
 
     @Override
-    protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
-        return new TeamMenuListAdapter(getActivity().getLayoutInflater(), items);
+    protected SingleTypeAdapter<Team> createAdapter(final List<Team> items) {
+        return new TeamsListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final String item = ((String) l.getItemAtPosition(position));
+        final Team item = ((Team) l.getItemAtPosition(position));
 
         Toaster.showLong(this.getActivity(), "You clicked: " + item);
 
@@ -100,7 +109,11 @@ public class TeamsListFragment extends ItemListFragment<String> {
 //
 //        // Show a chooser that allows the user to decide how to display this data, in this case, map data.
 //        startActivity(Intent.createChooser(
-//                        new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
+//                new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
+
+        //Initalize Fragement for adding a team
+
+
 //        );
     }
 
@@ -113,14 +126,16 @@ public class TeamsListFragment extends ItemListFragment<String> {
      * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
-    public List<String> getTeamMenuItems() {
+    public List<Team> getTeamItems() {
         Singleton singleton = Singleton.getInstance();
         User user = singleton.getCurrentUser();
-        List<String> menuItems = new ArrayList<String>();
+
+        ArrayList<Team> menuItems = new ArrayList<Team>();
+        //add a selection for adding a new team
+
         if(!user.getTeams().isEmpty() && user.getTeams() != null)
-            for(String team : user.getTeams()){
-                menuItems.add(team);
-            }
+            menuItems = (user.getTeams());
+
         return menuItems;
     }
 }

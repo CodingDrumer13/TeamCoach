@@ -15,6 +15,8 @@ public class Team implements Serializable {
     protected ArrayList<User> Players;
     protected String objectId;
 
+    public Team(){}
+
     public Team(String teamName, String teamObjectId, ArrayList<User> Players){
         this.teamName = teamName;
         this.objectId = teamObjectId;

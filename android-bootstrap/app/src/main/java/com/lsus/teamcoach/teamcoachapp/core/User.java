@@ -21,7 +21,7 @@ public class User implements Serializable {
     protected String alias;
     protected String role;
     protected String email;
-    protected ArrayList<String> teams;
+    protected ArrayList<Team> teams;
 
     public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
         this.firstName = userFirstName;
@@ -101,9 +101,9 @@ public class User implements Serializable {
         return gravatarId;
     }
 
-    public ArrayList<String> getTeams() { return teams;  }
+    public ArrayList<Team> getTeams() { return teams;  }
 
-    public void setTeams(ArrayList<String> teams) { this.teams = teams; }
+    public void setTeams(ArrayList<Team> teams) { this.teams = teams; }
 
     public String getAvatarUrl() {
         if (TextUtils.isEmpty(avatarUrl)) {

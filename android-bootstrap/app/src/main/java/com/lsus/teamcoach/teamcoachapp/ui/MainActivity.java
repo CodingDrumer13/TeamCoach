@@ -16,13 +16,11 @@ import android.view.Window;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
-import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.lsus.teamcoach.teamcoachapp.util.UIUtils;
-import com.parse.Parse;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;

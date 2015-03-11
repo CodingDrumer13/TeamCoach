@@ -272,6 +272,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 User loginResponse = bootstrapService.authenticate(email, password);
                 token = loginResponse.getSessionToken();
 
+                Singleton singleton = Singleton.getInstance();
+                singleton.setCurrentUser(loginResponse);
+                singleton.setToken(token);
+
                 return true;
             }
 

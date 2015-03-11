@@ -24,6 +24,11 @@ public class Singleton {
         return mInstance;
     }
 
+    public void clear(){
+        mInstance = null;
+    }
+
+
     public String getToken(){
         return this.authToken;
     }

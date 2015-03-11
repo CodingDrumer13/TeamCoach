@@ -12,6 +12,7 @@
     <string name="page_admin">Administration</string>
     <string name="page_team">Team</string>
     <string name="page_main_menu">Main Menu</string>
+    <string name="page_teams_list">Teams</string>
     <string name="page_library">Drill Library</string>
     <string name="title_column">Title</string>
     <string name="location_column">Location</string>

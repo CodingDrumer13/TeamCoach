@@ -34,7 +34,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
     //important
     //Number of Fragments on the Carousel has to be set
     @Override
-    public int getCount() { return 4; }
+    public int getCount() { return 5; }
 
     // Gets each fragment for the Carousel
     @Override
@@ -48,9 +48,12 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
                 result = new UserListFragment();
                 break;
             case 2:
-                result = new TeamMenuListFragment();
+                result = new TeamsListFragment();
                 break;
             case 3:
+                result = new TeamMenuListFragment();
+                break;
+            case 4:
                 result = new LibraryAgeListFragment();
                 break;
             default:
@@ -72,8 +75,10 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
             case 1:
                 return resources.getString(R.string.page_main_menu);
             case 2:
-                return resources.getString(R.string.page_team);
+                return resources.getString(R.string.page_teams_list);
             case 3:
+                return resources.getString(R.string.page_team);
+            case 4:
                 return resources.getString(R.string.page_library);
             default:
                 return null;

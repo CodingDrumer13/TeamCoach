@@ -114,10 +114,13 @@ public class TeamsListFragment extends ItemListFragment<String> {
      * @return
      */
     public List<String> getTeamMenuItems() {
+        Singleton singleton = Singleton.getInstance();
+        User user = singleton.getCurrentUser();
         List<String> menuItems = new ArrayList<String>();
-            menuItems.add("Team Code");
-            menuItems.add("Team Code");
-
+        if(!user.getTeams().isEmpty() && user.getTeams() != null)
+            for(String team : user.getTeams()){
+                menuItems.add(team);
+            }
         return menuItems;
     }
 }

@@ -383,6 +383,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
 
+        // Added so the MainActivity will restart after each log-in
         Intent parentActivityIntent = new Intent(this, MainActivity.class);
         parentActivityIntent.addFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |

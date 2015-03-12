@@ -70,6 +70,7 @@ public class TeamMenuListFragment extends ItemListFragment<String> {
             @Override
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
+                    serviceProvider.getService(getActivity());
                     return getTeamMenuItems();
                 } else {
                     return Collections.emptyList();

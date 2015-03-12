@@ -93,6 +93,7 @@ public class TeamsListFragment extends ItemListFragment<Team> implements View.On
             @Override
             public List<Team> loadData() throws Exception {
                 if (getActivity() != null) {
+                    serviceProvider.getService(getActivity());
                     return getTeamItems();
                 } else {
                     return Collections.emptyList();

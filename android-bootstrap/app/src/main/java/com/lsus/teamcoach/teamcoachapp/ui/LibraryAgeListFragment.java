@@ -65,6 +65,7 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
             @Override
             public List<AgeGroup> loadData() throws Exception {
                 if (getActivity() != null) {
+                    serviceProvider.getService(getActivity());
                     return getAgeGroups();
                 } else {
                     return Collections.emptyList();

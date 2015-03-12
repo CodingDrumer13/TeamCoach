@@ -61,8 +61,10 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         getListAdapter()
                 .addHeader(activity.getLayoutInflater()
                         .inflate(R.layout.team_menu_list_item_labels, null));
+        getListAdapter()
+                .addFooter(activity.getLayoutInflater()
+                .inflate(R.layout.teams_list_item_button, null));
 
-        getListAdapter().addFooter(btnNewTeam);
     }
 
     @Override
@@ -138,10 +140,14 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         User user = singleton.getCurrentUser();
 
         ArrayList<Team> menuItems = new ArrayList<Team>();
-        //add a selection for adding a new team
 
-        if(!user.getTeams().isEmpty() && user.getTeams() != null)
+        if(user.getTeams() == null) {
+            Team team = new Team();
+            team.setTeamName("Name");
+            menuItems.add(team);
+        }else{
             menuItems = (user.getTeams());
+        }
 
         return menuItems;
     }

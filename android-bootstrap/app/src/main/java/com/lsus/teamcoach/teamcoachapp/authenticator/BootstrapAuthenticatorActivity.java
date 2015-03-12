@@ -266,9 +266,6 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
 
-                final String query = String.format("%s=%s&%s=%s",
-                        PARAM_USERNAME, email, PARAM_PASSWORD, password);
-
                 User loginResponse = bootstrapService.authenticate(email, password);
                 token = loginResponse.getSessionToken();
 

@@ -45,6 +45,13 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     }
 
     @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setEmptyText(R.string.no_teams);
+    }
+
+    @Override
     protected void configureList(final Activity activity, final ListView listView) {
         super.configureList(activity, listView);
 

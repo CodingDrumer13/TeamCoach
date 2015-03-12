@@ -12,5 +12,7 @@
         android:background="@drawable/button_background_states"
         android:textStyle="bold"
         android:gravity="center"
-        android:id="@+id/btnNewTeam"/>
+        android:id="@+id/btnNewTeam"
+        android:onClick="addTeam"
+        />
 </LinearLayout>

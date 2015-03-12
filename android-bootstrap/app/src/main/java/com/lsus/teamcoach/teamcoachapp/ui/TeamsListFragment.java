@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -26,22 +28,24 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.Views;
 
 /**
  * Created by Don on 3/7/2015
  */
-public class TeamsListFragment extends ItemListFragment<Team> {
+public class TeamsListFragment extends ItemListFragment<Team> implements View.OnClickListener {
 
     @Inject protected LogoutService logoutService;
     @Inject protected BootstrapService bootstrapService;
 
-    @InjectView(R.id.btnNewTeam) protected Button btnNewTeam;
-
+//    @InjectView(R.id.btnNewTeam) protected Button btnNewTeam;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+
+
     }
 
     @Override
@@ -49,6 +53,10 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         super.onActivityCreated(savedInstanceState);
 
         setEmptyText(R.string.no_teams);
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -150,5 +158,16 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         }
 
         return menuItems;
+    }
+
+    public void addTeam(View v){
+        Toast.makeText(getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onClick(View view) {
+//        if(view.getId() == btnNewTeam.getId()){
+//            addTeam();
+//        }
     }
 }

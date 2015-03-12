@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -216,5 +217,10 @@ public class MainActivity extends BootstrapFragmentActivity {
                 navigateToTimer();
                 break;
         }
+    }
+
+    //Only called from TeamListFragment
+    public void addTeam(View v){
+        Toast.makeText(this, "Add Team Method Called.", Toast.LENGTH_SHORT).show();
     }
 }

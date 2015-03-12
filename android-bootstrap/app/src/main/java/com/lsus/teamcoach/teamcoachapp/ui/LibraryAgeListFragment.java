@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
  */
 public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
 
+    @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
     @Override

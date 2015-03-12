@@ -36,9 +36,7 @@ import butterknife.Views;
 public class TeamsListFragment extends ItemListFragment<Team> implements View.OnClickListener {
 
     @Inject protected LogoutService logoutService;
-    @Inject protected BootstrapService bootstrapService;
-
-//    @InjectView(R.id.btnNewTeam) protected Button btnNewTeam;
+    @Inject protected BootstrapServiceProvider serviceProvider;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

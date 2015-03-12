@@ -38,6 +38,7 @@ import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.UnAuthorizedErrorEvent;
+import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
@@ -381,6 +382,13 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+
+        Intent parentActivityIntent = new Intent(this, MainActivity.class);
+        parentActivityIntent.addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(parentActivityIntent);
+
         finish();
     }
 

@@ -29,7 +29,7 @@ import javax.inject.Inject;
  */
 public class TeamMenuListFragment extends ItemListFragment<String> {
 
-
+    @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
     @Override

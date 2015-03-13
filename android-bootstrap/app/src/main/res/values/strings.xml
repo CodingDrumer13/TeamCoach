@@ -19,6 +19,7 @@
     <string name="age_group_column">Age Group</string>
     <string name="user_column">User</string>
     <string name="date_column">Date</string>
+    <string name="drill_type_column">Drill Type</string>
     <string name="error_loading_users">Loading users failed</string>
     <string name="error_loading_news">Loading news failed</string>
     <string name="error_loading_checkins">Loading check-ins failed</string>

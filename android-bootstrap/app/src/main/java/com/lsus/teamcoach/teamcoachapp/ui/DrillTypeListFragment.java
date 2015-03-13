@@ -1,10 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
@@ -15,6 +12,10 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +24,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 3/12/2015.
  */
-public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
+public class DrillTypeListFragment extends ItemListFragment<String> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -45,7 +46,7 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
 
         getListAdapter()
                 .addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.library_list_age_item_labels, null));
+                        .inflate(R.layout.drill_type_list_label, null));
     }
 
     @Override
@@ -61,15 +62,15 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
     }
 
     @Override
-    public Loader<List<AgeGroup>> onCreateLoader(final int id, final Bundle args) {
-        final List<AgeGroup> initialItems = items;
-        return new ThrowableLoader<List<AgeGroup>>(getActivity(), items) {
+    public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
+        final List<String> initialItems = items;
+        return new ThrowableLoader<List<String>>(getActivity(), items) {
 
             @Override
-            public List<AgeGroup> loadData() throws Exception {
+            public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-                    return getAgeGroups();
+                    return getMenuItems();
                 } else {
                     return Collections.emptyList();
                 }
@@ -78,21 +79,15 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
     }
 
     @Override
-    protected SingleTypeAdapter<AgeGroup> createAdapter(final List<AgeGroup> items) {
-        return new LibraryAgeListAdapter(getActivity().getLayoutInflater(), items);
+    protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
+        return new TeamMenuListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final AgeGroup age = ((AgeGroup) l.getItemAtPosition(position));
+        final String item = ((String) l.getItemAtPosition(position));
 
-        //Toaster.showLong(this.getActivity(), "The age group is: " + age.getAge());
+        Toaster.showLong(this.getActivity(), "You clicked: " + item);
 
-
-        DrillTypeListFragment drillFragment = new DrillTypeListFragment();
-        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-        ft.replace(this.getId(), drillFragment);
-        ft.addToBackStack(null);
-        ft.commit();
 
         //---------------------------------------------------------------------------------------
         //Original code.
@@ -119,14 +114,14 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
      * Gets the list of all age groups. THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
-    public List<AgeGroup> getAgeGroups() {
-        List<AgeGroup> ages = new ArrayList<AgeGroup>();
-        AgeGroup age;
-        for(int i = 3; i < 19; i++){
-            age = new AgeGroup();
-            age.setAge("U" + i);
-            ages.add(age);
-        }
-        return ages;
+    public List<String> getMenuItems() {
+        List<String> menuItems = new ArrayList<String>();
+        menuItems.add("Defending");
+        menuItems.add("Attacking");
+        menuItems.add("Passing");
+        menuItems.add("Shooting");
+        menuItems.add("Goalkeeping");
+
+        return menuItems;
     }
 }

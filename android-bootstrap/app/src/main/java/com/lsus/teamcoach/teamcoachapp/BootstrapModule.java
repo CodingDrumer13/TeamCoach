@@ -16,6 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.CheckInsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.DrillTypeListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.LibraryAgeListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.NavigationDrawerFragment;
@@ -59,7 +60,8 @@ import retrofit.converter.GsonConverter;
                 RegisterFragment.class,
                 LibraryAgeListFragment.class,
                 TeamMenuListFragment.class,
-                TeamsListFragment.class
+                TeamsListFragment.class,
+                DrillTypeListFragment.class
         }
 )
 public class BootstrapModule {

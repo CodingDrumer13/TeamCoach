@@ -1,13 +1,13 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -22,13 +22,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 /**
  * Created by TeamCoach on 3/4/2015.
  */
-public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
+public class LibraryAgeListFragment extends ItemListFragment<String> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
+
+    @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
+
+    private boolean typeSelected = false;
+    private String age = "";
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -61,15 +68,20 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
     }
 
     @Override
-    public Loader<List<AgeGroup>> onCreateLoader(final int id, final Bundle args) {
-        final List<AgeGroup> initialItems = items;
-        return new ThrowableLoader<List<AgeGroup>>(getActivity(), items) {
+    public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
+        final List<String> initialItems = items;
+        return new ThrowableLoader<List<String>>(getActivity(), items) {
 
             @Override
-            public List<AgeGroup> loadData() throws Exception {
+            public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-                    return getAgeGroups();
+
+                    if(!typeSelected){
+                        return getAgeGroups();
+                    } else {
+                        return getMenuItems();
+                    }
                 } else {
                     return Collections.emptyList();
                 }
@@ -78,36 +90,28 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
     }
 
     @Override
-    protected SingleTypeAdapter<AgeGroup> createAdapter(final List<AgeGroup> items) {
+    protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
         return new LibraryAgeListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final AgeGroup age = ((AgeGroup) l.getItemAtPosition(position));
-
-        //Toaster.showLong(this.getActivity(), "The age group is: " + age.getAge());
 
 
-        DrillTypeListFragment drillFragment = new DrillTypeListFragment();
-        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-        ft.replace(this.getId(), drillFragment);
-        ft.addToBackStack(null);
-        ft.commit();
+        if(!typeSelected){
+            final String age = ((String) l.getItemAtPosition(position));
+            this.age = age;
+            Toaster.showShort(this.getActivity(), "The age group is: " + age);
 
-        //---------------------------------------------------------------------------------------
-        //Original code.
-        //---------------------------------------------------------------------------------------
-//        final CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
-//
-//        final String uri = String.format("geo:%s,%s?q=%s",
-//                checkIn.getLocation().getLatitude(),
-//                checkIn.getLocation().getLongitude(),
-//                checkIn.getName());
-//
-//        // Show a chooser that allows the user to decide how to display this data, in this case, map data.
-//        startActivity(Intent.createChooser(
-//                        new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
-//        );
+            typeSelected = true;
+        }
+        else{
+            final String drillType = ((String) l.getItemAtPosition(position));
+            Toaster.showShort(this.getActivity(), "Selected: " + age + " " + drillType + " drill!");
+
+            typeSelected = false;
+        }
+
+        this.refresh();
     }
 
     @Override
@@ -119,14 +123,23 @@ public class LibraryAgeListFragment extends ItemListFragment<AgeGroup> {
      * Gets the list of all age groups. THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
-    public List<AgeGroup> getAgeGroups() {
-        List<AgeGroup> ages = new ArrayList<AgeGroup>();
+    private List<String> getAgeGroups() {
+        List<String> ages = new ArrayList<String>();
         AgeGroup age;
         for(int i = 3; i < 19; i++){
-            age = new AgeGroup();
-            age.setAge("U" + i);
-            ages.add(age);
+            ages.add("U" + i);
         }
         return ages;
+    }
+
+    private List<String> getMenuItems() {
+        List<String> menuItems = new ArrayList<String>();
+        menuItems.add("Defending");
+        menuItems.add("Attacking");
+        menuItems.add("Passing");
+        menuItems.add("Shooting");
+        menuItems.add("Goalkeeping");
+
+        return menuItems;
     }
 }

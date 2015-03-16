@@ -10,6 +10,7 @@
     android:paddingTop="5dp" >
 
     <TextView
+        android:id="@+id/tv_library_list_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
@@ -17,16 +18,5 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/table_text_header"
         android:textStyle="bold" />
-<!--
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:textSize="30dp"
-        android:text=">"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/table_text_header"
-        android:textStyle="bold" />
--->
 
 </LinearLayout>

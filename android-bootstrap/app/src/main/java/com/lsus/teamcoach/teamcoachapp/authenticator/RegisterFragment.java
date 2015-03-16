@@ -151,7 +151,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
             Toast.makeText(context, text, duration).show();
         }
 
-        if (givenRole = true) {
+        if (givenRole) {
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
 

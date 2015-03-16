@@ -89,20 +89,6 @@ public class DrillTypeListFragment extends ItemListFragment<String> {
         Toaster.showLong(this.getActivity(), "You clicked: " + item);
 
 
-        //---------------------------------------------------------------------------------------
-        //Original code.
-        //---------------------------------------------------------------------------------------
-//        final CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
-//
-//        final String uri = String.format("geo:%s,%s?q=%s",
-//                checkIn.getLocation().getLatitude(),
-//                checkIn.getLocation().getLongitude(),
-//                checkIn.getName());
-//
-//        // Show a chooser that allows the user to decide how to display this data, in this case, map data.
-//        startActivity(Intent.createChooser(
-//                        new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
-//        );
     }
 
     @Override
@@ -124,4 +110,6 @@ public class DrillTypeListFragment extends ItemListFragment<String> {
 
         return menuItems;
     }
+
+
 }

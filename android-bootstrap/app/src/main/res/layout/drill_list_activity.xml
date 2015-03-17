@@ -7,6 +7,17 @@
         android:id="@+id/tv_drill_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/table_text_selector"
+        android:textSize="20sp"
         />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/drill_List_Fragment_Holder"
+        >
+        </FrameLayout>
 
 </LinearLayout>

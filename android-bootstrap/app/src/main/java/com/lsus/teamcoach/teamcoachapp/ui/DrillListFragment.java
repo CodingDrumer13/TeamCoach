@@ -13,6 +13,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
@@ -26,7 +27,7 @@ import javax.inject.Inject;
 /**
  * Created by TeamCoach on 3/12/2015.
  */
-public class DrillTypeListFragment extends ItemListFragment<String> {
+public class DrillListFragment extends ItemListFragment<Drill> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -62,15 +63,14 @@ public class DrillTypeListFragment extends ItemListFragment<String> {
     }
 
     @Override
-    public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
-        final List<String> initialItems = items;
-        return new ThrowableLoader<List<String>>(getActivity(), items) {
+    public Loader<List<Drill>> onCreateLoader(final int id, final Bundle args) {
+        final List<Drill> initialItems = items;
+        return new ThrowableLoader<List<Drill>>(getActivity(), items) {
 
             @Override
-            public List<String> loadData() throws Exception {
+            public List<Drill> loadData() throws Exception {
                 if (getActivity() != null) {
-                    serviceProvider.getService(getActivity());
-                    return getMenuItems();
+                    return serviceProvider.getService(getActivity()).getDrills();
                 } else {
                     return Collections.emptyList();
                 }
@@ -79,37 +79,20 @@ public class DrillTypeListFragment extends ItemListFragment<String> {
     }
 
     @Override
-    protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
-        return new TeamMenuListAdapter(getActivity().getLayoutInflater(), items);
+    protected SingleTypeAdapter<Drill> createAdapter(final List<Drill> items) {
+        return new DrillListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final String item = ((String) l.getItemAtPosition(position));
+        final Drill item = ((Drill) l.getItemAtPosition(position));
 
-        Toaster.showLong(this.getActivity(), "You clicked: " + item);
+        Toaster.showLong(this.getActivity(), "You clicked: " + item.getDrillName());
 
 
     }
 
     @Override
     protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_checkins;
+        return R.string.error_loading_drills;
     }
-
-    /**
-     * Gets the list of all age groups. THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
-     * @return
-     */
-    public List<String> getMenuItems() {
-        List<String> menuItems = new ArrayList<String>();
-        menuItems.add("Defending");
-        menuItems.add("Attacking");
-        menuItems.add("Passing");
-        menuItems.add("Shooting");
-        menuItems.add("Goalkeeping");
-
-        return menuItems;
-    }
-
-
 }

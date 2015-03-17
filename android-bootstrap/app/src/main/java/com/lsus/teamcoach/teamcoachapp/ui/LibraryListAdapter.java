@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * Created by TeamCoach on 3/4/2015.
  */
-public class LibraryAgeListAdapter extends AlternatingColorListAdapter<String> {
+public class LibraryListAdapter extends AlternatingColorListAdapter<String> {
     /**
      * @param inflater
      * @param items
      * @param selectable
      */
-    public LibraryAgeListAdapter(final LayoutInflater inflater, final List<String> items,
-                               final boolean selectable) {
+    public LibraryListAdapter(final LayoutInflater inflater, final List<String> items,
+                              final boolean selectable) {
         super(R.layout.library_list_age_item, inflater, items, selectable);
     }
 
@@ -26,7 +26,7 @@ public class LibraryAgeListAdapter extends AlternatingColorListAdapter<String> {
      * @param inflater
      * @param items
      */
-    public LibraryAgeListAdapter(final LayoutInflater inflater, final List<String> items) {
+    public LibraryListAdapter(final LayoutInflater inflater, final List<String> items) {
         super(R.layout.library_list_age_item, inflater, items);
     }
 

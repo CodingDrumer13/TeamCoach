@@ -1,21 +1,22 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.core.News;
 
 import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.NEWS_ITEM;
 
 /**
  * Created by TeamCoach on 3/16/2015.
  */
+
 public class DrillListActivity extends BootstrapActivity implements View.OnClickListener {
 
     private String age;
@@ -36,7 +37,17 @@ public class DrillListActivity extends BootstrapActivity implements View.OnClick
 
         setTitle(R.string.title_drill_list);
 
-        placeholderTitle.setText("Currently Displaying " + drillType + " drills for " + age);
+        placeholderTitle.setText("Displaying " + drillType + " drills for " + age);
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+
+        DrillListFragment drillListFragment = new DrillListFragment();
+        drillListFragment.setRetainInstance(true);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.drill_List_Fragment_Holder, new DrillListFragment())
+                .commit();
+
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

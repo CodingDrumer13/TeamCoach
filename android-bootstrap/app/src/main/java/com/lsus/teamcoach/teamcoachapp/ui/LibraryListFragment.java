@@ -3,14 +3,12 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -31,7 +29,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 /**
  * Created by TeamCoach on 3/4/2015.
  */
-public class LibraryAgeListFragment extends ItemListFragment<String> {
+public class LibraryListFragment extends ItemListFragment<String> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -95,7 +93,7 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
 
     @Override
     protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
-        return new LibraryAgeListAdapter(getActivity().getLayoutInflater(), items);
+        return new LibraryListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
@@ -109,7 +107,6 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
             if(listHeader != null){
                 listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
             }
-
 
             typeSelected = true;
         }

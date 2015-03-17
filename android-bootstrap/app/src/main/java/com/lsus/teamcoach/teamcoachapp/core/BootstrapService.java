@@ -34,6 +34,11 @@ public class BootstrapService {
         return getRestAdapter().create(UserService.class);
     }
 
+    private DrillService getDrillService() {
+        return getRestAdapter().create(DrillService.class);
+    }
+
+
     private NewsService getNewsService() {
         return getRestAdapter().create(NewsService.class);
     }
@@ -59,6 +64,11 @@ public class BootstrapService {
     public List<User> getUsers() {
         return getUserService().getUsers().getResults();
     }
+
+    /**
+     * Get all bootstrap Drills that exists on Parse.com
+     */
+    public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
 
     /**
      * Get all bootstrap Checkins that exists on Parse.com

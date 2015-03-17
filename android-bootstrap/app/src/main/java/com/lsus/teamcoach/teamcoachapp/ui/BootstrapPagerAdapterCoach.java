@@ -8,10 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.core.Singleton;
-import com.lsus.teamcoach.teamcoachapp.core.User;
 
 /**
  * Pager adapter
@@ -54,7 +51,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
                 result = new TeamMenuListFragment();
                 break;
             case 4:
-                result = new LibraryAgeListFragment();
+                result = new LibraryListFragment();
                 break;
             default:
                 result = null;

@@ -65,6 +65,12 @@ public final class Constants {
         public static final String URL_NEWS_FRAG = "/1/classes/News";
         public static final String URL_NEWS = URL_BASE + URL_NEWS_FRAG;
 
+        /**
+         * List Drill URL
+         */
+        public static final String URL_DRILL_FRAG = "/1/classes/Drill";
+        public static final String URL_DRILL = URL_BASE + URL_DRILL_FRAG;
+
 
         /**
          * List Checkin's URL

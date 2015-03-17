@@ -219,8 +219,4 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
     }
 
-    //Only called from TeamListFragment
-    public void addTeam(View v){
-        Toast.makeText(this, "Add Team Method Called.", Toast.LENGTH_SHORT).show();
-    }
 }

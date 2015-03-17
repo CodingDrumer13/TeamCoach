@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import android.widget.Button;
+
 
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
@@ -15,13 +18,15 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
 import butterknife.Views;
 
 /**
- * Created by Mercury on 3/16/2015.
+ * Created by Don on 3/16/2015.
  */
-public class TeamsFragment extends Fragment {
+public class TeamsFragment extends Fragment implements View.OnClickListener{
 
+    @InjectView(R.id.btnNewTeam) Button btnNewTeam;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class TeamsFragment extends Fragment {
         fragmentTransaction.replace(R.id.teamslistView, teamsListFragment);
         fragmentTransaction.commit();
 
+        btnNewTeam.setOnClickListener(this);
+
     }
 
 
@@ -64,4 +71,15 @@ public class TeamsFragment extends Fragment {
         getActivity().showDialog(0);
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == btnNewTeam.getId()){
+            addTeam(view);
+        }
+    }
+
+    //Only called from TeamListFragment
+    public void addTeam(View v){
+        Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
+    }
 }

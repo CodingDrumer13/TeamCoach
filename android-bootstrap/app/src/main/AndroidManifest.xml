@@ -86,6 +86,10 @@
             android:name=".authenticator.RegisterFragment"
             android:label="@string/title_activity_register" >
         </activity>
+        <activity
+            android:name=".ui.DrillListActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
     </application>
 
 </manifest>

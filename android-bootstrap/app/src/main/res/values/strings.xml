@@ -52,9 +52,13 @@
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
     <string name="title_home">Home</string>
+    <string name="title_drill_list">Drill List</string>
 
     <!-- RegisterFragment -->
     <string name="title_activity_register">RegisterActivity</string>
+
+    <!-- DrillListActivity -->
+    <string name="title_activity_drill_list">DrillListActivity</string>
 
 
     <string name="hello_world">Hello world!</string>

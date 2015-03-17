@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
@@ -23,6 +24,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 
 /**
  * Created by TeamCoach on 3/4/2015.
@@ -80,7 +84,7 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
                     if(!typeSelected){
                         return getAgeGroups();
                     } else {
-                        return getMenuItems();
+                        return getMenuItems(age);
                     }
                 } else {
                     return Collections.emptyList();
@@ -100,13 +104,24 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
         if(!typeSelected){
             final String age = ((String) l.getItemAtPosition(position));
             this.age = age;
-            Toaster.showShort(this.getActivity(), "The age group is: " + age);
+
+            //TODO Change the fragment header when changing screens.
+            if(listHeader != null){
+                listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
+            }
+
 
             typeSelected = true;
         }
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
-            Toaster.showShort(this.getActivity(), "Selected: " + age + " " + drillType + " drill!");
+
+            if(!drillType.equalsIgnoreCase("Back")){
+                Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
+                drillIntent.putExtra(DRILL_AGE, age);
+                drillIntent.putExtra(DRILL_TYPE, drillType);
+                startActivity(drillIntent);
+            }
 
             typeSelected = false;
         }
@@ -132,14 +147,16 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
         return ages;
     }
 
-    private List<String> getMenuItems() {
+    private List<String> getMenuItems(String age) {
         List<String> menuItems = new ArrayList<String>();
+        menuItems.add("BACK");
         menuItems.add("Defending");
         menuItems.add("Attacking");
         menuItems.add("Passing");
         menuItems.add("Shooting");
-        menuItems.add("Goalkeeping");
-
+        if (age.length() == 3){
+            menuItems.add("Goalkeeping");
+        }
         return menuItems;
     }
 }

@@ -9,30 +9,30 @@ import com.lsus.teamcoach.teamcoachapp.core.CheckIn;
 import java.util.List;
 
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 3/12/2015.
  */
-public class LibraryAgeListAdapter extends AlternatingColorListAdapter<String> {
+public class DrillTypeListAdapter extends AlternatingColorListAdapter<String> {
     /**
      * @param inflater
      * @param items
      * @param selectable
      */
-    public LibraryAgeListAdapter(final LayoutInflater inflater, final List<String> items,
+    public DrillTypeListAdapter(final LayoutInflater inflater, final List<String> items,
                                final boolean selectable) {
-        super(R.layout.library_list_age_item, inflater, items, selectable);
+        super(R.layout.drill_type_list_item, inflater, items, selectable);
     }
 
     /**
      * @param inflater
      * @param items
      */
-    public LibraryAgeListAdapter(final LayoutInflater inflater, final List<String> items) {
-        super(R.layout.library_list_age_item, inflater, items);
+    public DrillTypeListAdapter(final LayoutInflater inflater, final List<String> items) {
+        super(R.layout.drill_type_list_item, inflater, items);
     }
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_name, R.id.tv_arrow};
+        return new int[]{R.id.tv_drillType};
     }
 
     @Override
@@ -40,6 +40,5 @@ public class LibraryAgeListAdapter extends AlternatingColorListAdapter<String> {
         super.update(position, item);
 
         setText(0, item);
-        setText(1, ">");
     }
 }

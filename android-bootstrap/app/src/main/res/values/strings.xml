@@ -19,6 +19,7 @@
     <string name="age_group_column">Age Group</string>
     <string name="user_column">User</string>
     <string name="date_column">Date</string>
+    <string name="drill_type_column">Drill Type</string>
     <string name="error_loading_users">Loading users failed</string>
     <string name="error_loading_news">Loading news failed</string>
     <string name="error_loading_checkins">Loading check-ins failed</string>
@@ -51,9 +52,13 @@
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
     <string name="title_home">Home</string>
+    <string name="title_drill_list">Drill List</string>
 
     <!-- RegisterFragment -->
     <string name="title_activity_register">RegisterActivity</string>
+
+    <!-- DrillListActivity -->
+    <string name="title_activity_drill_list">DrillListActivity</string>
 
 
     <string name="hello_world">Hello world!</string>

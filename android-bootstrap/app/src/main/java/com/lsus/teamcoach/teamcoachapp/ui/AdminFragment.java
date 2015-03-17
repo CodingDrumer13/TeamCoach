@@ -35,8 +35,6 @@ public class AdminFragment extends GenCarouselFragment<Team> {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.admin, container, false);
-
-        // Inflate the layout for this fragment
         return view;
     }
 

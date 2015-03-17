@@ -1,14 +1,10 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -16,6 +12,10 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,23 +23,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
-
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
-
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 3/12/2015.
  */
-public class LibraryAgeListFragment extends ItemListFragment<String> {
+public class DrillTypeListFragment extends ItemListFragment<String> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
-
-    @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
-
-    private boolean typeSelected = false;
-    private String age = "";
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -56,7 +46,7 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
 
         getListAdapter()
                 .addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.library_list_age_item_labels, null));
+                        .inflate(R.layout.drill_type_list_label, null));
     }
 
     @Override
@@ -80,12 +70,7 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-
-                    if(!typeSelected){
-                        return getAgeGroups();
-                    } else {
-                        return getMenuItems(age);
-                    }
+                    return getMenuItems();
                 } else {
                     return Collections.emptyList();
                 }
@@ -95,38 +80,15 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
 
     @Override
     protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
-        return new LibraryAgeListAdapter(getActivity().getLayoutInflater(), items);
+        return new TeamMenuListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+        final String item = ((String) l.getItemAtPosition(position));
+
+        Toaster.showLong(this.getActivity(), "You clicked: " + item);
 
 
-        if(!typeSelected){
-            final String age = ((String) l.getItemAtPosition(position));
-            this.age = age;
-
-            //TODO Change the fragment header when changing screens.
-            if(listHeader != null){
-                listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
-            }
-
-
-            typeSelected = true;
-        }
-        else{
-            final String drillType = ((String) l.getItemAtPosition(position));
-
-            if(!drillType.equalsIgnoreCase("Back")){
-                Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
-                drillIntent.putExtra(DRILL_AGE, age);
-                drillIntent.putExtra(DRILL_TYPE, drillType);
-                startActivity(drillIntent);
-            }
-
-            typeSelected = false;
-        }
-
-        this.refresh();
     }
 
     @Override
@@ -138,25 +100,16 @@ public class LibraryAgeListFragment extends ItemListFragment<String> {
      * Gets the list of all age groups. THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
-    private List<String> getAgeGroups() {
-        List<String> ages = new ArrayList<String>();
-        AgeGroup age;
-        for(int i = 3; i < 19; i++){
-            ages.add("U" + i);
-        }
-        return ages;
-    }
-
-    private List<String> getMenuItems(String age) {
+    public List<String> getMenuItems() {
         List<String> menuItems = new ArrayList<String>();
-        menuItems.add("BACK");
         menuItems.add("Defending");
         menuItems.add("Attacking");
         menuItems.add("Passing");
         menuItems.add("Shooting");
-        if (age.length() == 3){
-            menuItems.add("Goalkeeping");
-        }
+        menuItems.add("Goalkeeping");
+
         return menuItems;
     }
+
+
 }

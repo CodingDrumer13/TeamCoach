@@ -19,7 +19,7 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<Team> {
      */
     public TeamsListAdapter(final LayoutInflater inflater, final List<Team> items,
                                final boolean selectable) {
-        super(R.layout.team_menu_list_item, inflater, items, selectable);
+        super(R.layout.teams_list_item, inflater, items, selectable);
     }
 
     /**
@@ -27,7 +27,7 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<Team> {
      * @param items
      */
     public TeamsListAdapter(final LayoutInflater inflater, final List<Team> items) {
-        super(R.layout.team_menu_list_item, inflater, items);
+        super(R.layout.teams_list_item, inflater, items);
     }
 
     @Override

@@ -33,7 +33,7 @@ import butterknife.Views;
 /**
  * Created by Don on 3/7/2015
  */
-public class TeamsListFragment extends ItemListFragment<Team> implements View.OnClickListener {
+public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Inject protected LogoutService logoutService;
     @Inject protected BootstrapServiceProvider serviceProvider;
@@ -63,13 +63,6 @@ public class TeamsListFragment extends ItemListFragment<Team> implements View.On
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
-
-        getListAdapter()
-                .addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.team_menu_list_item_labels, null));
-        getListAdapter()
-                .addFooter(activity.getLayoutInflater()
-                .inflate(R.layout.teams_list_item_button, null));
 
     }
 
@@ -110,7 +103,7 @@ public class TeamsListFragment extends ItemListFragment<Team> implements View.On
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Team item = ((Team) l.getItemAtPosition(position));
 
-        Toaster.showLong(this.getActivity(), "You clicked: " + item);
+        Toaster.showShort(this.getActivity(), "You clicked: " + item);
 
 
         //---------------------------------------------------------------------------------------
@@ -157,16 +150,5 @@ public class TeamsListFragment extends ItemListFragment<Team> implements View.On
         }
 
         return menuItems;
-    }
-
-    public void addTeam(View v){
-        Toast.makeText(getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT);
-    }
-
-    @Override
-    public void onClick(View view) {
-//        if(view.getId() == btnNewTeam.getId()){
-//            addTeam();
-//        }
     }
 }

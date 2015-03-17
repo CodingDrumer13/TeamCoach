@@ -62,9 +62,7 @@ public abstract class GenCarouselFragment<E> extends Fragment {
 
     }
 
-    /**
-     * Detach from list view.
-     */
+
     @Override
     public void onDestroyView() {
         progressBar = null;

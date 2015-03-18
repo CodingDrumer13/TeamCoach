@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.Button;
@@ -33,10 +34,14 @@ import butterknife.Views;
 /**
  * Created by Don on 3/7/2015
  */
-public class TeamsListFragment extends ItemListFragment<Team> {
+public class TeamsListFragment extends ListFragment {
 
-    @Inject protected LogoutService logoutService;
     @Inject protected BootstrapServiceProvider serviceProvider;
+
+    /**
+     * List items provided to
+     */
+    protected List<Team> items = Collections.emptyList();
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -49,27 +54,27 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.no_teams);
+        setListAdapter(createAdapter(getTeamItems()));
+//        setEmptyText(R.string.no_teams);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
+//    @Override
     protected void configureList(final Activity activity, final ListView listView) {
-        super.configureList(activity, listView);
+//        super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 
     }
 
-    @Override
-    protected LogoutService getLogoutService() {
-        return logoutService;
-    }
+//    @Override
+//    protected LogoutService getLogoutService() {
+//        return null;
+//    }
 
     @Override
     public void onDestroyView() {
@@ -78,8 +83,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         super.onDestroyView();
     }
 
-    @Override
     public Loader<List<Team>> onCreateLoader(final int id, final Bundle args) {
+
         final List<Team> initialItems = items;
         return new ThrowableLoader<List<Team>>(getActivity(), items) {
 
@@ -95,7 +100,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         };
     }
 
-    @Override
+//    @Override
     protected SingleTypeAdapter<Team> createAdapter(final List<Team> items) {
         return new TeamsListAdapter(getActivity().getLayoutInflater(), items);
     }
@@ -105,31 +110,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
         Toaster.showShort(this.getActivity(), "You clicked: " + item);
 
-
-        //---------------------------------------------------------------------------------------
-        //Original code.
-        //---------------------------------------------------------------------------------------
-//        final CheckIn checkIn = ((CheckIn) l.getItemAtPosition(position));
-//
-//        final String uri = String.format("geo:%s,%s?q=%s",
-//                checkIn.getLocation().getLatitude(),
-//                checkIn.getLocation().getLongitude(),
-//                checkIn.getName());
-//
-//        // Show a chooser that allows the user to decide how to display this data, in this case, map data.
-//        startActivity(Intent.createChooser(
-//                new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), getString(R.string.choose))
-
-        //Initalize Fragement for adding a team
-
-
-//        );
     }
 
-    @Override
-    protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_teams;
-    }
 
     /**
      * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???

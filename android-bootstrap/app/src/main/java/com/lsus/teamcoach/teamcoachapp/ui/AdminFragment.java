@@ -43,9 +43,4 @@ public class AdminFragment extends GenCarouselFragment<Team> {
         return logoutService;
     }
 
-    @Override
-    protected int getErrorMessage(Exception exception) {
-        return 0;
-    }
-
 }

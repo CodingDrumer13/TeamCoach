@@ -149,14 +149,6 @@ public abstract class GenCarouselFragment<E> extends Fragment {
     }
 
     /**
-     * Get error message to display for exception
-     *
-     * @param exception
-     * @return string resource id
-     */
-    protected abstract int getErrorMessage(final Exception exception);
-
-    /**
      * Show exception in a Toast
      *
      * @param message

@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:text="Team Menu"
+        android:text="Teams"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/table_text_header"
         android:textStyle="bold"

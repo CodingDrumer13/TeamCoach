@@ -19,9 +19,12 @@ import butterknife.Views;
 /**
  * Created by Don on 3/16/2015.
  */
-public class TeamsFragment extends Fragment implements View.OnClickListener{
+public class TeamsFragment extends GenCarouselFragment implements View.OnClickListener{
 
     @InjectView(R.id.btnNewTeam) Button btnNewTeam;
+
+    @Inject protected LogoutService logoutService;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +50,11 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
         btnNewTeam.setOnClickListener(this);
 
+    }
+
+    @Override
+    protected LogoutService getLogoutService() {
+        return logoutService;
     }
 
 

@@ -47,7 +47,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
             case 2:
                 result = new TeamsFragment();
                 break;
-            case 4:
+            case 3:
                 result = new LibraryListFragment();
                 break;
             default:
@@ -70,7 +70,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
                 return resources.getString(R.string.page_main_menu);
             case 2:
                 return resources.getString(R.string.page_teams_list);
-            case 4:
+            case 3:
                 return resources.getString(R.string.page_library);
             default:
                 return null;

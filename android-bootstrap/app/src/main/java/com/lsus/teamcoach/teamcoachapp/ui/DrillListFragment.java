@@ -16,6 +16,9 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import java.util.Collections;
 import java.util.List;
 
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
+
 import javax.inject.Inject;
 
 /**
@@ -26,10 +29,15 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
+    private String age;
+    private String type;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+
+        Toaster.showShort(getActivity(), "Age: " + age + ", Type: " + type);
     }
 
     @Override
@@ -64,7 +72,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
             @Override
             public List<Drill> loadData() throws Exception {
                 if (getActivity() != null) {
-                    return serviceProvider.getService(getActivity()).getDrills();
+                    return serviceProvider.getService(getActivity()).getDrills(age, type);
                 } else {
                     return Collections.emptyList();
                 }
@@ -88,5 +96,10 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     @Override
     protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_drills;
+    }
+
+    public void setDrillData(String age, String type){
+        this.age = age;
+        this.type = type;
     }
 }

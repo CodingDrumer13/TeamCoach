@@ -28,7 +28,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
         this.resources = resources;
     }
 
-    //important
+    //Important
     //Number of Fragments on the Carousel has to be set
     @Override
     public int getCount() { return 4; }
@@ -60,7 +60,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
         return result;
     }
 
-    //Gets the title of each page/fragemnt on the Carousel
+    //Gets the title of each page/fragment on the Carousel
     @Override
     public CharSequence getPageTitle(final int position) {
         switch (position) {

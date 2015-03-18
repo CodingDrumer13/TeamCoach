@@ -66,7 +66,15 @@ public class BootstrapService {
     /**
      * Get all bootstrap Drills that exists on Parse.com
      */
-    public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
+    //public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
+
+    /**
+     * Get bootstrap Drills of a specific type that exists on Parse.com
+     */
+    public List<Drill> getDrills(String age, String type) {
+        String constraint = "{\"drillAge\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
+        return getDrillService().getDrills(constraint).getResults();
+    }
 
     /**
      * Get all bootstrap Checkins that exists on Parse.com

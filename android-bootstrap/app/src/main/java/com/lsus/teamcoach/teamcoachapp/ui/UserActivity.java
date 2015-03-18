@@ -2,9 +2,6 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +11,6 @@ import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.User;
@@ -25,7 +21,6 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
 public class UserActivity extends BootstrapActivity implements View.OnClickListener {
@@ -98,7 +93,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         }else if(view.getId() == button_Submit.getId()){
             //The Submit button has been clicked
             onSubmit();
-        };
+        }
     }
 
     private void onEdit(){

@@ -10,13 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.Button;
 
-
-import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-
-import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;

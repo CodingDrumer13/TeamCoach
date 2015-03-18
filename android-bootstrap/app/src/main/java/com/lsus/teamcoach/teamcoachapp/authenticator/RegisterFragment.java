@@ -6,12 +6,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,23 +23,14 @@ import com.lsus.teamcoach.teamcoachapp.R.id;
 import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
-import com.lsus.teamcoach.teamcoachapp.util.Strings;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 import com.squareup.otto.Bus;
-import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
 import retrofit.RetrofitError;
-
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener  {
 
@@ -176,7 +162,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
 
                 @Override
                 public void onSuccess(final Boolean authSuccess) {
-                    bootstrapAuthenticatorActivity.finishLogin(token, userEmail, userPassword);;
+                    bootstrapAuthenticatorActivity.finishLogin(token, userEmail, userPassword);
                 }
 
                 @Override
@@ -201,7 +187,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
         }else if(view.getId() == cancelRegister.getId()){
             //The cancel text has been clicked
             bootstrapAuthenticatorActivity.getSupportFragmentManager().beginTransaction().remove(RegisterFragment.this).commit();
-        };
+        }
     }
 
     public void setBootstrapAuthenticatorActivity(BootstrapAuthenticatorActivity bootstrapAuthenticatorActivity){

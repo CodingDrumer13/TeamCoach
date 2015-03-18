@@ -1,8 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 
-import javax.inject.Inject;
-
 /**
  * Created by Don on 3/7/2015.
  */

@@ -11,14 +11,8 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
-import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
-import com.lsus.teamcoach.teamcoachapp.core.Singleton;
-import com.lsus.teamcoach.teamcoachapp.core.Team;
-import com.lsus.teamcoach.teamcoachapp.core.User;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

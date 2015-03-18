@@ -2,7 +2,6 @@ package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Don on 3/7/2015.

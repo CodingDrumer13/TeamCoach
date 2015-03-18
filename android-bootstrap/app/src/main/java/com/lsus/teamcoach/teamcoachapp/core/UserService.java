@@ -1,7 +1,5 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
-import java.util.List;
-
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;

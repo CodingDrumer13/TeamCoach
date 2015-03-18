@@ -1,6 +1,5 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;

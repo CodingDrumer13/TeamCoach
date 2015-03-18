@@ -2,8 +2,6 @@ package com.lsus.teamcoach.teamcoachapp.events;
 
 import java.io.Serializable;
 
-import retrofit.RetrofitError;
-
 public class UnAuthorizedErrorEvent {
     private Serializable cause;
 

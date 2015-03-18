@@ -7,11 +7,8 @@ import android.app.Activity;
 import com.lsus.teamcoach.teamcoachapp.authenticator.ApiKeyProvider;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
-import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 

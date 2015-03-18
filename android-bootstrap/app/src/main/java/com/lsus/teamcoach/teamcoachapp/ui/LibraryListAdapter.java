@@ -3,8 +3,6 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 import android.view.LayoutInflater;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
-import com.lsus.teamcoach.teamcoachapp.core.CheckIn;
 
 import java.util.List;
 

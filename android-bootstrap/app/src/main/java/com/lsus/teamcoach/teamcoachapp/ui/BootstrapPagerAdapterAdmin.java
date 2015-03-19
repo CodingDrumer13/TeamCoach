@@ -48,7 +48,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 result = new TeamsFragment();
                 break;
             case 3:
-                result = new LibraryListFragment();
+                result = new LibraryFragment();
                 break;
             case 4:
                 result = new AdminFragment();

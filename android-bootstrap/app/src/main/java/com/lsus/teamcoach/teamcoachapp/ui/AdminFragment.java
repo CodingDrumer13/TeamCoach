@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import javax.inject.Inject;
 /**
  * Created by TeamCoach on 3/3/2015.
  */
-public class AdminFragment extends GenCarouselFragment<Team> {
+public class AdminFragment extends Fragment {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -37,7 +38,6 @@ public class AdminFragment extends GenCarouselFragment<Team> {
         return view;
     }
 
-    @Override
     protected LogoutService getLogoutService() {
         return logoutService;
     }

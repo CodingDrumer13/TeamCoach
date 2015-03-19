@@ -48,7 +48,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
                 result = new TeamsFragment();
                 break;
             case 3:
-                result = new LibraryListFragment();
+                result = new LibraryFragment();
                 break;
             default:
                 result = null;

@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.Button;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
@@ -20,18 +20,18 @@ import butterknife.InjectView;
 import butterknife.Views;
 
 /**
- * Created by Don on 3/16/2015.
+ * Created by TeamCoach on 3/18/2015.
  */
-public class TeamsFragment extends Fragment implements View.OnClickListener{
+public class LibraryFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.btnNewTeam) Button btnNewTeam;
+    @InjectView(R.id.btnNewDrill) Button btnNewDrill;
 
     @Inject protected LogoutService logoutService;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.teams, container, false);
+        View view = inflater.inflate(R.layout.library_fragment, container, false);
         Injector.inject(this);
         return view;
 
@@ -46,12 +46,12 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        TeamsListFragment teamsListFragment = new TeamsListFragment();
-        teamsListFragment.setRetainInstance(true);
-        fragmentTransaction.replace(R.id.teamslistView, teamsListFragment);
+        LibraryListFragment libraryListFragment = new LibraryListFragment();
+        libraryListFragment.setRetainInstance(true);
+        fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
 
-        btnNewTeam.setOnClickListener(this);
+        btnNewDrill.setOnClickListener(this);
     }
 
     protected LogoutService getLogoutService() {
@@ -77,13 +77,13 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == btnNewTeam.getId()){
-            addTeam(view);
+        if(view.getId() == btnNewDrill.getId()){
+            addDrill(view);
         }
     }
 
     //Only called from TeamListFragment
-    public void addTeam(View v){
-        Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
+    public void addDrill(View v){
+        Toaster.showShort(this.getActivity(), "Add Drill Clicked.");
     }
 }

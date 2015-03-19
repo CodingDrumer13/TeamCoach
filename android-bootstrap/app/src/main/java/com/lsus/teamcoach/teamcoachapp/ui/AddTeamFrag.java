@@ -19,7 +19,7 @@ import butterknife.Views;
 /**
  * Created by Don on 3/18/2015.
  */
-public class AddTeam extends DialogFragment implements View.OnClickListener {
+public class AddTeamFrag extends DialogFragment implements View.OnClickListener {
 
     @InjectView(R.id.btnAddTeamNegative) Button btnAddTeamNegative;
     @InjectView(R.id.btnAddTeamPositive) Button btnAddTeamPositive;

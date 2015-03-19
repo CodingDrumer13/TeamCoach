@@ -94,7 +94,7 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 //        Fragment fragment = new AddTeamFragment();
 //        ft.replace(R.id.teams_root_view, fragment).commit();
 
-        DialogFragment newFragment = new AddTeam();
+        DialogFragment newFragment = new AddTeamFrag();
         newFragment.show(ft, "dialog");
 //        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //        // Create and show the dialog.

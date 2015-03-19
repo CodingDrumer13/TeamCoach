@@ -1,12 +1,12 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -16,10 +16,9 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import java.util.Collections;
 import java.util.List;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
-
 import javax.inject.Inject;
+
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 
 /**
  * Created by TeamCoach on 3/12/2015.
@@ -36,8 +35,6 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-
-        Toaster.showShort(getActivity(), "Age: " + age + ", Type: " + type);
     }
 
     @Override
@@ -88,9 +85,9 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
 
-        Toaster.showLong(this.getActivity(), "You clicked: " + item.getDrillName());
 
-
+        Intent drillInfoIntent = new Intent(new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item));
+        startActivity(drillInfoIntent);
     }
 
     @Override

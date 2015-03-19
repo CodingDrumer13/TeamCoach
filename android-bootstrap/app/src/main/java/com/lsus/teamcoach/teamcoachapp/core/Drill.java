@@ -13,6 +13,9 @@ public class Drill implements Serializable {
     protected String drillAge;
     protected String drillDescription;
     protected int drillRating;
+    protected int numberOfRatings;
+    protected int timesUsed;
+    protected String creator;
 
     public Drill(String objectId, String drillName, String drillType, String drillAge, String drillDescription, int drillRating){
         this.objectId = objectId;
@@ -42,4 +45,16 @@ public class Drill implements Serializable {
     public void setDrillRating(int drillRating){ this.drillRating = drillRating; }
 
     public int getDrillRating(){ return drillRating; }
+
+    public void setNumberOfRatings(int numberOfRatings){ this.numberOfRatings = numberOfRatings; }
+
+    public int getNumberOfRatings(){ return numberOfRatings; }
+
+    public void setTimesUsed(int timesUsed){ this.timesUsed = timesUsed; }
+
+    public int getTimesUsed(){ return timesUsed; }
+
+    public void setCreator(String creator) { this.creator = creator; }
+
+    public String getCreator(){ return creator; }
 }

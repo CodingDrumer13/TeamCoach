@@ -109,6 +109,8 @@ public final class Constants {
         public static final String DRILL_AGE = "drill_age";
 
         public static final String DRILL_TYPE = "drill_type";
+
+        public static final String DRILL = "drill";
     }
 
     public static final class Intent {

@@ -36,7 +36,7 @@ public class DrillListActivity extends BootstrapActivity implements View.OnClick
 
         setTitle(R.string.title_drill_list);
 
-      drillListTitle.setText(age + " " + drillType + " drills:");
+        drillListTitle.setText(age + " " + drillType + " drills:");
 
         FragmentManager fragmentManager = this.getSupportFragmentManager();
 

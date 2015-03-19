@@ -74,9 +74,27 @@
         android:layout_marginBottom="20dip"
         android:textColor="@color/table_text_selector"
         />
-    <EditText
-        android:id="@+id/et_drill_rating"
-        style="@style/SignInEditText"
+
+    <!-- Drill Times Used -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Times Used: "
+        android:id="@+id/tv_drill_times_used"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_drill_times_used_num"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/table_text_selector"
         android:visibility="gone"
         />
 

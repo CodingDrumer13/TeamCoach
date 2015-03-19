@@ -7,6 +7,8 @@
     <string name="page_referrers">Referrers</string>
     <string name="refresh_action">Refresh</string>
     <string name="logout_action">Logout</string>
+
+    <!--CarocelFragment-->
     <string name="page_messages">Messages</string>
     <string name="page_schedule">Schedule</string>
     <string name="page_admin">Administration</string>
@@ -14,12 +16,13 @@
     <string name="page_main_menu">Main Menu</string>
     <string name="page_teams_list">Teams</string>
     <string name="page_library">Drill Library</string>
+
+
     <string name="title_column">Title</string>
     <string name="location_column">Location</string>
     <string name="age_group_column">Age Group</string>
     <string name="user_column">User</string>
     <string name="date_column">Date</string>
-    <string name="drill_type_column">Drill Name</string>
     <string name="error_loading_users">Loading users failed</string>
     <string name="error_loading_news">Loading news failed</string>
     <string name="error_loading_checkins">Loading check-ins failed</string>
@@ -61,6 +64,16 @@
 
     <!-- DrillListActivity -->
     <string name="title_activity_drill_list">DrillListActivity</string>
+    <string name="drill_type_column">Drill Name</string>
+
+
+    <!--AddTeamFragment-->
+
+
+
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+
 
 
     <string name="hello_world">Hello world!</string>

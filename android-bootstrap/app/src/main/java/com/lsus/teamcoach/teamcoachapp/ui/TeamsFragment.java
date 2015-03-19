@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -85,5 +86,19 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
     //Only called from TeamListFragment
     public void addTeam(View v){
         Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+//
+//        fm.beginTransaction();
+//        Fragment fragment = new AddTeamFragment();
+//        ft.replace(R.id.teams_root_view, fragment).commit();
+
+        DialogFragment newFragment = new AddTeamFragment();
+        newFragment.show(ft, "dialog");
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        // Create and show the dialog.
+//        SomeDialog newFragment = new SomeDialog ();
+//        newFragment.show(ft, "dialog");
     }
 }

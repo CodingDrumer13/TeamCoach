@@ -116,9 +116,9 @@ public class TeamsListFragment extends ListFragment {
         ArrayList<Team> menuItems = new ArrayList<Team>();
 
         if(user.getTeams() == null) {
-            Team team = new Team();
-            team.setTeamName("Name");
-            menuItems.add(team);
+//            Team team = new Team();
+//            team.setTeamName("Name");
+//            menuItems.add(team);
         }else{
             menuItems = (user.getTeams());
         }

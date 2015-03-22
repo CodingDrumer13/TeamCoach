@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
@@ -27,6 +27,8 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     @InjectView(R.id.btnNewDrill) Button btnNewDrill;
 
     @Inject protected LogoutService logoutService;
+
+    LibraryListFragment libraryListFragment;
 
 
     @Override
@@ -46,7 +48,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        LibraryListFragment libraryListFragment = new LibraryListFragment();
+        libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
@@ -84,6 +86,12 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
     //Only called from TeamListFragment
     public void addDrill(View v){
-        Toaster.showShort(this.getActivity(), "Add Drill Clicked.");
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
+        newFragment.setAgeSelected(libraryListFragment.getAgeSelected());
+        newFragment.setAge(libraryListFragment.getAge());
+        newFragment.show(ft, "dialog");
     }
 }

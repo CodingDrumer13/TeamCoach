@@ -25,7 +25,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="User's Name: "
+        android:text="Name: "
         />
     <TextView
         android:id="@+id/tv_name"
@@ -50,7 +50,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="User Email: "
+        android:text="Email: "
         />
     <TextView
         android:id="@+id/tv_userEmail"
@@ -102,7 +102,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="User Role: "
+        android:text="Role: "
         />
     <TextView
         android:id="@+id/tv_role"

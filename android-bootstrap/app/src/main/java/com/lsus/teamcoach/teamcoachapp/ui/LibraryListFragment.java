@@ -36,7 +36,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
 
     @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
 
-    private boolean typeSelected = false;
+    private boolean ageSelected = false;
     private String age = "";
 
     @Override
@@ -79,7 +79,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
 
-                    if(!typeSelected){
+                    if(!ageSelected){
                         return getAgeGroups();
                     } else {
                         return getMenuItems(age);
@@ -99,7 +99,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
 
 
-        if(!typeSelected){
+        if(!ageSelected){
             final String age = ((String) l.getItemAtPosition(position));
             this.age = age;
 
@@ -108,7 +108,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
                 listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
             }
 
-            typeSelected = true;
+            ageSelected = true;
         }
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
@@ -120,7 +120,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
                 startActivity(drillIntent);
             }
 
-            typeSelected = false;
+            ageSelected = false;
         }
 
         this.refresh();
@@ -155,5 +155,13 @@ public class LibraryListFragment extends ItemListFragment<String> {
             menuItems.add("Goalkeeping");
         }
         return menuItems;
+    }
+
+    public boolean getAgeSelected(){
+        return ageSelected;
+    }
+
+    public String getAge(){
+        return age;
     }
 }

@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="Drill Name: "
+        android:text="Name: "
         />
     <TextView
         android:id="@+id/tv_drill_name"

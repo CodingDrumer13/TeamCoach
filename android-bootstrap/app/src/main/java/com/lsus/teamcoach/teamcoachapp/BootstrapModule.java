@@ -14,6 +14,7 @@ import com.lsus.teamcoach.teamcoachapp.core.RestAdapterRequestInterceptor;
 import com.lsus.teamcoach.teamcoachapp.core.RestErrorHandler;
 import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
+import com.lsus.teamcoach.teamcoachapp.ui.AddDrillDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.AddTeamFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapTimerActivity;
@@ -73,7 +74,8 @@ import retrofit.converter.GsonConverter;
                 DrillListActivity.class,
                 DrillInfoActivity.class,
                 LibraryFragment.class,
-                AddTeamFrag.class
+                AddTeamFrag.class,
+                AddDrillDialogFragment.class
         }
 )
 public class BootstrapModule {

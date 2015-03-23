@@ -13,7 +13,7 @@ public interface TeamService {
     /**
      * Retrieves the team from parse.com
      *
-     * @param token The sessiong token
+     * @param id The team object id
      * @return the current user.
      */
     @GET(Constants.Http.URL_USERS_FRAG + "/{id}")
@@ -23,6 +23,6 @@ public interface TeamService {
      * Creates a team in  parse.com
      *
      */
-    @POST(Constants.Http.URL_TEAM_FRAG + "/Team")
+    @POST(Constants.Http.URL_TEAM_FRAG)
     Team setTeam(@Body Team team);
 }

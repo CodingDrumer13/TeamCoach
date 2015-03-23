@@ -2,9 +2,6 @@ package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +10,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
+import retrofit.RetrofitError;
 
 /**
  * Created by Don on 3/18/2015.
  */
 public class AddTeamFrag extends DialogFragment implements View.OnClickListener {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
+    private SafeAsyncTask<Boolean> authenticationTask;
+    private Team team;
+
+    @Inject BootstrapService bootstrapService;
 
     @InjectView(R.id.etAddTeamName) EditText etAddTeamName;
     @InjectView(R.id.sAddTeamAgeGroup) Spinner sAddTeamGroup;
@@ -63,14 +67,58 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Hide progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void hideProgress() {
+        getActivity().dismissDialog(0);
+    }
+
+    /**
+     * Show progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void showProgress() {
+        getActivity().showDialog(0);
+    }
+
     @Override
     public void onClick(View view) {
         if(btnAddTeamPositive.getId() == view.getId()) {
-            Team team = new Team();
+            team = new Team();
             team.setTeamName(etAddTeamName.getText().toString());
             team.setAgeGroups(sAddTeamGroup.getSelectedItem().toString());
 
-//            serviceProvider.getService(this.getActivity()).
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+                    bootstrapService.setTeam(team);
+                    return true;
+                }
+
+                @Override
+                protected void onException(final Exception e) throws RuntimeException {
+                    // Retrofit Errors are handled inside of the {
+                    if (!(e instanceof RetrofitError)) {
+                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                        if (cause != null) {
+                            Toaster.showLong(getActivity(), cause.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onSuccess(final Boolean authSuccess) {
+                    AddTeamFrag.this.dismiss();
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+                    hideProgress();
+                    authenticationTask = null;
+                }
+            };
+            authenticationTask.execute();
 
 
         }

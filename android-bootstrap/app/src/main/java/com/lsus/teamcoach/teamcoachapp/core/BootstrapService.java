@@ -2,6 +2,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit.RestAdapter;
 
@@ -98,5 +99,9 @@ public class BootstrapService {
     public User currentUser(String token){
         return  getUserService().currentUser(token);
     }
+
+    public Team getTeam(){ return null; };
+
+    public Object setTeam() { return  null; };
 
 }

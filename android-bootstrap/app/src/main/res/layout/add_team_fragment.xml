@@ -11,12 +11,11 @@
         style="@style/SignInEditText"
         android:hint="Team Name"/>
 
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddTeamAgeGroup"
+        android:id="@+id/sAddTeamAgeGroup"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
         android:hint="Team Age Group"/>
 
     <LinearLayout

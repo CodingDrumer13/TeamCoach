@@ -74,6 +74,21 @@
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
 
+    <!--Age Group Spinner-->
+    <string-array name="age_group_array">
+        <item>U4</item>
+        <item>U5</item>
+        <item>U6</item>
+        <item>U7</item>
+        <item>U8</item>
+        <item>U9</item>
+        <item>U10</item>
+        <item>U11</item>
+        <item>U12</item>
+        <item>U13</item>
+        <item>U14</item>
+        <item>U15</item>
+    </string-array>
 
 
     <string name="hello_world">Hello world!</string>

@@ -13,13 +13,15 @@ public class Team implements Serializable {
     protected String teamName;
     protected ArrayList<User> Players;
     protected String objectId;
+    protected String ageGroup;
 
     public Team(){}
 
-    public Team(String teamName, String teamObjectId, ArrayList<User> Players){
+    public Team(String teamName, String teamObjectId, ArrayList<User> Players, String ageGroup){
         this.teamName = teamName;
         this.objectId = teamObjectId;
         this.Players = Players;
+        this.ageGroup = ageGroup;
     }
 
     public String getTeamName() {
@@ -46,8 +48,9 @@ public class Team implements Serializable {
         this.objectId = objectId;
     }
 
+    public void setAgeGroups(String ageGroup){this.ageGroup = ageGroup;}
 
-
+    public String getAgeGroup() {return ageGroup;}
 
 
 }

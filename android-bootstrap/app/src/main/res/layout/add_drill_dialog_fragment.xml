@@ -11,20 +11,18 @@
         style="@style/SignInEditText"
         android:hint="Drill Name"/>
 
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddDrillAgeGroup"
+        android:id="@+id/sAddDrillAgeGroup"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
-        android:hint="Drill Age Group"/>
+        android:hint="Age Group"/>
 
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddDrillType"
+        android:id="@+id/sAddDrillType"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
         android:hint="Drill Type"/>
 
     <EditText

@@ -17,7 +17,7 @@ public class LibraryListAdapter extends AlternatingColorListAdapter<String> {
      */
     public LibraryListAdapter(final LayoutInflater inflater, final List<String> items,
                               final boolean selectable) {
-        super(R.layout.library_list_age_item, inflater, items, selectable);
+        super(R.layout.library_list_item, inflater, items, selectable);
     }
 
     /**
@@ -25,7 +25,7 @@ public class LibraryListAdapter extends AlternatingColorListAdapter<String> {
      * @param items
      */
     public LibraryListAdapter(final LayoutInflater inflater, final List<String> items) {
-        super(R.layout.library_list_age_item, inflater, items);
+        super(R.layout.library_list_item, inflater, items);
     }
 
     @Override

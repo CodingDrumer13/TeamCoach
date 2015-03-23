@@ -2,7 +2,6 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit.RestAdapter;
 
@@ -33,9 +32,7 @@ public class BootstrapService {
         return getRestAdapter().create(UserService.class);
     }
 
-    private DrillService getDrillService() {
-        return getRestAdapter().create(DrillService.class);
-    }
+    private DrillService getDrillService() { return getRestAdapter().create(DrillService.class); }
 
     private NewsService getNewsService() {
         return getRestAdapter().create(NewsService.class);
@@ -92,6 +89,8 @@ public class BootstrapService {
     public User authenticate(String email, String password) {
         return getUserService().authenticate(email, password);
     }
+
+    public Drill addDrill(Drill drill){ return getDrillService().addDrill(drill);}
 
     /**
      * Registers the user with Parse.com

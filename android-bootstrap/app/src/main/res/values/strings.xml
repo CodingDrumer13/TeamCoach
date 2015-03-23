@@ -90,6 +90,18 @@
         <item>U15</item>
     </string-array>
 
+    <!--Age Group Spinner-->
+    <string-array name="drill_type_array">
+        <item>Defending</item>
+        <item>Attacking</item>
+        <item>Passing</item>
+        <item>Shooting</item>
+        <item>Technical</item>
+        <item>Goalkeeping</item>
+    </string-array>
+
+
+
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

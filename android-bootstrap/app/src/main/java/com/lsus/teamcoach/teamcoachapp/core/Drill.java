@@ -17,13 +17,15 @@ public class Drill implements Serializable {
     protected int timesUsed;
     protected String creator;
 
-    public Drill(String objectId, String drillName, String drillType, String drillAge, String drillDescription, int drillRating){
-        this.objectId = objectId;
+    public Drill(String drillName, String drillType, String drillAge, String drillDescription, int drillRating, int numberOfRatings, String creator, int timesUsed){
         this.drillName = drillName;
         this.drillType = drillType;
         this.drillAge = drillAge;
         this.drillDescription = drillDescription;
         this.drillRating = drillRating;
+        this.timesUsed = timesUsed;
+        this.numberOfRatings = numberOfRatings;
+        this.creator = creator;
     }
 
     public void setDrillName(String drillName) { this.drillName = drillName; }

@@ -21,6 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.Views;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
@@ -28,12 +29,13 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 /**
  * Created by TeamCoach on 3/4/2015.
  */
-public class LibraryListFragment extends ItemListFragment<String> {
+public class LibraryListFragment extends ItemListFragment<String> implements View.OnClickListener{
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
     @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
+    //@InjectView(R.id.btnLibraryBack) protected Button backButton;
 
     private boolean ageSelected = false;
     private String age = "";
@@ -45,15 +47,19 @@ public class LibraryListFragment extends ItemListFragment<String> {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Views.inject(this, view);
+
+        //backButton.setOnClickListener(this);
+    }
+
+    @Override
     protected void configureList(final Activity activity, final ListView listView) {
         super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
-
-        getListAdapter()
-                .addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.library_list_age_item_labels, null));
     }
 
     @Override
@@ -102,12 +108,21 @@ public class LibraryListFragment extends ItemListFragment<String> {
             final String age = ((String) l.getItemAtPosition(position));
             this.age = age;
 
+            //TODO fix button (null reference error)
+//            if(backButton != null){
+//                backButton.setVisibility(View.VISIBLE);
+//            } else{
+//                System.out.println("Button is null!");
+//            }
+
+
             //TODO Change the fragment header when changing screens.
             if(listHeader != null){
                 listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
             }
 
             ageSelected = true;
+
         }
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
@@ -118,11 +133,23 @@ public class LibraryListFragment extends ItemListFragment<String> {
                 drillIntent.putExtra(DRILL_TYPE, drillType);
                 startActivity(drillIntent);
             }
+            //backButton.setVisibility(View.GONE);
+
+            if(listHeader != null){
+                listHeader.setText(R.string.age_group_column);
+            }
 
             ageSelected = false;
         }
 
         this.refresh();
+    }
+
+    public void onClick(View view) {
+//        if(view.getId() == backButton.getId()){
+//            ageSelected = false;
+//            this.refresh();
+//        }
     }
 
     @Override
@@ -136,7 +163,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
      */
     private List<String> getAgeGroups() {
         List<String> ages = new ArrayList<String>();
-        for(int i = 3; i < 19; i++){
+        for(int i = 4; i < 19; i++){
             ages.add("U" + i);
         }
         return ages;
@@ -149,6 +176,7 @@ public class LibraryListFragment extends ItemListFragment<String> {
         menuItems.add("Attacking");
         menuItems.add("Passing");
         menuItems.add("Shooting");
+        menuItems.add("Technical");
         if (age.length() == 3){
             menuItems.add("Goalkeeping");
         }

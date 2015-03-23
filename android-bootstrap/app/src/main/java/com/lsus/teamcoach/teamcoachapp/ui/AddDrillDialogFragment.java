@@ -5,15 +5,24 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
+import retrofit.RetrofitError;
 
 /**
  * Created by TeamCoach on 3/18/2015.
@@ -22,11 +31,21 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     @InjectView(R.id.btnCancelAddDrill) protected Button btnCancelAddDrill;
     @InjectView(R.id.btnAddDrill) protected Button btnAddDrill;
-    @InjectView(R.id.etAddDrillAgeGroup) protected EditText etAgeGroup;
-    @InjectView(R.id.etAddDrillType) protected EditText etType;
+    @InjectView(R.id.etAddDrillName) protected EditText etDrillName;
+    @InjectView(R.id.sAddDrillAgeGroup) protected Spinner sAgeGroup;
+    @InjectView(R.id.sAddDrillType) protected Spinner sDrillType;
+    @InjectView(R.id.etAddDrillDescription) protected EditText etDescription;
+
+    @Inject BootstrapService bootstrapService;
+
+    private SafeAsyncTask<Boolean> authenticationTask;
 
     private boolean ageSelected;
+    private String drillName;
     private String age;
+    private String type;
+    private String description;
+    private String creator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,17 +66,62 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         btnCancelAddDrill.setOnClickListener(this);
         btnAddDrill.setOnClickListener(this);
 
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.age_group_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        sAgeGroup.setAdapter(ageAdapter);
+
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.drill_type_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+       typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        sDrillType.setAdapter(typeAdapter);
+
         if(ageSelected){
-            Toaster.showShort(this.getActivity(), age);
-            System.out.println("The selected age is: " + age);
-            etAgeGroup.setText(String.format("%s", age));
+            sAgeGroup.setSelection(getIndex(sAgeGroup, age));
         }
     }
 
     @Override
     public void onClick(View view) {
         if(btnAddDrill.getId() == view.getId()) {
+            if(validateFields()){
 
+                authenticationTask = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
+                        Drill drill = new Drill(drillName, type, age, description, 0, 0, creator, 0);
+
+                        bootstrapService.addDrill(drill);
+                        return true;
+                    }
+
+                    @Override
+                    protected void onException(final Exception e) throws RuntimeException {
+                        // Retrofit Errors are handled inside of the {
+                        if (!(e instanceof RetrofitError)) {
+                            final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                            if (cause != null) {
+                                Toaster.showLong(getActivity(), cause.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(final Boolean authSuccess) {
+                        AddDrillDialogFragment.this.dismiss();;
+                    }
+
+                    @Override
+                    protected void onFinally() throws RuntimeException {
+                        hideProgress();
+                        authenticationTask = null;
+                    }
+                };
+                authenticationTask.execute();
+            }
         }
         if(btnCancelAddDrill.getId() == view.getId()){
             dismiss();
@@ -70,5 +134,59 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     public void setAge(String age){
         this.age = age;
+    }
+
+    private boolean validateFields(){
+            if (!etDrillName.getText().toString().equalsIgnoreCase("")){
+            drillName = etDrillName.getText().toString();
+        } else {
+            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            return false;
+        }
+
+        if(!sDrillType.getSelectedItem().toString().equalsIgnoreCase("")) {
+            type = sDrillType.getSelectedItem().toString();
+        } else {
+            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            return false;
+        }
+
+        if(!sAgeGroup.getSelectedItem().toString().equalsIgnoreCase("")){
+            age = sAgeGroup.getSelectedItem().toString();
+        } else {
+            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            return false;
+        }
+
+        if(!etDescription.getText().toString().equalsIgnoreCase("")){
+            description = etDescription.getText().toString();
+        } else {
+            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            return false;
+        }
+
+        Singleton singleton = Singleton.getInstance();
+        creator = singleton.getCurrentUser().getEmail();
+
+        return true;
+    }
+
+    private int getIndex(Spinner spinner, String age){
+        int index = 0;
+
+        for(int i = 0; i < spinner.getCount(); i++){
+            if(spinner.getItemAtPosition(i).equals(age)){
+                return index;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Hide progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void hideProgress() {
+        getActivity().dismissDialog(0);
     }
 }

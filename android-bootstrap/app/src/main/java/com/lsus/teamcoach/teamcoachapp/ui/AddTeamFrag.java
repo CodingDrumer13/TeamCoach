@@ -15,8 +15,13 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -31,6 +36,7 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
+    private Singleton singleton = Singleton.getInstance();
 
     @Inject BootstrapService bootstrapService;
 
@@ -92,7 +98,19 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
-                    bootstrapService.setTeam(team);
+                    team = bootstrapService.setTeam(team);
+                    User user = singleton.getCurrentUser();
+                    if(user.getTeams() == null){
+                        ArrayList<Team> teams = new ArrayList<Team>();
+                        teams.add(team);
+                        user.setTeams(teams);
+                    }else{
+                        user.getTeams().add(team);
+                    }
+                    bootstrapService.update(user);
+
+                    singleton.setCurrentUser(user);
+
                     return true;
                 }
 

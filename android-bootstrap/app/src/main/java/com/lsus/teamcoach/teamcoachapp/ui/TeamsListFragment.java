@@ -63,11 +63,6 @@ public class TeamsListFragment extends ListFragment {
 
     }
 
-//    @Override
-//    protected LogoutService getLogoutService() {
-//        return null;
-//    }
-
     @Override
     public void onDestroyView() {
         setListAdapter(null);
@@ -116,6 +111,7 @@ public class TeamsListFragment extends ListFragment {
         ArrayList<Team> menuItems = new ArrayList<Team>();
 
         if(user.getTeams() == null) {
+            //Inform the User to add a team
 //            Team team = new Team();
 //            team.setTeamName("Name");
 //            menuItems.add(team);

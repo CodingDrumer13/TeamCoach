@@ -2,6 +2,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit.RestAdapter;
 
@@ -36,10 +37,11 @@ public class BootstrapService {
         return getRestAdapter().create(DrillService.class);
     }
 
-
     private NewsService getNewsService() {
         return getRestAdapter().create(NewsService.class);
     }
+
+    private TeamService getTeamService() { return getRestAdapter().create(TeamService.class); }
 
     private CheckInService getCheckInService() {
         return getRestAdapter().create(CheckInService.class);
@@ -83,20 +85,44 @@ public class BootstrapService {
        return getCheckInService().getCheckIns().getResults();
     }
 
+
+    /**
+     * Authenticates the passed user with Parse.com
+     */
     public User authenticate(String email, String password) {
         return getUserService().authenticate(email, password);
     }
 
+    /**
+     * Registers the user with Parse.com
+     */
     public User register(User user) {
         return getUserService().register(user);
     }
 
+    /**
+     * Updates a user on Parse.com
+     */
     public Object update(User user) {
         return getUserService().update(user.objectId, user.getSessionToken() , user);
     }
 
+    /**
+     * Get the current Users from Parse.com
+     */
     public User currentUser(String token){
         return  getUserService().currentUser(token);
     }
+
+    /**
+     * Get the the team with the matching id from Parse.com
+     */
+    public Team getTeam(String id){ return getTeamService().getTeam(id); };
+
+
+    /**
+     * Adds a Team to Parse.com
+     */
+    public Team setTeam(Team team) { return getTeamService().setTeam(team); };
 
 }

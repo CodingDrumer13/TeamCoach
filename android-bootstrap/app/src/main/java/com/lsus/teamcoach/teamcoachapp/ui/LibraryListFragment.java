@@ -13,7 +13,6 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.core.AgeGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,7 +136,6 @@ public class LibraryListFragment extends ItemListFragment<String> {
      */
     private List<String> getAgeGroups() {
         List<String> ages = new ArrayList<String>();
-        AgeGroup age;
         for(int i = 3; i < 19; i++){
             ages.add("U" + i);
         }

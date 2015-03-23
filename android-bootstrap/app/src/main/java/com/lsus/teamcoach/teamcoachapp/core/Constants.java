@@ -71,6 +71,11 @@ public final class Constants {
         public static final String URL_DRILL_FRAG = "/1/classes/Drill";
         public static final String URL_DRILL = URL_BASE + URL_DRILL_FRAG;
 
+        /**
+         * List Team URL
+         */
+        public static final String URL_TEAM_FRAG = "/1/classes/Team";
+        public static final String URL_TEAM = URL_BASE + URL_TEAM_FRAG;
 
         /**
          * List Checkin's URL

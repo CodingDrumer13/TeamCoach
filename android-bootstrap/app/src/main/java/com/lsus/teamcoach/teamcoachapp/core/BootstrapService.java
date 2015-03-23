@@ -113,15 +113,13 @@ public class BootstrapService {
         return  getUserService().currentUser(token);
     }
 
+//    public User currentUserWithChildren(String path) {return  getUserService().currentUserWithChildren(path)}
+
     /**
-     * Get the the team with the matching id from Parse.com
+     * Get all bootstrap Users that exist on Parse.com
      */
     public Team getTeam(String id){ return getTeamService().getTeam(id); };
 
-
-    /**
-     * Adds a Team to Parse.com
-     */
-    public Team setTeam(Team team) { return getTeamService().setTeam(team); };
+    public Team setTeam(Team team) { return  getTeamService().setTeam(team); };
 
 }

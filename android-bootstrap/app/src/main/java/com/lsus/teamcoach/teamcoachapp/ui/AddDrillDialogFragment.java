@@ -66,6 +66,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         btnCancelAddDrill.setOnClickListener(this);
         btnAddDrill.setOnClickListener(this);
 
+        //Sets up the values for the Age Groups
         ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.age_group_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -73,6 +74,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         // Apply the adapter to the spinner
         sAgeGroup.setAdapter(ageAdapter);
 
+        //Sets up the values for the Drill Types
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.drill_type_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -80,6 +82,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         // Apply the adapter to the spinner
         sDrillType.setAdapter(typeAdapter);
 
+        //TODO fix setting the age.
         if(ageSelected){
             sAgeGroup.setSelection(getIndex(sAgeGroup, age));
         }
@@ -176,10 +179,10 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
         for(int i = 0; i < spinner.getCount(); i++){
             if(spinner.getItemAtPosition(i).equals(age)){
-                return index;
+                index = i;
             }
         }
-        return 0;
+        return index;
     }
 
     /**

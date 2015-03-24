@@ -118,10 +118,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     }
 
     private void onSubmit(){
-        //Need to introduce checks here!!!! -------------------------------------------------
-        boolean isValid = validateFields();
-
-        if(isValid){
+        if(validateFields()){
             button_Submit.setVisibility(View.GONE);
             button_Edit.setVisibility(View.VISIBLE);
 
@@ -166,6 +163,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     }
 
     private boolean validateFields(){
+        //TODO Need to introduce checks here!!!!
         //Handles the setting of the first and last name.
         String[] names = et_name.getText().toString().split(" ");
         if (names.length == 1){

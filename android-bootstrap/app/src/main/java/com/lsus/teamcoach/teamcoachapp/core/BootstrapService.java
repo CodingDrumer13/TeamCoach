@@ -84,13 +84,26 @@ public class BootstrapService {
 
 
     /**
+     * Adds a Drill to the Parse.com database
+     * @param drill
+     * @return
+     */
+    public Drill addDrill(Drill drill){ return getDrillService().addDrill(drill);}
+
+    /**
+     * Updates a drill on Parse.com
+     */
+    public Object update(Drill drill) {
+        return getDrillService().update(drill.objectId, drill);
+    }
+
+
+    /**
      * Authenticates the passed user with Parse.com
      */
     public User authenticate(String email, String password) {
         return getUserService().authenticate(email, password);
     }
-
-    public Drill addDrill(Drill drill){ return getDrillService().addDrill(drill);}
 
     /**
      * Registers the user with Parse.com

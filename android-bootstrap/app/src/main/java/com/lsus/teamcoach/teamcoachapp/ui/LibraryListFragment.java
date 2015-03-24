@@ -175,7 +175,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         menuItems.add("Defending");
         menuItems.add("Attacking");
         menuItems.add("Passing");
-        menuItems.add("Shooting");
+        menuItems.add("Finishing");
         menuItems.add("Technical");
         if (age.length() == 3){
             menuItems.add("Goalkeeping");

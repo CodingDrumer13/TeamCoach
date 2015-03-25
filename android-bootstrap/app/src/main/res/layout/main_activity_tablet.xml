@@ -8,7 +8,7 @@
     <fragment
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
-            android:name="com.lsus.teamcoach.teamcoachapp.ui.NavigationDrawerFragment" />
+            android:name="com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment" />
 
     <LinearLayout
             android:id="@+id/container"

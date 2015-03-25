@@ -13,7 +13,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.ui.BootstrapTimerActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;

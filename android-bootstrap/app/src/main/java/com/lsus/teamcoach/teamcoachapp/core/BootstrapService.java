@@ -126,7 +126,8 @@ public class BootstrapService {
         return  getUserService().currentUser(token);
     }
 
-//    public User currentUserWithChildren(String path) {return  getUserService().currentUserWithChildren(path)}
+//    String constraint = "{\"user\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
+//    public User currentUserWithChildren(String id) {return getUserService().currentUserWithChildren(id); }
 
     /**
      * Get all bootstrap Users that exist on Parse.com

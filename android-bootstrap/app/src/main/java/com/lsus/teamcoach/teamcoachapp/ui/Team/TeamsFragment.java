@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -90,7 +90,7 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        DialogFragment newFragment = new AddTeamFrag();
+        AddTeamFrag newFragment = new AddTeamFrag();
         newFragment.show(ft, "dialog");
     }
 }

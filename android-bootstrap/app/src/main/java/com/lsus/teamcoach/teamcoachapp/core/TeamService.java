@@ -17,7 +17,7 @@ public interface TeamService {
      * @param id The team object id
      * @return the current user.
      */
-    @GET(Constants.Http.URL_USERS_FRAG + "/{id}")
+    @GET(Constants.Http.URL_TEAM_FRAG + "/{id}")
     Team getTeam(@Path("id") String id);
 
     /**

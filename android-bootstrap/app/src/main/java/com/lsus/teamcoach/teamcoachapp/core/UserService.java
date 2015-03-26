@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.core;
 
 import retrofit.http.Body;
 import retrofit.http.EncodedPath;
+import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -55,15 +56,7 @@ public interface UserService {
      * @param token The session token
      * @return the current user.
      */
-    @GET(Constants.Http.URL_USERS_FRAG+"/me?include=teams")
+    @GET(Constants.Http.URL_USERS_FRAG+"/me")
     User currentUser(@Header("X-Parse-Session-Token") String token);
-
-
-    /**
-     * Retrieves the children of a user
-     */
-
-//    @GET(Constants.Http.URL_USERS_FRAG+ "/{path}")
-//    User currentUserWithChildren(@EncodedPath("path") String path);
 
 }

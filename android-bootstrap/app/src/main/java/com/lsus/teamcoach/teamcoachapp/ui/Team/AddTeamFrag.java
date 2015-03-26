@@ -35,6 +35,8 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
     private Singleton singleton = Singleton.getInstance();
+    protected TeamsListFragment teamsListFragment;
+
 
     @Inject BootstrapService bootstrapService;
 
@@ -125,6 +127,7 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
                 @Override
                 public void onSuccess(final Boolean authSuccess) {
+                    teamsListFragment.refresh();
                     AddTeamFrag.this.dismiss();
                 }
 
@@ -135,11 +138,13 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
                 }
             };
             authenticationTask.execute();
-
-
         }
         if(btnAddTeamNegative.getId() == view.getId()){
             dismiss();
         }
+    }
+
+    public void setTeamsListFragment(TeamsListFragment teamsListFragment){
+        this.teamsListFragment = teamsListFragment;
     }
 }

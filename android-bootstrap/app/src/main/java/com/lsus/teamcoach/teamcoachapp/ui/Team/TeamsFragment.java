@@ -29,6 +29,8 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
     @Inject protected LogoutService logoutService;
 
+    protected TeamsListFragment teamsListFragment;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        TeamsListFragment teamsListFragment = new TeamsListFragment();
+        teamsListFragment= new TeamsListFragment();
         teamsListFragment.setRetainInstance(true);
         fragmentTransaction.replace(R.id.teamslistView, teamsListFragment);
         fragmentTransaction.commit();
@@ -91,6 +93,7 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         FragmentTransaction ft = fm.beginTransaction();
 
         AddTeamFrag newFragment = new AddTeamFrag();
+        newFragment.setTeamsListFragment(teamsListFragment);
         newFragment.show(ft, "dialog");
     }
 }

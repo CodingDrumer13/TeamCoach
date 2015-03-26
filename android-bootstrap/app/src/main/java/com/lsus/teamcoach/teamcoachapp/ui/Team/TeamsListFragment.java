@@ -1,14 +1,17 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
+import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -25,6 +28,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +43,7 @@ import retrofit.RetrofitError;
 public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
-//    @Inject protected LogoutService logoutService;
+    @Inject protected LogoutService logoutService;
     @Inject protected BootstrapService bootstrapService;
 
     /**
@@ -48,9 +52,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
     protected ArrayList<Team> menuItems = null;
-
-    protected TeamsListFragment teamsListFragment;
-
+    protected SafeAsyncTask<Boolean> authenticationTask;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Override
     protected LogoutService getLogoutService() {
-        return null;
+        return logoutService;
     }
 
     @Override
@@ -141,67 +143,40 @@ public class TeamsListFragment extends ItemListFragment<Team> {
      * @return
      */
     public List<Team> getTeamItems() {
-        if(user.getTeams() == null) {
+        if(user.getTeams().isEmpty()) {
             //Inform the User to add a team
-//            Team team = new Team();
-//            team.setTeamName("Name");
-//            menuItems.add(team);
+
             menuItems = null;
-        }else{
-
-            SafeAsyncTask<Boolean> authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-
-                    ArrayList<Team> teams = new ArrayList<Team>();
-                    menuItems = new ArrayList<Team>();
-                    for(Team team : user.getTeams()){
-//                        Team fullTeam = serviceProvider.getService(getActivity()).getTeam(team.getObjectId());
-                        Team fullTeam = bootstrapService.getTeam(team.getObjectId());
-
-                        teams.add(fullTeam);
-                    }
-                    user.setTeams(teams);
-                    menuItems = teams;
-
-                    return true;
+        }else {
+            try {
+                ArrayList<Team> teams = new ArrayList<Team>();
+                menuItems = new ArrayList<Team>();
+                for (Team team : user.getTeams()) {
+                    Log.d("Log", "team " + team.getObjectId());
+                    Team fullTeam = serviceProvider.getService(getActivity()).getTeam(team.getObjectId());
+                    teams.add(fullTeam);
                 }
-
-                @Override
-                protected void onException(final Exception e) throws RuntimeException {
-                    // Retrofit Errors are handled inside of the {
-                    if(!(e instanceof RetrofitError)) {
-                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                        if(cause != null) {
-//                            Toaster.showLong(TeamsListFragment.this, cause.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onSuccess(final Boolean authSuccess) {
-//                    onAuthenticationResult(authSuccess);
-                }
-
-                @Override
-                protected void onFinally() throws RuntimeException {
-//                    hideProgress();
-//                    authenticationTask = null;
-                }
-            };
-            authenticationTask.execute();
-
+                user.setTeams(teams);
+                menuItems = teams;
+            } catch (AccountsException e) {
+                e.printStackTrace(); //TODO add what to do if error
+            } catch (IOException e) {
+                e.printStackTrace(); //TODO add what to do if error
+            }
         }
-
         return menuItems;
-    }
-
-    public void setTeamsListFragment(TeamsListFragment teamsListFragment){
-        this.teamsListFragment = teamsListFragment;
     }
 
     //Removes the additional menu Items
     @Override
     public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
+    }
+
+    @Override
+    public void onDestroyView() {
+        setListAdapter(null);
+
+        super.onDestroyView();
     }
 
 }

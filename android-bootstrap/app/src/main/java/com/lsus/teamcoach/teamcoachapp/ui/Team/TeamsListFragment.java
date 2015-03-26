@@ -95,23 +95,26 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
             @Override
             public List<Team> loadData() throws Exception {
-                    List<Team> latest = null;
 
-                    if (getActivity() != null) {
-                        latest = getTeamItems();
-                    }
+                List<Team> latest = null;
 
-                    if (latest != null) {
-                        return latest;
-                    } else {
-                        return Collections.emptyList();
-                    }
-
+                if (getActivity() != null) {
+                    latest = getTeamItems();
                 }
-            };
-        }
 
+                if (latest != null) {
+                    return latest;
+                } else {
+                    return Collections.emptyList();
+                }
 
+            }
+
+            ;
+
+        };
+
+    }
     @Override
     protected SingleTypeAdapter<Team> createAdapter(final List<Team> items) {
         return new TeamsListAdapter(getActivity().getLayoutInflater(), items);
@@ -140,8 +143,16 @@ public class TeamsListFragment extends ItemListFragment<Team> {
             menuItems = null;
         }else {
             try {
-                User newUser = serviceProvider.getService(getActivity()).currentUserWithChildren(user.getObjectId());
-                menuItems = newUser.getTeams();
+                ArrayList<Team> teams = new ArrayList<Team>();
+                menuItems = new ArrayList<Team>();
+                for (Team team : user.getTeams()) {
+                    Team fullTeam = serviceProvider.getService(getActivity()).getTeam(team.getObjectId());
+                    teams.add(fullTeam);
+                }
+                user.setTeams(teams);
+                menuItems = teams;
+//                User newUser = serviceProvider.getService(getActivity()).currentUserWithChildren(user.getObjectId());
+//                menuItems = newUser.getTeams();
             } catch (AccountsException e) {
                 e.printStackTrace(); //TODO add what to do if error
             } catch (IOException e) {

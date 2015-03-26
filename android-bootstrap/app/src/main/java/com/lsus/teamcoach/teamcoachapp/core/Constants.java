@@ -56,6 +56,8 @@ public final class Constants {
          * List Users URL
          */
         public static final String URL_USERS_FRAG =  "/1/users";
+        public static final String URL_USERS_FRAG_Child =  "/1/classes/_User";
+
         public static final String URL_USERS = URL_BASE + URL_USERS_FRAG;
 
 

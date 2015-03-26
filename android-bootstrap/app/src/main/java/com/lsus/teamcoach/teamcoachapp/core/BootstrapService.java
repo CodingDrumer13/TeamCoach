@@ -99,8 +99,8 @@ public class BootstrapService {
 
 
     /**
-     * Authenticates the passed user with Parse.com
-     */
+     * Authenticates the passed user with Parse.com*/
+
     public User authenticate(String email, String password) {
         return getUserService().authenticate(email, password);
     }
@@ -126,8 +126,7 @@ public class BootstrapService {
         return  getUserService().currentUser(token);
     }
 
-//    String constraint = "{\"user\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
-//    public User currentUserWithChildren(String id) {return getUserService().currentUserWithChildren(id); }
+    public User currentUserWithChildren(String objectID) {return getUserService().currentUserWithChildren(objectID); }
 
     /**
      * Get all bootstrap Users that exist on Parse.com

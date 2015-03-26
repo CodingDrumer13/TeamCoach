@@ -95,12 +95,9 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
             @Override
             public List<Team> loadData() throws Exception {
-
-                try {
                     List<Team> latest = null;
 
                     if (getActivity() != null) {
-                        serviceProvider.getService(getActivity());
                         latest = getTeamItems();
                     }
 
@@ -109,16 +106,10 @@ public class TeamsListFragment extends ItemListFragment<Team> {
                     } else {
                         return Collections.emptyList();
                     }
-                } catch (final OperationCanceledException e) {
-                    final Activity activity = getActivity();
-                    if (activity != null) {
-                        activity.finish();
-                    }
-                    return initialItems;
+
                 }
-            }
-        };
-    }
+            };
+        }
 
 
     @Override
@@ -149,15 +140,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
             menuItems = null;
         }else {
             try {
-                ArrayList<Team> teams = new ArrayList<Team>();
-                menuItems = new ArrayList<Team>();
-                for (Team team : user.getTeams()) {
-                    Log.d("Log", "team " + team.getObjectId());
-                    Team fullTeam = serviceProvider.getService(getActivity()).getTeam(team.getObjectId());
-                    teams.add(fullTeam);
-                }
-                user.setTeams(teams);
-                menuItems = teams;
+                User newUser = serviceProvider.getService(getActivity()).currentUserWithChildren(user.getObjectId());
+                menuItems = newUser.getTeams();
             } catch (AccountsException e) {
                 e.printStackTrace(); //TODO add what to do if error
             } catch (IOException e) {

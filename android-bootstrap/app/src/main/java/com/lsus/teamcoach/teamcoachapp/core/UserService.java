@@ -59,4 +59,7 @@ public interface UserService {
     @GET(Constants.Http.URL_USERS_FRAG+"/me")
     User currentUser(@Header("X-Parse-Session-Token") String token);
 
+    @GET(Constants.Http.URL_USERS_FRAG_Child+"/{objectID}")
+    User currentUserWithChildren(@Path("objectID") String objectID);
+
 }

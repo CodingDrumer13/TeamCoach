@@ -98,6 +98,9 @@ public class BootstrapService {
     }
 
 
+    public void remove(Drill drill) { getDrillService().remove(drill.objectId); }
+
+
     /**
      * Authenticates the passed user with Parse.com*/
 

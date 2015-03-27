@@ -64,6 +64,12 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     }
 
     @Override
+    public void onResume(){
+        this.refresh();
+        super.onResume();
+    }
+
+    @Override
     public Loader<List<Drill>> onCreateLoader(final int id, final Bundle args) {
         final List<Drill> initialItems = items;
         return new ThrowableLoader<List<Drill>>(getActivity(), items) {
@@ -87,8 +93,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
 
-
-        Intent drillInfoIntent = new Intent(new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item));
+        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
         startActivity(drillInfoIntent);
     }
 

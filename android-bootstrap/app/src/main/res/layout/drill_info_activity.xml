@@ -105,21 +105,49 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background_states"
         android:text="Edit"
+        android:textColor="@color/text"
         android:visibility="invisible"
         android:layout_gravity="center_horizontal"
         android:onClick="onClick"
         />
 
-    <Button
-        android:id="@+id/button_drill_submit"
-        style="@style/ShadowText"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background_states"
-        android:text="Submit"
-        android:visibility="invisible"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClick"
-        />
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/button_drill_submit"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Submit"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            />
+
+        <Button
+            android:id="@+id/button_drill_remove"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Delete"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            />
+
+    </LinearLayout>
 </LinearLayout>

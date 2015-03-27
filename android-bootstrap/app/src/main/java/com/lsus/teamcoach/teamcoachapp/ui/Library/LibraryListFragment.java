@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,9 +38,9 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     @Inject protected LogoutService logoutService;
 
     @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
-    //@InjectView(R.id.btnLibraryBack) protected Button backButton;
 
     private boolean ageSelected = false;
+    private Button backButton;
     private String age = "";
 
     @Override
@@ -52,8 +53,6 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
-
-        //backButton.setOnClickListener(this);
     }
 
     @Override
@@ -85,7 +84,6 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-
                     if(!ageSelected){
                         return getAgeGroups();
                     } else {
@@ -111,11 +109,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
             this.age = age;
 
             //TODO fix button (null reference error)
-//            if(backButton != null){
-//                backButton.setVisibility(View.VISIBLE);
-//            } else{
-//                System.out.println("Button is null!");
-//            }
+            backButton.setVisibility(View.VISIBLE);
 
 
             //TODO Change the fragment header when changing screens.
@@ -129,21 +123,19 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
 
-            if(!drillType.equalsIgnoreCase("Back")){
-                Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
-                drillIntent.putExtra(DRILL_AGE, age);
-                drillIntent.putExtra(DRILL_TYPE, drillType);
-                startActivity(drillIntent);
-            }
-            //backButton.setVisibility(View.GONE);
+            backButton.setVisibility(View.GONE);
 
             if(listHeader != null){
                 listHeader.setText(R.string.age_group_column);
             }
 
             ageSelected = false;
-        }
 
+            Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
+            drillIntent.putExtra(DRILL_AGE, age);
+            drillIntent.putExtra(DRILL_TYPE, drillType);
+            startActivity(drillIntent);
+        }
         this.refresh();
     }
 
@@ -173,7 +165,6 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     private List<String> getMenuItems(String age) {
         List<String> menuItems = new ArrayList<String>();
-        menuItems.add("BACK");
         menuItems.add("Defending");
         menuItems.add("Attacking");
         menuItems.add("Passing");
@@ -191,5 +182,15 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     public String getAge(){
         return age;
+    }
+
+    public void setBackButton(Button backButton){
+        this.backButton = backButton;
+    }
+
+    public void backClicked(){
+        ageSelected = false;
+        backButton.setVisibility(View.GONE);
+        this.refresh();
     }
 }

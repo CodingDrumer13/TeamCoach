@@ -23,7 +23,8 @@ import butterknife.Views;
  */
 public class LibraryFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.btnNewDrill) Button btnNewDrill;
+    @InjectView(R.id.btnNewDrill) protected Button btnNewDrill;
+    @InjectView(R.id.btnLibraryBack) protected Button btnLibraryBack;
 
     @Inject protected LogoutService logoutService;
 
@@ -49,9 +50,11 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
         libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
+        libraryListFragment.setBackButton(btnLibraryBack);
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
 
+        btnLibraryBack.setOnClickListener(this);
         btnNewDrill.setOnClickListener(this);
     }
 
@@ -80,6 +83,9 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         if(view.getId() == btnNewDrill.getId()){
             addDrill(view);
+        }
+        if(view.getId() == btnLibraryBack.getId()){
+            libraryListFragment.backClicked();
         }
     }
 

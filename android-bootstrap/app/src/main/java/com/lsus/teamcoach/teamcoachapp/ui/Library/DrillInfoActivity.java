@@ -35,6 +35,7 @@ public class DrillInfoActivity extends BootstrapActivity {
     @InjectView(R.id.tv_drill_rating) protected TextView drillRating;
     @InjectView(R.id.button_drill_edit) protected Button btnEdit;
     @InjectView(R.id.button_drill_submit) protected Button btnSubmit;
+    @InjectView(R.id.button_drill_remove) protected Button btnRemove;
     @InjectView(R.id.tv_drill_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
 
@@ -81,6 +82,9 @@ public class DrillInfoActivity extends BootstrapActivity {
         }else if(view.getId() == btnSubmit.getId()){
             //The Submit button has been clicked
             onSubmit();
+        }else if(view.getId() == btnRemove.getId()){
+            //The Remove button has been clicked
+            onRemove();
         }
     }
 
@@ -95,11 +99,11 @@ public class DrillInfoActivity extends BootstrapActivity {
         editDescription.setText(drillDescription.getText());
 
         btnEdit.setVisibility(View.GONE);
+        btnRemove.setVisibility(View.VISIBLE);
         btnSubmit.setVisibility(View.VISIBLE);
     }
 
     private void onSubmit() {
-
         if(isValid()){
             drillName.setVisibility(View.VISIBLE);
             drillDescription.setVisibility(View.VISIBLE);
@@ -111,6 +115,7 @@ public class DrillInfoActivity extends BootstrapActivity {
             drillDescription.setText(editDescription.getText());
 
             btnSubmit.setVisibility(View.GONE);
+            btnRemove.setVisibility(View.GONE);
             btnEdit.setVisibility(View.VISIBLE);
 
             drill = checkDifferences(drill);
@@ -127,6 +132,21 @@ public class DrillInfoActivity extends BootstrapActivity {
             authenticationTask.execute();
         }
     }
+
+    private void onRemove(){
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+
+                //Implement try/catch for update error
+                bootstrapService.remove(drill);
+
+                return true;
+            }
+        };
+        authenticationTask.execute();
+        this.finish();
+    }
+
 
     /**
      * Checks to see if drill information has changed.

@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -39,4 +40,15 @@ public interface DrillService {
      */
     @PUT(Constants.Http.URL_DRILL_FRAG+"/{id}")
     Drill update(@Path("id") String id,  @Body Drill drill);
+
+
+    /**
+     * Remove a drill from parse.com
+     *
+     * @param id
+     * @param drill
+     * @return
+     */
+    @DELETE(Constants.Http.URL_DRILL_FRAG+"/{id}")
+    Drill remove(@Path("id") String id);
 }

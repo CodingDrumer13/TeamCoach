@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="Add New Team"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/table_text_header"
+            android:textColor="@color/text"
             android:background="@drawable/button_background_states"
             android:textStyle="bold"
             android:gravity="center"

@@ -46,7 +46,7 @@ public interface DrillService {
      * Remove a drill from parse.com
      *
      * @param id
-     * @param drill
+     * @param
      * @return
      */
     @DELETE(Constants.Http.URL_DRILL_FRAG+"/{id}")

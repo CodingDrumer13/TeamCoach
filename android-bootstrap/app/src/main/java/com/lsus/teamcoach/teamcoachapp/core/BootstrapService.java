@@ -1,6 +1,7 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -39,6 +40,8 @@ public class BootstrapService {
     }
 
     private TeamService getTeamService() { return getRestAdapter().create(TeamService.class); }
+
+    private SessionService getSessionService() { return getRestAdapter().create(SessionService.class); }
 
     private CheckInService getCheckInService() {
         return getRestAdapter().create(CheckInService.class);
@@ -138,4 +141,12 @@ public class BootstrapService {
 
     public Team setTeam(Team team) { return  getTeamService().setTeam(team); };
 
+    /**
+     * Get all Sessions from Parse.com
+     */
+
+    //TODO double check this is right!!
+    public List<Session> getSession(String user, String age){
+        String constraint = "{\"creator\":\"" + user + "\",\"drillAge\":\"" + age + "\"}";
+        return getSessionService().getSessions(constraint).getResults(); }
 }

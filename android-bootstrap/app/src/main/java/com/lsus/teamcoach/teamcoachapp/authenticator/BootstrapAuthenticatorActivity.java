@@ -274,6 +274,8 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 singleton.setCurrentUser(loginResponse);
                 singleton.setToken(token);
 
+                //TODO set the team, sessions and drills here!!!!
+
                 return true;
             }
 

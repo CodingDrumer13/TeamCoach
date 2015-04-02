@@ -136,6 +136,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
      * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
+    //TODO move contents of this method to bootstrap service where I put the other todo!!!
+    //TODO replace the contents with querying the singleton for the list of teams.
     public List<Team> getTeamItems() {
         if(user.getTeams().isEmpty()) {
             //Inform the User to add a team

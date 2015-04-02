@@ -123,13 +123,13 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
 
-            backButton.setVisibility(View.GONE);
+            //backButton.setVisibility(View.GONE);
 
             if(listHeader != null){
                 listHeader.setText(R.string.age_group_column);
             }
 
-            ageSelected = false;
+            //ageSelected = false;
 
             Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
             drillIntent.putExtra(DRILL_AGE, age);
@@ -139,11 +139,14 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         this.refresh();
     }
 
+    @Override
+    public void onResume(){
+        //ageSelected = false;
+        super.onResume();
+    }
+
     public void onClick(View view) {
-//        if(view.getId() == backButton.getId()){
-//            ageSelected = false;
-//            this.refresh();
-//        }
+
     }
 
     @Override

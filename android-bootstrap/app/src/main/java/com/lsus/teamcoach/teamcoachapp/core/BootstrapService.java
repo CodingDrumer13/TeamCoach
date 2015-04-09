@@ -1,7 +1,6 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -139,7 +138,7 @@ public class BootstrapService {
      */
     public Team getTeam(String id){ return getTeamService().getTeam(id); };
 
-    public Team setTeam(Team team) { return  getTeamService().setTeam(team); };
+    public Team setTeam(Team team) { return  getTeamService().addTeam(team); };
 
     /**
      * Get all Sessions from Parse.com

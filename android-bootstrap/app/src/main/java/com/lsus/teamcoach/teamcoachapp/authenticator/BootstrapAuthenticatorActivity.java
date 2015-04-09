@@ -43,6 +43,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.parse.ParseUser;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -269,6 +270,8 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
                 User loginResponse = bootstrapService.authenticate(email, password);
                 token = loginResponse.getSessionToken();
+
+                ParseUser.logInInBackground(email, password);
 
                 Singleton singleton = Singleton.getInstance();
                 singleton.setCurrentUser(loginResponse);

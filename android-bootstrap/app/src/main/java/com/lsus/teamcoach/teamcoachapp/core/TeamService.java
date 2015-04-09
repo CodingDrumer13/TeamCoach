@@ -25,7 +25,7 @@ public interface TeamService {
      *
      */
     @POST(Constants.Http.URL_TEAM_FRAG)
-    Team setTeam(@Body Team team);
+    Team addTeam(@Body Team team);
 
     @GET(Constants.Http.URL_TEAM_FRAG)
 

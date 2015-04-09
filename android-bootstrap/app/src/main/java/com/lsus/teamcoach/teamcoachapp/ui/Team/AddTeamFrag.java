@@ -18,6 +18,11 @@ import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -34,7 +39,6 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
-    private Singleton singleton = Singleton.getInstance();
     protected TeamsListFragment teamsListFragment;
 
 
@@ -96,48 +100,47 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
             team.setTeamName(etAddTeamName.getText().toString());
             team.setAgeGroups(sAddTeamGroup.getSelectedItem().toString());
 
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-                    team = bootstrapService.setTeam(team);
-                    User user = singleton.getCurrentUser();
-                    if(user.getTeams() == null){
-                        ArrayList<Team> teams = new ArrayList<Team>();
-                        teams.add(team);
-                        user.setTeams(teams);
-                    }else{
-                        user.getTeams().add(team);
-                    }
-                    bootstrapService.update(user);
+            //TODO check to see if locally stored teams is null first.
+            //TODO if not, get list of teams, add parseObject, push to parse.com
+            Singleton singleton = Singleton.getInstance();
+            ArrayList<Team> userTeams = singleton.getUserTeams();
 
-                    singleton.setCurrentUser(user);
+            if(userTeams == null){
+                userTeams = new ArrayList<Team>();
+                singleton.setUserTeams(userTeams);
+                System.out.println("userTeams is null!");
+            }
 
-                    return true;
-                }
+            System.out.println("Starting work.");
+            JSONArray parseList = new JSONArray();
+            for (Team team : userTeams){
+                parseList.put(team);
+            }
 
-                @Override
-                protected void onException(final Exception e) throws RuntimeException {
-                    // Retrofit Errors are handled inside of the {
-                    if (!(e instanceof RetrofitError)) {
-                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                        if (cause != null) {
-                            Toaster.showLong(getActivity(), cause.getMessage());
-                        }
-                    }
-                }
+            //Saving team to Team class on Parse.com
+            ParseObject teamToAdd = new ParseObject("Team");
+            teamToAdd.put("teamName", etAddTeamName.getText().toString());
+            teamToAdd.put("ageGroup", sAddTeamGroup.getSelectedItem().toString());
+            teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
+            teamToAdd.saveInBackground();
+            System.out.println("Saving team class to parse complete.");
 
-                @Override
-                public void onSuccess(final Boolean authSuccess) {
-                    teamsListFragment.refresh();
-                    AddTeamFrag.this.dismiss();
-                }
+            //Creating team to be saved in list.
+            Team newTeam = new Team();
+            newTeam.setTeamName(etAddTeamName.getText().toString());
+            newTeam.setAgeGroups(sAddTeamGroup.getSelectedItem().toString());
+            System.out.println("Creating team complete");
 
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    hideProgress();
-                    authenticationTask = null;
-                }
-            };
-            authenticationTask.execute();
+            //Saving team locally in list.
+            userTeams.add(newTeam);
+            singleton.setUserTeams(userTeams);
+            System.out.println("Saving team locally complete.");
+
+            System.out.println("Updating Complete");
+
+            teamsListFragment.refresh();
+            AddTeamFrag.this.dismiss();
+
         }
         if(btnAddTeamNegative.getId() == view.getId()){
             dismiss();

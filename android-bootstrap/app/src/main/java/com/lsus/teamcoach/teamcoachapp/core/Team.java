@@ -14,6 +14,7 @@ public class Team implements Serializable {
     protected ArrayList<User> Players;
     protected String objectId;
     protected String ageGroup;
+    protected String coach;
 
     public Team(){}
 
@@ -40,17 +41,17 @@ public class Team implements Serializable {
         Players = players;
     }
 
-    public String getObjectId() {
-        return objectId;
-    }
+    public String getObjectId() { return objectId; }
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
+    public void setObjectId(String objectId) { this.objectId = objectId; }
 
     public void setAgeGroups(String ageGroup){this.ageGroup = ageGroup;}
 
     public String getAgeGroup() {return ageGroup;}
+
+    public String getCoach() { return coach; }
+
+    public void setCoach(String coach) { this.coach = coach; }
 
 
 }

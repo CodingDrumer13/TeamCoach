@@ -52,10 +52,11 @@ public class Singleton {
 
     public void setUserSessions(ArrayList<Session> userSessions) { this.userSessions = userSessions; }
 
-    public ArrayList<Team> getUserTeams() { return userTeams; }
+    public ArrayList<Team> getUserTeams() { return getCurrentUser().getTeams(); }
 
-    public void setUserTeams(ArrayList<Team> userSessions) { this.userTeams = userTeams; }
+    public void setUserTeams(ArrayList<Team> userTeams) { getCurrentUser().setTeams(userTeams); }
 
+    //TODO Change this to match userTeams above!
     public ArrayList<Drill> getUserDrills() { return userDrills; }
 
     public void setUserDrills(ArrayList<Drill> userDrills) { this.userDrills = userDrills; }

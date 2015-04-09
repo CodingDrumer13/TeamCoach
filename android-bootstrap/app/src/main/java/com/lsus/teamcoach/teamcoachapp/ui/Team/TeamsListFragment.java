@@ -1,17 +1,12 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
-import android.accounts.AccountsException;
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -24,27 +19,27 @@ import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
-import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.RetrofitError;
-
 /**
  * Created by Don on 3/7/2015
+ * Modified by TeamCoach on 4/8/2015
  */
 public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
-    @Inject protected BootstrapService bootstrapService;
 
     /**
      * List items provided to
@@ -52,7 +47,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
     protected ArrayList<Team> menuItems = null;
-    protected SafeAsyncTask<Boolean> authenticationTask;
+    private TeamsListFragment teamsListFragment = this;
+    private int listSize = 0;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -99,7 +95,9 @@ public class TeamsListFragment extends ItemListFragment<Team> {
                 List<Team> latest = null;
 
                 if (getActivity() != null) {
+                    serviceProvider.getService(getActivity());
                     latest = getTeamItems();
+                    listSize = latest.size();
                 }
 
                 if (latest != null) {
@@ -139,28 +137,37 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     //TODO move contents of this method to bootstrap service where I put the other todo!!!
     //TODO replace the contents with querying the singleton for the list of teams.
     public List<Team> getTeamItems() {
-        if(user.getTeams().isEmpty()) {
-            //Inform the User to add a team
 
-            menuItems = null;
-        }else {
-            try {
-                ArrayList<Team> teams = new ArrayList<Team>();
-                menuItems = new ArrayList<Team>();
-                for (Team team : user.getTeams()) {
-                    Team fullTeam = serviceProvider.getService(getActivity()).getTeam(team.getObjectId());
-                    teams.add(fullTeam);
+        //Sets up the query
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+        query.whereEqualTo("coach", ParseUser.getCurrentUser().getEmail());
+
+        //Queries in background, ON SEPARATE THREAD SO NOT UP TO DATE WITH MAIN THREAD!
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> teamList, ParseException e) {
+                ArrayList<Team> newList = new ArrayList<Team>();
+
+                //Pulls each team from the ParseObject, creates a Team object and adds it to the list.
+                for (ParseObject parseTeam : teamList) {
+                    Team addTeam = new Team();
+                    addTeam.setTeamName(parseTeam.getString("teamName"));
+                    addTeam.setAgeGroups(parseTeam.getString("ageGroup"));
+                    addTeam.setCoach(parseTeam.getString("coach"));
+
+                    newList.add(addTeam);
                 }
-                user.setTeams(teams);
-                menuItems = teams;
-//                User newUser = serviceProvider.getService(getActivity()).currentUserWithChildren(user.getObjectId());
-//                menuItems = newUser.getTeams();
-            } catch (AccountsException e) {
-                e.printStackTrace(); //TODO add what to do if error
-            } catch (IOException e) {
-                e.printStackTrace(); //TODO add what to do if error
+
+                //Saving Locally
+                singleton.setUserTeams(newList);
+
+
+                //Forces refresh if background thread is running behind.
+                if(listSize != newList.size()) teamsListFragment.refresh();
             }
-        }
+        });
+        menuItems = singleton.getUserTeams();
+
         return menuItems;
     }
 

@@ -25,6 +25,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.lsus.teamcoach.teamcoachapp.util.UIUtils;
+import com.parse.Parse;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
@@ -54,6 +55,8 @@ public class MainActivity extends BootstrapFragmentActivity {
     protected void onCreate(final Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+
 
         super.onCreate(savedInstanceState);
 

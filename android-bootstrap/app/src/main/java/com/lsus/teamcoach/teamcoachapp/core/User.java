@@ -102,7 +102,12 @@ public class User implements Serializable {
         return gravatarId;
     }
 
-    public ArrayList<Team> getTeams() { if(teams == null){ teams = new ArrayList<Team>(); return teams;} else {return teams; }  }
+    public ArrayList<Team> getTeams() {
+        if(teams == null) {
+            teams = new ArrayList<Team>();
+        }
+        return teams;
+    }
 
     public void setTeams(ArrayList<Team> teams) { this.teams = teams; }
 

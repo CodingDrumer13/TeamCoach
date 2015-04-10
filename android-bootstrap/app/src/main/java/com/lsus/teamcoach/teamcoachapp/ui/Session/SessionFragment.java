@@ -92,13 +92,12 @@ public class SessionFragment extends Fragment implements View.OnClickListener{
 
     //Only called from TeamListFragment
     public void addSession(View v){
-        Toaster.showShort(getActivity(), "Add Session Clicked.");
-        //FragmentManager fm = getFragmentManager();
-        //FragmentTransaction ft = fm.beginTransaction();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
-        //AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
-        //newFragment.setAgeSelected(sessionListFragment.getAgeSelected());
-        //newFragment.setAge(sessionListFragment.getAge());
-        //newFragment.show(ft, "dialog");
+        AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
+        newFragment.setAgeSelected(sessionListFragment.getAgeSelected());
+        newFragment.setAge(sessionListFragment.getAge());
+        newFragment.show(ft, "dialog");
     }
 }

@@ -41,11 +41,14 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     private SafeAsyncTask<Boolean> authenticationTask;
 
     private boolean ageSelected;
+    private boolean typeSelected;
     private String drillName;
     private String age;
     private String type;
     private String description;
     private String creator;
+
+    private DrillListFragment parentFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,6 +89,10 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         if(ageSelected){
             sAgeGroup.setSelection(getIndex(sAgeGroup, age));
         }
+
+        if(typeSelected){
+            sDrillType.setSelection(getIndex(sDrillType, type));
+        }
     }
 
     @Override
@@ -114,7 +121,8 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
                     @Override
                     public void onSuccess(final Boolean authSuccess) {
-                        AddDrillDialogFragment.this.dismiss();;
+                        if(typeSelected) parentFragment.refresh();
+                        AddDrillDialogFragment.this.dismiss();
                     }
 
                     @Override
@@ -135,9 +143,13 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         this.ageSelected = ageSelected;
     }
 
+    public void setTypeSelected(Boolean typeSelected) { this.typeSelected = typeSelected; }
+
     public void setAge(String age){
         this.age = age;
     }
+
+    public void setType(String type) { this.type = type; }
 
     private boolean validateFields(){
             if (!etDrillName.getText().toString().equalsIgnoreCase("")){
@@ -174,11 +186,11 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         return true;
     }
 
-    private int getIndex(Spinner spinner, String age){
+    private int getIndex(Spinner spinner, String item){
         int index = 0;
 
         for(int i = 0; i < spinner.getCount(); i++){
-            if(spinner.getItemAtPosition(i).equals(age)){
+            if(spinner.getItemAtPosition(i).equals(item)){
                 index = i;
             }
         }
@@ -192,4 +204,9 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     protected void hideProgress() {
         getActivity().dismissDialog(0);
     }
+
+    public void setDrillListFragment(DrillListFragment drillListFragment){
+        this.parentFragment = drillListFragment;
+    }
+
 }

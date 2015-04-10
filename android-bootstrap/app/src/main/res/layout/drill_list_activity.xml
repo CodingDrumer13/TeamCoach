@@ -20,6 +20,19 @@
         >
         </FrameLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add New Drill"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text"
+        android:background="@drawable/button_background_states"
+        android:textStyle="bold"
+        android:onClick="onClick"
+        android:gravity="center"
+        android:id="@+id/btnListNewDrill"
+        />
+
 
 
 </LinearLayout>

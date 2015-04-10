@@ -1,7 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -12,19 +11,14 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillInfoActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 
 /**
  * Created by TeamCoach on 3/12/2015.
@@ -33,9 +27,6 @@ public class SessionListFragment extends ItemListFragment<Session> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
-
-    private String age;
-    private String type;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -82,7 +73,8 @@ public class SessionListFragment extends ItemListFragment<Session> {
             public List<Session> loadData() throws Exception {
                 if (getActivity() != null) {
                     Singleton singleton = Singleton.getInstance();
-                    return serviceProvider.getService(getActivity()).getSession(singleton.getCurrentUser().getEmail(), age);
+                    serviceProvider.getService(getActivity());
+                    return Collections.emptyList();
                     //return serviceProvider.getService(getActivity()).getDrills(age, type);
                 } else {
                     return Collections.emptyList();
@@ -100,17 +92,10 @@ public class SessionListFragment extends ItemListFragment<Session> {
         final Session item = ((Session) l.getItemAtPosition(position));
 
         Toaster.showShort(this.getActivity(), item.getName());
-        //Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
-        //startActivity(drillInfoIntent);
     }
 
     @Override
     protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_drills;
-    }
-
-    public void setDrillData(String age, String type){
-        this.age = age;
-        this.type = type;
     }
 }

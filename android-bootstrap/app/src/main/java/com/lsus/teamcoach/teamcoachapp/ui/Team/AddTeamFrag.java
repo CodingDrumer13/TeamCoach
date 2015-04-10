@@ -108,10 +108,9 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
             if(userTeams == null){
                 userTeams = new ArrayList<Team>();
                 singleton.setUserTeams(userTeams);
-                System.out.println("userTeams is null!");
             }
 
-            System.out.println("Starting work.");
+            //ArrayList Example.
             JSONArray parseList = new JSONArray();
             for (Team team : userTeams){
                 parseList.put(team);
@@ -123,20 +122,15 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
             teamToAdd.put("ageGroup", sAddTeamGroup.getSelectedItem().toString());
             teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
             teamToAdd.saveInBackground();
-            System.out.println("Saving team class to parse complete.");
 
             //Creating team to be saved in list.
             Team newTeam = new Team();
             newTeam.setTeamName(etAddTeamName.getText().toString());
             newTeam.setAgeGroups(sAddTeamGroup.getSelectedItem().toString());
-            System.out.println("Creating team complete");
 
             //Saving team locally in list.
             userTeams.add(newTeam);
             singleton.setUserTeams(userTeams);
-            System.out.println("Saving team locally complete.");
-
-            System.out.println("Updating Complete");
 
             teamsListFragment.refresh();
             AddTeamFrag.this.dismiss();

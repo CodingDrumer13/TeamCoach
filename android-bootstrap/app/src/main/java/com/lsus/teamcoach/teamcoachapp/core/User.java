@@ -24,6 +24,8 @@ public class User implements Serializable {
     protected ArrayList<Team> teams;
     protected ArrayList<Session> sessions;
 
+    protected ArrayList<Drill> drills;
+
     public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
         this.firstName = userFirstName;
         this.lastName = userLastName;
@@ -114,6 +116,10 @@ public class User implements Serializable {
     public ArrayList<Session> getSessions(){ return sessions; }
 
     public void setSessions(ArrayList<Session> sessions){ this.sessions = sessions; }
+
+    public void setDrills(ArrayList<Drill> drills) { this.drills = drills; }
+
+    public ArrayList<Drill> getDrills() { return drills; }
 
     public String getAvatarUrl() {
         if (TextUtils.isEmpty(avatarUrl)) {

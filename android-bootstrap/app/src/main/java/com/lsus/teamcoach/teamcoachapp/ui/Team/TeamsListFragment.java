@@ -88,7 +88,6 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     public Loader<List<Team>> onCreateLoader(final int id, final Bundle args) {
         final List<Team> initialItems = items;
         return new ThrowableLoader<List<Team>>(getActivity(), items) {
-
             @Override
             public List<Team> loadData() throws Exception {
 
@@ -105,13 +104,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
                 } else {
                     return Collections.emptyList();
                 }
-
             }
-
-            ;
-
         };
-
     }
     @Override
     protected SingleTypeAdapter<Team> createAdapter(final List<Team> items) {

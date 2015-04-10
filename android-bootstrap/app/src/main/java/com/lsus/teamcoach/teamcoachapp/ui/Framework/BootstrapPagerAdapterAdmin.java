@@ -12,8 +12,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.SessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Session.SessionFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
 
 /**
@@ -54,7 +53,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 result = new TeamsFragment();
                 break;
             case 3:
-                result = new SessionListFragment();
+                result = new SessionFragment();
                 //TODO Change back to library
                 //result = new LibraryFragment();
                 break;

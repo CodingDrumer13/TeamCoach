@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library;
+package com.lsus.teamcoach.teamcoachapp.ui.Session;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,11 +10,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.core.Session;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillListActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
@@ -30,14 +34,14 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 3/12/2015.
  */
-public class LibraryListFragment extends ItemListFragment<String> implements View.OnClickListener{
+public class SessionListFragment extends ItemListFragment<String> implements View.OnClickListener{
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
-    @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
+    @InjectView(R.id.tv_session_list_header) protected TextView listHeader;
 
     private boolean ageSelected = false;
     private Button backButton;
@@ -64,9 +68,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     }
 
     @Override
-    protected LogoutService getLogoutService() {
-        return logoutService;
-    }
+    protected LogoutService getLogoutService() { return logoutService; }
 
     @Override
     public void onDestroyView() {
@@ -78,8 +80,8 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     @Override
     public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
         final List<String> initialItems = items;
-        return new ThrowableLoader<List<String>>(getActivity(), items) {
 
+        return new ThrowableLoader<List<String>>(getActivity(), items) {
             @Override
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
@@ -98,7 +100,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     @Override
     protected SingleTypeAdapter<String> createAdapter(final List<String> items) {
-        return new LibraryListAdapter(getActivity().getLayoutInflater(), items);
+        return new SessionListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
@@ -106,13 +108,12 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
             final String age = ((String) l.getItemAtPosition(position));
             this.age = age;
 
-            //TODO fix button (null reference error)
             backButton.setVisibility(View.VISIBLE);
 
 
             //TODO Change the fragment header when changing screens.
             if(listHeader != null){
-                listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
+                listHeader.setText(age + ": " + R.string.drill_type_column + " Sessions");
             }
 
             ageSelected = true;
@@ -121,25 +122,22 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         else{
             final String drillType = ((String) l.getItemAtPosition(position));
 
-            //backButton.setVisibility(View.GONE);
-
             if(listHeader != null){
                 listHeader.setText(R.string.age_group_column);
             }
-
-            //ageSelected = false;
-
-            Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
-            drillIntent.putExtra(DRILL_AGE, age);
-            drillIntent.putExtra(DRILL_TYPE, drillType);
-            startActivity(drillIntent);
+            Toaster.showShort(getActivity(), "Showing session details.");
+            //TODO Changed to add new session Intent.
+            //Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
+            //drillIntent.putExtra(DRILL_AGE, age);
+            //drillIntent.putExtra(DRILL_TYPE, drillType);
+            //startActivity(drillIntent);
         }
         this.refresh();
     }
 
     @Override
     public void onResume(){
-        //ageSelected = false;
+        //this.refresh();
         super.onResume();
     }
 
@@ -149,7 +147,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     @Override
     protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_checkins;
+        return R.string.error_loading_drills;
     }
 
     /**
@@ -164,16 +162,19 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         return ages;
     }
 
+    /**
+     * Returns the session types.
+     *
+     * @param age
+     * @return
+     */
+
     private List<String> getMenuItems(String age) {
         List<String> menuItems = new ArrayList<String>();
         menuItems.add("Defending");
         menuItems.add("Attacking");
-        menuItems.add("Passing");
         menuItems.add("Finishing");
         menuItems.add("Technical");
-        if (age.length() == 3){
-            menuItems.add("Goalkeeping");
-        }
         return menuItems;
     }
 

@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Session;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.AddDrillDialogFragment;
 
 import javax.inject.Inject;
 
@@ -24,7 +24,8 @@ import butterknife.Views;
  */
 public class SessionFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.btnNewDrill) protected Button btnNewDrill;
+    @InjectView(R.id.btnNewSession) protected Button btnNewSession;
+    @InjectView(R.id.btnSessionBack) protected Button btnSessionBack;
 
     @Inject protected LogoutService logoutService;
 
@@ -33,7 +34,7 @@ public class SessionFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.library_fragment, container, false);
+        View view = inflater.inflate(R.layout.session_fragment, container, false);
         Injector.inject(this);
         return view;
 
@@ -48,13 +49,14 @@ public class SessionFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        //sessionListFragment = new LibraryListFragment();
-        //sessionListFragment.setRetainInstance(true);
-        //sessionListFragment.setBackButton(btnLibraryBack);
-        //fragmentTransaction.replace(R.id.library_container, sessionListFragment);
-        //fragmentTransaction.commit();
+        sessionListFragment = new SessionListFragment();
+        sessionListFragment.setRetainInstance(true);
+        sessionListFragment.setBackButton(btnSessionBack);
+        fragmentTransaction.replace(R.id.session_container, sessionListFragment);
+        fragmentTransaction.commit();
 
-        btnNewDrill.setOnClickListener(this);
+        btnSessionBack.setOnClickListener(this);
+        btnNewSession.setOnClickListener(this);
     }
 
     protected LogoutService getLogoutService() {
@@ -80,15 +82,19 @@ public class SessionFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == btnNewDrill.getId()){
-            addDrill(view);
+        if(view.getId() == btnNewSession.getId()){
+            addSession(view);
+        }
+        if(view.getId() == btnSessionBack.getId()){
+            sessionListFragment.backClicked();
         }
     }
 
     //Only called from TeamListFragment
-    public void addDrill(View v){
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+    public void addSession(View v){
+        Toaster.showShort(getActivity(), "Add Session Clicked.");
+        //FragmentManager fm = getFragmentManager();
+        //FragmentTransaction ft = fm.beginTransaction();
 
         //AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
         //newFragment.setAgeSelected(sessionListFragment.getAgeSelected());

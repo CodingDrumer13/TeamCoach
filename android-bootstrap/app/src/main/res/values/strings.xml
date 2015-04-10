@@ -67,6 +67,10 @@
     <string name="drill_type_column">Drill Name</string>
 
 
+    <!-- SessionListActivity -->
+    <string name="title_activity_session_list">SessionListActivity</string>
+    <string name="session_type_column">Session Name</string>
+
     <!--AddTeamFragment-->
 
 

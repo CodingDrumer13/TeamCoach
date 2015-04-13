@@ -29,5 +29,5 @@ public interface TeamService {
 
     @GET(Constants.Http.URL_TEAM_FRAG)
 
-    DrillWrapper getTeams(@Query("where") String constraint);
+    TeamWrapper getTeams(@Query("where") String constraint);
 }

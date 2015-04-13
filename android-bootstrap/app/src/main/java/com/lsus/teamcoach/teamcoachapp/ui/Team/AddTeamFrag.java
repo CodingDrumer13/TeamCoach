@@ -123,13 +123,8 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
             teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
             teamToAdd.saveInBackground();
 
-            //Creating team to be saved in list.
-            Team newTeam = new Team();
-            newTeam.setTeamName(etAddTeamName.getText().toString());
-            newTeam.setAgeGroups(sAddTeamGroup.getSelectedItem().toString());
-
             //Saving team locally in list.
-            userTeams.add(newTeam);
+            userTeams.add(team);
             singleton.setUserTeams(userTeams);
 
             teamsListFragment.refresh();

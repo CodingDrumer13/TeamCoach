@@ -138,6 +138,10 @@ public class BootstrapService {
      */
     public Team getTeam(String id){ return getTeamService().getTeam(id); };
 
+    public List<Team> getTeams(String coach){
+        String constraint = "{\"coach\":\"" + coach + "\"}";
+        return getTeamService().getTeams(constraint).getResults(); }
+
     public Team setTeam(Team team) { return  getTeamService().addTeam(team); };
 
     /**

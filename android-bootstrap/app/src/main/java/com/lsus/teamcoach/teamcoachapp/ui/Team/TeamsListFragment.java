@@ -86,22 +86,12 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
     @Override
     public Loader<List<Team>> onCreateLoader(final int id, final Bundle args) {
-        final List<Team> initialItems = items;
         return new ThrowableLoader<List<Team>>(getActivity(), items) {
             @Override
             public List<Team> loadData() throws Exception {
-
-                List<Team> latest = null;
-
                 if (getActivity() != null) {
-                    serviceProvider.getService(getActivity());
-                    latest = getTeamItems();
-                    listSize = latest.size();
-                }
-
-                if (latest != null) {
-                    return latest;
-                } else {
+                    return serviceProvider.getService(getActivity()).getTeams(singleton.getCurrentUser().getEmail());
+                }else {
                     return Collections.emptyList();
                 }
             }
@@ -128,42 +118,42 @@ public class TeamsListFragment extends ItemListFragment<Team> {
      * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
      * @return
      */
-    //TODO move contents of this method to bootstrap service where I put the other todo!!!
-    //TODO replace the contents with querying the singleton for the list of teams.
-    public List<Team> getTeamItems() {
-
-        //Sets up the query
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
-        query.whereEqualTo("coach", ParseUser.getCurrentUser().getEmail());
-
-        //Queries in background, ON SEPARATE THREAD SO NOT UP TO DATE WITH MAIN THREAD!
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> teamList, ParseException e) {
-                ArrayList<Team> newList = new ArrayList<Team>();
-
-                //Pulls each team from the ParseObject, creates a Team object and adds it to the list.
-                for (ParseObject parseTeam : teamList) {
-                    Team addTeam = new Team();
-                    addTeam.setTeamName(parseTeam.getString("teamName"));
-                    addTeam.setAgeGroups(parseTeam.getString("ageGroup"));
-                    addTeam.setCoach(parseTeam.getString("coach"));
-
-                    newList.add(addTeam);
-                }
-
-                //Saving Locally
-                singleton.setUserTeams(newList);
-
-
-                //Forces refresh if background thread is running behind.
-                if(listSize != newList.size()) teamsListFragment.refresh();
-            }
-        });
-        menuItems = singleton.getUserTeams();
-
-        return menuItems;
-    }
+//    //TODO move contents of this method to bootstrap service where I put the other todo!!!
+//    //TODO replace the contents with querying the singleton for the list of teams.
+//    public List<Team> getTeamItems() {
+//
+//        //Sets up the query
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+//        query.whereEqualTo("coach", ParseUser.getCurrentUser().getEmail());
+//
+//        //Queries in background, ON SEPARATE THREAD SO NOT UP TO DATE WITH MAIN THREAD!
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> teamList, ParseException e) {
+//                ArrayList<Team> newList = new ArrayList<Team>();
+//
+//                //Pulls each team from the ParseObject, creates a Team object and adds it to the list.
+//                for (ParseObject parseTeam : teamList) {
+//                    Team addTeam = new Team();
+//                    addTeam.setTeamName(parseTeam.getString("teamName"));
+//                    addTeam.setAgeGroups(parseTeam.getString("ageGroup"));
+//                    addTeam.setCoach(parseTeam.getString("coach"));
+//
+//                    newList.add(addTeam);
+//                }
+//
+//                //Saving Locally
+//                singleton.setUserTeams(newList);
+//
+//
+//                //Forces refresh if background thread is running behind.
+//                if(listSize != newList.size()) teamsListFragment.refresh();
+//            }
+//        });
+//        menuItems = singleton.getUserTeams();
+//
+//        return menuItems;
+//    }
 
     //Removes the additional menu Items
     @Override

@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.Menu;
@@ -14,23 +15,21 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TEAM;
 
 /**
  * Created by Don on 3/7/2015
@@ -107,6 +106,14 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
         Toaster.showShort(this.getActivity(), "You clicked: " + item);
 
+        // Create a new Fragment to be placed in the activity layout
+        TeamInfoActivity teamInfoActivity = new TeamInfoActivity();
+        teamInfoActivity.setTeamListFragment(this);
+        teamInfoActivity.setTeam(item);
+
+
+        Intent teamInfoIntent = new Intent(getActivity(), TeamInfoActivity.class).putExtra(TEAM, item);
+        startActivity(teamInfoIntent);
     }
 
     @Override

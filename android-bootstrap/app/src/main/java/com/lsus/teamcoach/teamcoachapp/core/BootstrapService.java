@@ -145,6 +145,12 @@ public class BootstrapService {
     public Team setTeam(Team team) { return  getTeamService().addTeam(team); };
 
     /**
+     * Updates a team on Parse.com
+     */
+    public Object update(Team team) {
+        return getTeamService().update(team.objectId, team);
+    }
+    /**
      * Get all Sessions from Parse.com
      */
 

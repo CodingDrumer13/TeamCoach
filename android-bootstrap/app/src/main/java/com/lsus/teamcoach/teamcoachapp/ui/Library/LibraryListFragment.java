@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -40,6 +41,8 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     @InjectView(R.id.tv_library_list_header) protected TextView listHeader;
 
     private boolean ageSelected = false;
+    private boolean librarySelected = false;
+    private String library = "";
     private Button backButton;
     private String age = "";
 
@@ -77,17 +80,25 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     @Override
     public Loader<List<String>> onCreateLoader(final int id, final Bundle args) {
-        final List<String> initialItems = items;
         return new ThrowableLoader<List<String>>(getActivity(), items) {
 
             @Override
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-                    if(!ageSelected){
-                        return getAgeGroups();
-                    } else {
-                        return getMenuItems(age);
+                    if(!librarySelected){
+                        return getLibraries();
+                    }else{
+                        if(!ageSelected){
+                            return getAgeGroups();
+                        } else {
+                            if(library.equalsIgnoreCase("Drills")){
+                               return getDrillTypes(age);
+                            } else{
+                                return getSessionTypes(age);
+                            }
+
+                        }
                     }
                 } else {
                     return Collections.emptyList();
@@ -102,44 +113,53 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        if(!ageSelected){
-            final String age = ((String) l.getItemAtPosition(position));
-            this.age = age;
+        if(!librarySelected){
+            library = ((String) l.getItemAtPosition(position));
+            librarySelected = true;
+        }else {
+            if (!ageSelected) {
+                final String age = ((String) l.getItemAtPosition(position));
+                this.age = age;
 
-            //TODO fix button (null reference error)
-            backButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
 
 
-            //TODO Change the fragment header when changing screens.
-            if(listHeader != null){
-                listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
+                //TODO Change the fragment header when changing screens.
+                if (listHeader != null) {
+                    listHeader.setText(age + ": " + R.string.drill_type_column + " Drills");
+                }
+
+                ageSelected = true;
+
+            } else {
+                if(library.equalsIgnoreCase("Drills")) {
+                    final String drillType = ((String) l.getItemAtPosition(position));
+
+                    if (listHeader != null) {
+                        listHeader.setText(R.string.age_group_column);
+                    }
+
+                    Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
+                    drillIntent.putExtra(DRILL_AGE, age);
+                    drillIntent.putExtra(DRILL_TYPE, drillType);
+                    startActivity(drillIntent);
+                } else {
+                    final String sessionType = ((String) l.getItemAtPosition(position));
+
+                    if (listHeader != null) {
+                        listHeader.setText(R.string.age_group_column);
+                    }
+
+                    Toaster.showShort(getActivity(), "Selected a " + age + " " + sessionType);
+                    //TODO handle sessions here.
+                }
             }
-
-            ageSelected = true;
-
-        }
-        else{
-            final String drillType = ((String) l.getItemAtPosition(position));
-
-            //backButton.setVisibility(View.GONE);
-
-            if(listHeader != null){
-                listHeader.setText(R.string.age_group_column);
-            }
-
-            //ageSelected = false;
-
-            Intent drillIntent = new Intent(new Intent(getActivity(), DrillListActivity.class));
-            drillIntent.putExtra(DRILL_AGE, age);
-            drillIntent.putExtra(DRILL_TYPE, drillType);
-            startActivity(drillIntent);
         }
         this.refresh();
     }
 
     @Override
     public void onResume(){
-        //ageSelected = false;
         super.onResume();
     }
 
@@ -164,7 +184,14 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         return ages;
     }
 
-    private List<String> getMenuItems(String age) {
+    private List<String> getLibraries(){
+        List<String> menuItems = new ArrayList<String>();
+        menuItems.add("Drills");
+        menuItems.add("Sessions");
+        return menuItems;
+    }
+
+    private List<String> getDrillTypes(String age) {
         List<String> menuItems = new ArrayList<String>();
         menuItems.add("Defending");
         menuItems.add("Attacking");
@@ -174,6 +201,15 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         if (age.length() == 3){
             menuItems.add("Goalkeeping");
         }
+        return menuItems;
+    }
+
+    private List<String> getSessionTypes(String age) {
+        List<String> menuItems = new ArrayList<String>();
+        menuItems.add("Defending");
+        menuItems.add("Attacking");
+        menuItems.add("Fitness");
+        menuItems.add("Technical");
         return menuItems;
     }
 
@@ -190,8 +226,16 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     }
 
     public void backClicked(){
-        ageSelected = false;
-        backButton.setVisibility(View.GONE);
+        if(librarySelected && ageSelected) {
+            ageSelected = false;
+        } else if(librarySelected && !ageSelected){
+            librarySelected = false;
+            backButton.setVisibility(View.GONE);
+        } else {
+            librarySelected = false;
+            ageSelected = false;
+            backButton.setVisibility(View.GONE);
+        }
         this.refresh();
     }
 }

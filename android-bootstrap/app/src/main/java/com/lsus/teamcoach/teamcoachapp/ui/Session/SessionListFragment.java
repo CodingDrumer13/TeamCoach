@@ -173,7 +173,7 @@ public class SessionListFragment extends ItemListFragment<String> implements Vie
         List<String> menuItems = new ArrayList<String>();
         menuItems.add("Defending");
         menuItems.add("Attacking");
-        menuItems.add("Finishing");
+        menuItems.add("Fitness");
         menuItems.add("Technical");
         return menuItems;
     }

@@ -70,7 +70,7 @@ public class BootstrapService {
     //public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
 
     /**
-     * Get bootstrap Drills of a specific type that exists on Parse.com
+     * Get bootstrap Drills of a specific sessionType that exists on Parse.com
      */
     public List<Drill> getDrills(String age, String type) {
         String constraint = "{\"drillAge\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
@@ -121,7 +121,7 @@ public class BootstrapService {
      * Updates a user on Parse.com
      */
     public Object update(User user) {
-        return getUserService().update(user.objectId, user.getSessionToken() , user);
+        return getUserService().update(user.objectId, user.getSessionToken(), user);
     }
 
     /**
@@ -136,13 +136,13 @@ public class BootstrapService {
     /**
      * Get all bootstrap Users that exist on Parse.com
      */
-    public Team getTeam(String id){ return getTeamService().getTeam(id); };
+    public Team getTeam(String id){ return getTeamService().getTeam(id); }
 
     public List<Team> getTeams(String coach){
         String constraint = "{\"coach\":\"" + coach + "\"}";
         return getTeamService().getTeams(constraint).getResults(); }
 
-    public Team setTeam(Team team) { return  getTeamService().addTeam(team); };
+    public Team setTeam(Team team) { return  getTeamService().addTeam(team); }
 
     /**
      * Updates a team on Parse.com
@@ -154,8 +154,22 @@ public class BootstrapService {
      * Get all Sessions from Parse.com
      */
 
+    public Session addSession(Session session){ return getSessionService().addSession(session);}
+
+    public Object update(Session session) {
+        return getSessionService().update(session.objectId, session);
+    }
+
+    public void remove(Session session) { getSessionService().remove(session.objectId); }
+
+    public List<Session> getPublicSessions(String age, String type){
+        String constraint = "{\"isPublic\":\"" + "true" + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + age + "\"}";
+        return getSessionService().getSessions(constraint).getResults();
+    }
+
     //TODO double check this is right!!
-    public List<Session> getSession(String user, String age){
-        String constraint = "{\"creator\":\"" + user + "\",\"drillAge\":\"" + age + "\"}";
-        return getSessionService().getSessions(constraint).getResults(); }
+    public List<Session> getUserSession(String user, String age){
+        String constraint = "{\"creator\":\"" + user + "\",\"ageGroup\":\"" + age + "\"}";
+        return getSessionService().getSessions(constraint).getResults();
+    }
 }

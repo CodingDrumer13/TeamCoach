@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Session Name -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Name: "
+        />
+    <TextView
+        android:id="@+id/tv_session_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/table_text_selector" />
+    <EditText
+        android:id="@+id/et_session_name"
+        style="@style/SignInEditText"
+        android:visibility="gone"
+        />
+
+
+    <!-- Session Description -->
+    <!--
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Description: "
+        />
+    <TextView
+        android:id="@+id/tv_session_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/table_text_selector"
+        />
+    <EditText
+        android:id="@+id/et_session_description"
+        style="@style/SignInEditText"
+        android:visibility="gone"
+        />
+        -->
+
+    <!-- Session Rating -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Rating: "
+        />
+    <TextView
+        android:id="@+id/tv_session_rating"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/table_text_selector"
+        />
+
+    <!-- Session Times Used -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Times Used: "
+        android:id="@+id/tv_session_times_used"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_session_times_used_num"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/table_text_selector"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/button_session_edit"
+        style="@style/ShadowText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_states"
+        android:text="Edit"
+        android:textColor="@color/text"
+        android:visibility="invisible"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button_session_submit"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Submit"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            />
+
+        <Button
+            android:id="@+id/button_session_remove"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Delete"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            />
+    </LinearLayout>
+</LinearLayout>

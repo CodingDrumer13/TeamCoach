@@ -19,7 +19,6 @@ import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TEAM;
 
 /**
@@ -45,9 +43,6 @@ public class TeamsListFragment extends ItemListFragment<Team> {
      */
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
-    protected ArrayList<Team> menuItems = null;
-    private TeamsListFragment teamsListFragment = this;
-    private int listSize = 0;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

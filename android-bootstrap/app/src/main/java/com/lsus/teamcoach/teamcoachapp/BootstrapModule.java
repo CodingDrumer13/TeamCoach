@@ -24,16 +24,17 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.AddDrillDialogFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillInfoActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillListActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.Session.AddSessionDialogFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Session.SessionFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Session.SessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.AddTeamFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamMenuListFragment;
@@ -81,7 +82,9 @@ import retrofit.converter.GsonConverter;
                 AddTeamFrag.class,
                 AddDrillDialogFragment.class,
                 SessionListFragment.class,
-                SessionFragment.class,
+                SessionListActivity.class,
+                AddSessionDialogFragment.class,
+                SessionInfoActivity.class,
                 AddSessionDialogFragment.class,
                 TeamInfoActivity.class
         }

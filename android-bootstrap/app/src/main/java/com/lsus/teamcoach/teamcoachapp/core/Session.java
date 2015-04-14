@@ -11,16 +11,17 @@ public class Session implements Serializable {
     protected String objectId;
     protected String name;
     protected String ageGroup;
-    protected String type;
+    protected String sessionType;
     protected ArrayList<Drill> drillList;
     protected float rating;
     protected boolean isPublic;
     protected String creator;
 
-    public Session(String name, ArrayList<Drill> drillList, float rating, boolean isPublic, String creator){
+    public Session(String name, ArrayList<Drill> drillList, String sessionType, String ageGroup, Boolean isPublic, String creator){
         this.name = name;
         this.drillList = drillList;
-        this.rating = rating;
+        this.sessionType = sessionType;
+        this.ageGroup = ageGroup;
         this.isPublic = isPublic;
         this.creator = creator;
     }
@@ -37,9 +38,9 @@ public class Session implements Serializable {
 
     public void setAgeGroup(String ageGroup) { this.ageGroup = ageGroup; }
 
-    public String getType() { return type; }
+    public String getSessionType() { return sessionType; }
 
-    public void setType(String type) { this.type = type; }
+    public void setSessionType(String sessionType) { this.sessionType = sessionType; }
 
     public ArrayList<Drill> getDrillList(){ return drillList; }
 

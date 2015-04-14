@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.view.LayoutInflater;
 

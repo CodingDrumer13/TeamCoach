@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Session;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,9 +15,12 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -44,13 +47,14 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
 
     private boolean ageSelected;
     private boolean typeSelected;
+    private ArrayList<Drill> drillList;
     private String sessionName;
     private String age;
     private String type;
     private String description;
     private String creator;
 
-    private DrillListFragment parentFragment;
+    private SessionListFragment parentFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,9 +111,9 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
                     public Boolean call() throws Exception {
                         //TODO change to session
                         //TODO Make sure session is up to date with parse.com
-                        Drill drill = new Drill(sessionName, type, age, description, 0, 0, creator, 0);
+                        Session session = new Session(sessionName, drillList, type, age, true, creator);
 
-                        bootstrapService.addDrill(drill);
+                        bootstrapService.addSession(session);
                         return true;
                     }
 
@@ -164,6 +168,9 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             return false;
         }
 
+        //TODO find a way to validate the list of drills field.
+        drillList = new ArrayList<Drill>();
+
         if(!sSessionType.getSelectedItem().toString().equalsIgnoreCase("")) {
             type = sSessionType.getSelectedItem().toString();
         } else {
@@ -178,12 +185,12 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             return false;
         }
 
-        if(!etDescription.getText().toString().equalsIgnoreCase("")){
-            description = etDescription.getText().toString();
-        } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
-            return false;
-        }
+//        if(!etDescription.getText().toString().equalsIgnoreCase("")){
+//            description = etDescription.getText().toString();
+//        } else {
+//            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+//            return false;
+//        }
 
         Singleton singleton = Singleton.getInstance();
         creator = singleton.getCurrentUser().getEmail();
@@ -210,7 +217,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
         getActivity().dismissDialog(0);
     }
 
-    public void setDrillListFragment(DrillListFragment drillListFragment){
-        this.parentFragment = drillListFragment;
+    public void setSessionListFragment(SessionListFragment sessionListFragment){
+        this.parentFragment = sessionListFragment;
     }
 }

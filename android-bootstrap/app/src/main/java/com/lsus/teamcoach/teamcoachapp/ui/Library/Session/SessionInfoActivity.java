@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +11,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
@@ -20,53 +21,55 @@ import javax.inject.Inject;
 import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
 
 /**
- * Created by TeamCoach on 3/18/2015.
+ * Created by TeamCoach on 4/13/2015.
  */
-public class DrillInfoActivity extends BootstrapActivity {
+public class SessionInfoActivity extends BootstrapActivity {
     @Inject protected BootstrapService bootstrapService;
     @Inject protected LogoutService logoutService;
 
-    @InjectView(R.id.tv_drill_name) protected TextView drillName;
-    @InjectView(R.id.et_drill_name) protected EditText editName;
-    @InjectView(R.id.tv_drill_description) protected TextView drillDescription;
-    @InjectView(R.id.et_drill_description) protected EditText editDescription;
-    @InjectView(R.id.tv_drill_rating) protected TextView drillRating;
-    @InjectView(R.id.button_drill_edit) protected Button btnEdit;
-    @InjectView(R.id.button_drill_submit) protected Button btnSubmit;
-    @InjectView(R.id.button_drill_remove) protected Button btnRemove;
-    @InjectView(R.id.tv_drill_times_used) protected TextView timesUsed;
-    @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
+    @InjectView(R.id.tv_session_name) protected TextView sessionName;
+    @InjectView(R.id.et_session_name) protected EditText editName;
+    //@InjectView(R.id.tv_session_description) protected TextView sessionDescription;
+    //@InjectView(R.id.et_session_description) protected EditText editDescription;
+    @InjectView(R.id.tv_session_rating) protected TextView sessionRating;
+    @InjectView(R.id.button_session_edit) protected Button btnEdit;
+    @InjectView(R.id.button_session_submit) protected Button btnSubmit;
+    @InjectView(R.id.button_session_remove) protected Button btnRemove;
+    @InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
+    @InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
 
 
-    private Drill drill;
+    private Session session;
     private SafeAsyncTask<Boolean> authenticationTask;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.drill_info_activity);
+        setContentView(R.layout.session_info_activity);
 
-        setTitle(R.string.title_drill_info);
+        setTitle(R.string.title_session_info);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
-            drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
+            session = (Session) getIntent().getExtras().getSerializable(SESSION);
         }
 
-        drillName.setText(String.format("%s", drill.getDrillName()));
-        drillDescription.setText(String.format("%s", drill.getDrillDescription()));
-        drillRating.setText(String.format("%s", drill.getDrillRating()));
+        sessionName.setText(String.format("%s", session.getName()));
+        //sessionDescription.setText(String.format("%s", session.getDrillDescription()));
+        sessionRating.setText(String.format("%s", session.getRating()));
 
         Singleton singleton = Singleton.getInstance();
-        if(drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
+        if(session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
             btnEdit.setVisibility(View.VISIBLE);
         }
 
+        //USED FOR ADMIN PRIVILEGES
         if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
-            timesUsed.setVisibility(View.VISIBLE);
-            timesUsedNum.setText(String.format("%s", drill.getTimesUsed()));
-            timesUsedNum.setVisibility(View.VISIBLE);
+            //timesUsed.setVisibility(View.VISIBLE);
+            //timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
+            //timesUsedNum.setVisibility(View.VISIBLE);
             btnEdit.setVisibility(View.VISIBLE);
         }
 
@@ -89,14 +92,14 @@ public class DrillInfoActivity extends BootstrapActivity {
     }
 
     private void onEdit() {
-        drillName.setVisibility(View.GONE);
-        drillDescription.setVisibility(View.GONE);
+        sessionName.setVisibility(View.GONE);
+        //sessionDescription.setVisibility(View.GONE);
 
         editName.setVisibility(View.VISIBLE);
-        editDescription.setVisibility(View.VISIBLE);
+        //editDescription.setVisibility(View.VISIBLE);
 
-        editName.setText(drillName.getText());
-        editDescription.setText(drillDescription.getText());
+        editName.setText(sessionName.getText());
+        //editDescription.setText(sessionDescription.getText());
 
         btnEdit.setVisibility(View.GONE);
         btnRemove.setVisibility(View.VISIBLE);
@@ -105,26 +108,26 @@ public class DrillInfoActivity extends BootstrapActivity {
 
     private void onSubmit() {
         if(isValid()){
-            drillName.setVisibility(View.VISIBLE);
-            drillDescription.setVisibility(View.VISIBLE);
+            sessionName.setVisibility(View.VISIBLE);
+            //sessionDescription.setVisibility(View.VISIBLE);
 
             editName.setVisibility(View.GONE);
-            editDescription.setVisibility(View.GONE);
+            //editDescription.setVisibility(View.GONE);
 
-            drillName.setText(editName.getText());
-            drillDescription.setText(editDescription.getText());
+            sessionName.setText(editName.getText());
+            //sessionDescription.setText(editDescription.getText());
 
             btnSubmit.setVisibility(View.GONE);
             btnRemove.setVisibility(View.GONE);
             btnEdit.setVisibility(View.VISIBLE);
 
-            drill = checkDifferences(drill);
+            session = checkDifferences(session);
 
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
 
                     //Implement try/catch for update error
-                    bootstrapService.update(drill);
+                    bootstrapService.update(session);
 
                     return true;
                 }
@@ -138,7 +141,7 @@ public class DrillInfoActivity extends BootstrapActivity {
             public Boolean call() throws Exception {
 
                 //Implement try/catch for update error
-                bootstrapService.remove(drill);
+                bootstrapService.remove(session);
 
                 return true;
             }
@@ -149,27 +152,22 @@ public class DrillInfoActivity extends BootstrapActivity {
 
 
     /**
-     * Checks to see if drill information has changed.
+     * Checks to see if session information has changed.
      *
-     * @param drill
+     * @param session
      * @return
      */
-    private Drill checkDifferences(Drill drill) {
+    private Session checkDifferences(Session session) {
         /**
-         * Checks to see if the Drill Name has changed
+         * Checks to see if the Session Name has changed
          */
-        if(!drill.getDrillName().equalsIgnoreCase(drillName.getText().toString())){
-            drill.setDrillName(drillName.getText().toString());
+        if(!session.getName().equalsIgnoreCase(sessionName.getText().toString())){
+            session.setName(sessionName.getText().toString());
         }
 
-        /**
-         * Checks to see if the Drill description has changed.
-         */
-        if(!drill.getDrillDescription().equalsIgnoreCase(drillDescription.getText().toString())){
-            drill.setDrillDescription(drillDescription.getText().toString());
-        }
+        //TODO finish other checks.
 
-        return drill;
+        return session;
     }
 
     /**
@@ -179,15 +177,15 @@ public class DrillInfoActivity extends BootstrapActivity {
     private boolean isValid(){
         //TODO make checks here!
 
-        if(drillName.getText().toString().equalsIgnoreCase("")){
+        if(sessionName.getText().toString().equalsIgnoreCase("")){
             Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
-        if(drillDescription.getText().toString().equalsIgnoreCase("")){
-            Toaster.showShort(this, "Please fill out all fields.");
-            return false;
-        }
+//        if(sessionDescription.getText().toString().equalsIgnoreCase("")){
+//            Toaster.showShort(this, "Please fill out all fields.");
+//            return false;
+//        }
 
         return true;
     }

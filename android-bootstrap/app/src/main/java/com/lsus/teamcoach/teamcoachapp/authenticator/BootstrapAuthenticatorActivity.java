@@ -114,7 +114,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
-     * oauth token or some other type of timed token that expires/etc. We're just using the parse.com
+     * oauth token or some other sessionType of timed token that expires/etc. We're just using the parse.com
      * sessionId to prove the example of how to utilize a token.
      */
     private String token;

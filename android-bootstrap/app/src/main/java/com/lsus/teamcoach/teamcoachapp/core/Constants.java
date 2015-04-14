@@ -12,7 +12,7 @@ public final class Constants {
         private Auth() {}
 
         /**
-         * Account type id
+         * Account sessionType id
          */
         public static final String BOOTSTRAP_ACCOUNT_TYPE = "com.lsus.teamcoach.teamcoachapp";
 
@@ -27,7 +27,7 @@ public final class Constants {
         public static final String BOOTSTRAP_PROVIDER_AUTHORITY = "com.lsus.teamcoach.teamcoachapp.sync";
 
         /**
-         * Auth token type
+         * Auth token sessionType
          */
         public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
     }
@@ -125,6 +125,12 @@ public final class Constants {
         public static final String DRILL_TYPE = "drill_type";
 
         public static final String DRILL = "drill";
+
+        public static final String SESSION_AGE = "session_age";
+
+        public static final String SESSION_TYPE = "session_type";
+
+        public static final String SESSION = "session";
 
         public static final String TEAM = "team";
 

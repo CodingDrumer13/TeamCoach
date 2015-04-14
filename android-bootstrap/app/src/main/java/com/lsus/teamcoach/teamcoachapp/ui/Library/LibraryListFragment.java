@@ -16,6 +16,8 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ import butterknife.Views;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_AGE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_TYPE;
 
 /**
  * Created by TeamCoach on 3/4/2015.
@@ -114,14 +118,17 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         if(!librarySelected){
+            //LIBRARY HAS NOT BEEN SELECTED
             library = ((String) l.getItemAtPosition(position));
             librarySelected = true;
         }else {
+            //LIBRARY HAS BEEN SELECTED
+            backButton.setVisibility(View.VISIBLE);
+
             if (!ageSelected) {
+                //LIBRARY HAS BEEN SELECTED AND AGE HAS NOT BEEN SELECTED
                 final String age = ((String) l.getItemAtPosition(position));
                 this.age = age;
-
-                backButton.setVisibility(View.VISIBLE);
 
 
                 //TODO Change the fragment header when changing screens.
@@ -132,7 +139,9 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
                 ageSelected = true;
 
             } else {
+                //LIBRARY HAS BEEN SELECTED AND AGE HAS BEEN SELECTED
                 if(library.equalsIgnoreCase("Drills")) {
+                    //SHOW DRILLS OF A SELECTED AGE
                     final String drillType = ((String) l.getItemAtPosition(position));
 
                     if (listHeader != null) {
@@ -144,14 +153,18 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
                     drillIntent.putExtra(DRILL_TYPE, drillType);
                     startActivity(drillIntent);
                 } else {
+                    //SHOW SESSIONS OF A CERTAIN AGE.
                     final String sessionType = ((String) l.getItemAtPosition(position));
 
                     if (listHeader != null) {
                         listHeader.setText(R.string.age_group_column);
                     }
 
-                    Toaster.showShort(getActivity(), "Selected a " + age + " " + sessionType);
                     //TODO handle sessions here.
+                    Intent drillIntent = new Intent(new Intent(getActivity(), SessionListActivity.class));
+                    drillIntent.putExtra(SESSION_AGE, age);
+                    drillIntent.putExtra(SESSION_TYPE, sessionType);
+                    startActivity(drillIntent);
                 }
             }
         }
@@ -186,8 +199,8 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
 
     private List<String> getLibraries(){
         List<String> menuItems = new ArrayList<String>();
-        menuItems.add("Drills");
         menuItems.add("Sessions");
+        menuItems.add("Drills");
         return menuItems;
     }
 

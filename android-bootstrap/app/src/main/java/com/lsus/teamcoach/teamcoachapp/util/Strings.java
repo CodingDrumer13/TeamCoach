@@ -27,7 +27,7 @@ public class Strings {
      * @param delimiter     usually ", "
      * @param lastDelimiter usually " and "
      * @param objs          the objects
-     * @param <T>           the type
+     * @param <T>           the sessionType
      * @return a string
      */
     public static <T> String joinAnd(final String delimiter, final String lastDelimiter,

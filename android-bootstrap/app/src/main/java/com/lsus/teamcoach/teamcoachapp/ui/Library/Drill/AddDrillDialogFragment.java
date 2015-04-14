@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

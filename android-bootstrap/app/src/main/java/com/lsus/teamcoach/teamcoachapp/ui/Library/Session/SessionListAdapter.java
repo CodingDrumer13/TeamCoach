@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Session;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.view.LayoutInflater;
 
@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * Created by TeamCoach on 3/12/2015.
  */
-public class SessionListAdapter extends AlternatingColorListAdapter<String> {
+public class SessionListAdapter extends AlternatingColorListAdapter<Session> {
     /**
      * @param inflater
      * @param items
      * @param selectable
      */
-    public SessionListAdapter(final LayoutInflater inflater, final List<String> items,
+    public SessionListAdapter(final LayoutInflater inflater, final List<Session> items,
                             final boolean selectable) {
         super(R.layout.session_list_item, inflater, items, selectable);
     }
@@ -26,7 +26,7 @@ public class SessionListAdapter extends AlternatingColorListAdapter<String> {
      * @param inflater
      * @param items
      */
-    public SessionListAdapter(final LayoutInflater inflater, final List<String> items) {
+    public SessionListAdapter(final LayoutInflater inflater, final List<Session> items) {
         super(R.layout.session_list_item, inflater, items);
     }
 
@@ -36,10 +36,10 @@ public class SessionListAdapter extends AlternatingColorListAdapter<String> {
     }
 
     @Override
-    protected void update(final int position, final String item) {
+    protected void update(final int position, final Session item) {
         super.update(position, item);
 
-        setText(0, item);
+        setText(0, item.getName());
         setText(1, ">");
     }
 }

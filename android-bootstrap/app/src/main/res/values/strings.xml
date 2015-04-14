@@ -58,6 +58,8 @@
     <string name="title_home">Home</string>
     <string name="title_drill_list">Drill List</string>
     <string name="title_drill_info">Drill Info</string>
+    <string name="title_session_list">Session List</string>
+    <string name="title_session_info">Session Info</string>
 
     <!-- RegisterFragment -->
     <string name="title_activity_register">RegisterActivity</string>

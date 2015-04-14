@@ -65,6 +65,9 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
 
         tvTeamName.setText(String.format("%s", team.getTeamName()));
         tvTeamAgeGroup.setText(String.format("%s", team.getAgeGroup()));
+        btnTeamEdit.setVisibility(View.VISIBLE);
+
+
 
         Singleton singleton = Singleton.getInstance();
 //        if(team.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
@@ -124,6 +127,8 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
         etTeamAgeGroup.setVisibility(View.VISIBLE);
 
         btnTeamEdit.setVisibility(View.GONE);
+        btnTeamSubmit.setVisibility(View.VISIBLE);
+
         btnTeamSubmit.setVisibility(View.VISIBLE);
     }
 

@@ -143,6 +143,22 @@
             android:paddingRight="20dp"
             android:layout_centerInParent="true"
             android:background="@drawable/button_background_states"
+            android:text="Edit"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            />
+
+        <Button
+            android:id="@+id/bt_Team_Delete"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
             android:text="Delete"
             android:textColor="@color/text"
             android:visibility="invisible"

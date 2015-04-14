@@ -43,10 +43,12 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
     TextView tvTeamAgeGroup;
     @InjectView(R.id.et_Team_Age_Group)
     EditText etTeamAgeGroup;
-    @InjectView(R.id.bt_Team_Edit)
+    @InjectView(R.id.btn_Team_Info_Edit)
     Button btnTeamEdit;
-    @InjectView(R.id.bt_Team_Submit)
+    @InjectView(R.id.btn_Team_info_Submit)
     Button btnTeamSubmit;
+    @InjectView(R.id.btn_Team_Info_Delete)
+    Button btnTeamDelete;
 
 
     public void onCreate(Bundle savedInstanceState){

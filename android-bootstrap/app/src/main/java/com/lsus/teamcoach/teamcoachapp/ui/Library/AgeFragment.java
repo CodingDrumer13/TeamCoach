@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -22,20 +20,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
 
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 4/14/2015.
  */
-public class LibraryListFragment extends ItemListFragment<String> implements View.OnClickListener{
+public class AgeFragment extends ItemListFragment<String>{
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject
+    protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
-    private Button backButton;
-    private Button addButton;
-    private Button homeButton;
+    private String library = "";
+    private String age = "";
+
     private LibraryFragment parent;
 
     @Override
@@ -48,10 +46,6 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
-
-        backButton.setVisibility(View.GONE);
-        addButton.setVisibility(View.GONE);
-        homeButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -82,7 +76,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-                    return getLibraries();
+                    return getAgeGroups();
                 } else {
                     return Collections.emptyList();
                 }
@@ -96,17 +90,14 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        String library = ((String) l.getItemAtPosition(position));
+        age = ((String) l.getItemAtPosition(position));
 
-        backButton.setVisibility(View.VISIBLE);
-        addButton.setVisibility(View.VISIBLE);
-        homeButton.setVisibility(View.VISIBLE);
-
-        AgeFragment ageFragment = new AgeFragment();
-        ageFragment.setRetainInstance(true);
-        ageFragment.setLibrary(library);
-        ageFragment.setParent(parent);
-        parent.replaceFragment(this, ageFragment);
+        TypeFragment typeFragment = new TypeFragment();
+        typeFragment.setRetainInstance(true);
+        typeFragment.setAge(age);
+        typeFragment.setLibrary(library);
+        typeFragment.setParent(parent);
+        parent.replaceFragment(this, typeFragment);
     }
 
     @Override
@@ -114,29 +105,28 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         super.onResume();
     }
 
-    public void onClick(View view) {
-
-    }
-
     @Override
     protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_checkins;
     }
 
-    private List<String> getLibraries(){
-        List<String> menuItems = new ArrayList<String>();
-        menuItems.add("Sessions");
-        menuItems.add("Drills");
-        return menuItems;
+    private List<String> getAgeGroups() {
+        List<String> ages = new ArrayList<String>();
+        for(int i = 4; i < 19; i++){
+            ages.add("U" + i);
+        }
+        return ages;
     }
 
-    public void setButtons(Button backButton, Button addButton, Button homeButton){
-        this.addButton = addButton;
-        this.backButton = backButton;
-        this.homeButton = homeButton;
+    public String getAge(){
+        return age;
     }
 
-    public void setParent(LibraryFragment fragment){
-        this.parent = fragment;
+    public void setLibrary(String library){
+        this.library = library;
+    }
+
+    public void setParent(LibraryFragment parent){
+        this.parent = parent;
     }
 }

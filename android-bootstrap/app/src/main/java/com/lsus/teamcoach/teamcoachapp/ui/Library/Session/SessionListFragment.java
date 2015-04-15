@@ -5,36 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
-import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
-import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_AGE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_TYPE;
 
 /**
  * Created by TeamCoach on 3/12/2015.
@@ -46,6 +36,9 @@ public class SessionListFragment extends ItemListFragment<Session> {
 
     private String age;
     private String type;
+    private String library;
+    private LibraryFragment parent;
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -120,4 +113,22 @@ public class SessionListFragment extends ItemListFragment<Session> {
         this.age = age;
         this.type = type;
     }
+
+    public String getAge(){
+        return age;
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    public void setLibrary(String library){
+        this.library = library;
+    }
+
+    public String getLibrary(){
+        return library;
+    }
+
+    public void setParent(LibraryFragment parent){ this.parent = parent; }
 }

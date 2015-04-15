@@ -102,7 +102,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
                 authenticationTask = new SafeAsyncTask<Boolean>() {
                     public Boolean call() throws Exception {
-                        Drill drill = new Drill(drillName, type, age, description, 0, 0, creator, 0);
+                        Drill drill = new Drill(drillName, type, age, description, creator);
 
                         bootstrapService.addDrill(drill);
                         return true;

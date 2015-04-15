@@ -13,6 +13,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
@@ -32,6 +33,9 @@ public class DrillListFragment extends ItemListFragment<Drill> {
 
     private String age;
     private String type;
+    private String library;
+
+    private LibraryFragment parent;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -71,7 +75,6 @@ public class DrillListFragment extends ItemListFragment<Drill> {
 
     @Override
     public Loader<List<Drill>> onCreateLoader(final int id, final Bundle args) {
-        final List<Drill> initialItems = items;
         return new ThrowableLoader<List<Drill>>(getActivity(), items) {
 
             @Override
@@ -106,4 +109,22 @@ public class DrillListFragment extends ItemListFragment<Drill> {
         this.age = age;
         this.type = type;
     }
+
+    public String getAge(){
+        return age;
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    public String getLibrary(){
+        return library;
+    }
+
+    public void setLibrary(String library){
+        this.library = library;
+    }
+
+    public void setParent(LibraryFragment parent) { this.parent = parent; }
 }

@@ -24,16 +24,17 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.AddTeamFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoActivity;
@@ -76,17 +77,18 @@ import retrofit.converter.GsonConverter;
                 DrillListFragment.class,
                 TeamsFragment.class,
                 AdminFragment.class,
-                DrillListActivity.class,
                 DrillInfoActivity.class,
                 LibraryFragment.class,
                 AddTeamFrag.class,
                 AddDrillDialogFragment.class,
                 SessionListFragment.class,
-                SessionListActivity.class,
                 AddSessionDialogFragment.class,
                 SessionInfoActivity.class,
                 AddSessionDialogFragment.class,
-                TeamInfoActivity.class
+                TeamInfoActivity.class,
+                AddDrillFragment.class,
+                AgeFragment.class,
+                TypeFragment.class
         }
 )
 public class BootstrapModule {

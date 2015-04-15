@@ -3,18 +3,39 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button android:id="@+id/btnLibraryBack"
-        style="@style/ShadowText"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_background_states"
-        android:gravity="center"
-        android:text="Back"
-        android:textColor="@color/text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:onClick="onClick"
-        android:visibility="gone"/>
+        android:layout_width="match_parent">
+
+        <Button android:id="@+id/btnLibraryBack"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_states"
+            android:gravity="center"
+            android:text="Back"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            android:visibility="gone"/>
+
+        <Button android:id="@+id/btnLibraryHome"
+            style="@style/ShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_states"
+            android:gravity="center"
+            android:text="Home"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_library_list_header"
@@ -44,7 +65,7 @@
         android:textStyle="bold"
         android:onClick="onClick"
         android:gravity="center"
-        android:id="@+id/btnNewDrill"
+        android:id="@+id/btnNewButton"
         />
 
 </LinearLayout>

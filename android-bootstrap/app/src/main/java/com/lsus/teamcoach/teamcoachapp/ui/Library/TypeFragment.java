@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -14,6 +12,8 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
@@ -22,20 +22,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
 
 /**
- * Created by TeamCoach on 3/4/2015.
+ * Created by TeamCoach on 4/14/2015.
  */
-public class LibraryListFragment extends ItemListFragment<String> implements View.OnClickListener{
+public class TypeFragment extends ItemListFragment<String> implements View.OnClickListener {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
-    private Button backButton;
-    private Button addButton;
-    private Button homeButton;
+    private String library = "";
+    private String age = "";
     private LibraryFragment parent;
 
     @Override
@@ -48,10 +46,6 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
-
-        backButton.setVisibility(View.GONE);
-        addButton.setVisibility(View.GONE);
-        homeButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -82,7 +76,13 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
             public List<String> loadData() throws Exception {
                 if (getActivity() != null) {
                     serviceProvider.getService(getActivity());
-                    return getLibraries();
+                    if(library.equalsIgnoreCase("Drills")){
+                        return getDrillTypes(age);
+                    } else if(library.equalsIgnoreCase("Sessions")){
+                        return getSessionTypes(age);
+                    } else {
+                        return Collections.emptyList();
+                    }
                 } else {
                     return Collections.emptyList();
                 }
@@ -96,21 +96,29 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        String library = ((String) l.getItemAtPosition(position));
+        if(library.equalsIgnoreCase("Drills")){
+            String drillType = ((String) l.getItemAtPosition(position));
 
-        backButton.setVisibility(View.VISIBLE);
-        addButton.setVisibility(View.VISIBLE);
-        homeButton.setVisibility(View.VISIBLE);
+            DrillListFragment drillFragment = new DrillListFragment();
+            drillFragment.setRetainInstance(true);
+            drillFragment.setDrillData(age, drillType);
+            drillFragment.setLibrary(library);
+            drillFragment.setParent(parent);
+            parent.replaceFragment(this, drillFragment);
+        } else if(library.equalsIgnoreCase("Sessions")){
+            String sessionType = ((String) l.getItemAtPosition(position));
 
-        AgeFragment ageFragment = new AgeFragment();
-        ageFragment.setRetainInstance(true);
-        ageFragment.setLibrary(library);
-        ageFragment.setParent(parent);
-        parent.replaceFragment(this, ageFragment);
+            SessionListFragment sessionFragment = new SessionListFragment();
+            sessionFragment.setRetainInstance(true);
+            sessionFragment.setSessionData(age, sessionType);
+            sessionFragment.setLibrary(library);
+            sessionFragment.setParent(parent);
+            parent.replaceFragment(this, sessionFragment);
+        }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
@@ -123,20 +131,41 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         return R.string.error_loading_checkins;
     }
 
-    private List<String> getLibraries(){
+    private List<String> getDrillTypes(String age) {
         List<String> menuItems = new ArrayList<String>();
-        menuItems.add("Sessions");
-        menuItems.add("Drills");
+        menuItems.add("Defending");
+        menuItems.add("Attacking");
+        menuItems.add("Passing");
+        menuItems.add("Finishing");
+        menuItems.add("Technical");
+        if (age.length() == 3) {
+            menuItems.add("Goalkeeping");
+        }
         return menuItems;
     }
 
-    public void setButtons(Button backButton, Button addButton, Button homeButton){
-        this.addButton = addButton;
-        this.backButton = backButton;
-        this.homeButton = homeButton;
+    private List<String> getSessionTypes(String age) {
+        List<String> menuItems = new ArrayList<String>();
+        menuItems.add("Defending");
+        menuItems.add("Attacking");
+        menuItems.add("Fitness");
+        menuItems.add("Technical");
+        return menuItems;
     }
 
-    public void setParent(LibraryFragment fragment){
-        this.parent = fragment;
+    public void setAge(String age){
+        this.age = age;
+    }
+
+    public void setLibrary(String library){
+        this.library = library;
+    }
+
+    public String getLibrary(){
+        return library;
+    }
+
+    public void setParent(LibraryFragment parent){
+        this.parent = parent;
     }
 }

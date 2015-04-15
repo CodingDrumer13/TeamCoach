@@ -13,6 +13,8 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 
 import javax.inject.Inject;
 
@@ -24,12 +26,13 @@ import butterknife.Views;
  */
 public class LibraryFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.btnNewDrill) protected Button btnNewDrill;
-    @InjectView(R.id.btnLibraryBack) protected Button btnLibraryBack;
+    @InjectView(R.id.btnNewButton) protected Button addButton;
+    @InjectView(R.id.btnLibraryBack) protected Button backButton;
+    @InjectView(R.id.btnLibraryHome) protected Button homeButton;
 
     @Inject protected LogoutService logoutService;
 
-    LibraryListFragment libraryListFragment;
+    private Fragment currentFragment;
 
 
     @Override
@@ -49,14 +52,17 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        libraryListFragment = new LibraryListFragment();
+        LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
-        libraryListFragment.setBackButton(btnLibraryBack);
+        libraryListFragment.setButtons(backButton, addButton, homeButton);
+        libraryListFragment.setParent(this);
+        currentFragment = libraryListFragment;
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
 
-        btnLibraryBack.setOnClickListener(this);
-        btnNewDrill.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
     }
 
     protected LogoutService getLogoutService() {
@@ -82,11 +88,14 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == btnNewDrill.getId()){
+        if(view.getId() == addButton.getId()){
             addDrill(view);
         }
-        if(view.getId() == btnLibraryBack.getId()){
-            libraryListFragment.backClicked();
+        if(view.getId() == backButton.getId()){
+            back();
+        }
+        if(view.getId() == homeButton.getId()){
+            home();
         }
     }
 
@@ -96,8 +105,68 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         FragmentTransaction ft = fm.beginTransaction();
 
         AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
-        newFragment.setAgeSelected(libraryListFragment.getAgeSelected());
-        newFragment.setAge(libraryListFragment.getAge());
+        //newFragment.setAgeSelected(libraryListFragment.getAgeSelected());
+        //newFragment.setAge(libraryListFragment.getAge());
         newFragment.show(ft, "dialog");
+    }
+
+    /**
+     * Replaces the currently displaying fragment with a newFragment.
+     *
+     * @param oldFragment
+     * @param newFragment
+     */
+    public void replaceFragment(Fragment oldFragment, Fragment newFragment){
+        currentFragment = newFragment;
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(oldFragment.getId(), newFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void back(){
+        if(currentFragment instanceof AgeFragment){
+            LibraryListFragment libraryListFragment = new LibraryListFragment();
+            libraryListFragment.setRetainInstance(true);
+            libraryListFragment.setButtons(backButton, addButton, homeButton);
+            libraryListFragment.setParent(this);
+            replaceFragment(currentFragment, libraryListFragment);
+
+        } else if(currentFragment instanceof TypeFragment){
+
+            AgeFragment ageFragment = new AgeFragment();
+            ageFragment.setRetainInstance(true);
+            ageFragment.setLibrary(((TypeFragment) currentFragment).getLibrary());
+            ageFragment.setParent(this);
+            replaceFragment(currentFragment, ageFragment);
+
+        } else if(currentFragment instanceof DrillListFragment){
+
+            TypeFragment typeFragment = new TypeFragment();
+            typeFragment.setRetainInstance(true);
+            typeFragment.setAge(((DrillListFragment) currentFragment).getAge());
+            typeFragment.setLibrary(((DrillListFragment) currentFragment).getLibrary());
+            typeFragment.setParent(this);
+            replaceFragment(currentFragment, typeFragment);
+
+        }else if(currentFragment instanceof SessionListFragment){
+
+            TypeFragment typeFragment = new TypeFragment();
+            typeFragment.setRetainInstance(true);
+            typeFragment.setAge(((SessionListFragment) currentFragment).getAge());
+            typeFragment.setLibrary(((SessionListFragment) currentFragment).getLibrary());
+            typeFragment.setParent(this);
+            replaceFragment(currentFragment, typeFragment);
+        }
+    }
+
+    private void home(){
+        LibraryListFragment libraryListFragment = new LibraryListFragment();
+        libraryListFragment.setRetainInstance(true);
+        libraryListFragment.setButtons(backButton, addButton, homeButton);
+        libraryListFragment.setParent(this);
+        replaceFragment(currentFragment, libraryListFragment);
     }
 }

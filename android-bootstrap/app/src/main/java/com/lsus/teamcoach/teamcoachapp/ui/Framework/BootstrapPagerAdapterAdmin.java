@@ -13,7 +13,6 @@ import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
 
 /**
@@ -69,7 +68,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
         return result;
     }
 
-    //Gets the title of each page/fragemnt on the Carousel
+    //Gets the title of each page/fragment on the Carousel
     @Override
     public CharSequence getPageTitle(final int position) {
         switch (position) {

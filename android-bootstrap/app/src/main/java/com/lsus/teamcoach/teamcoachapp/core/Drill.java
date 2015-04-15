@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Drill implements Serializable {
 
     protected String objectId;
+    protected String groupId;
     protected String drillName;
     protected String drillType;
     protected String drillAge;
@@ -27,6 +28,12 @@ public class Drill implements Serializable {
         this.numberOfRatings = 0;
         this.creator = creator;
     }
+
+    public String getObjectId() { return objectId; }
+
+    public void setGroupId(String groupId) { this.groupId = groupId; }
+
+    public String getGroupId() { return groupId; }
 
     public void setDrillName(String drillName) { this.drillName = drillName; }
 
@@ -59,4 +66,5 @@ public class Drill implements Serializable {
     public void setCreator(String creator) { this.creator = creator; }
 
     public String getCreator(){ return creator; }
+
 }

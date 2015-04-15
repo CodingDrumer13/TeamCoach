@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,11 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
@@ -48,7 +54,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     private String description;
     private String creator;
 
-    private DrillListFragment parentFragment;
+    private Fragment parent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,11 +105,11 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     public void onClick(View view) {
         if(btnAddDrill.getId() == view.getId()) {
             if(validateFields()){
-
                 authenticationTask = new SafeAsyncTask<Boolean>() {
                     public Boolean call() throws Exception {
                         Drill drill = new Drill(drillName, type, age, description, creator);
 
+                        //Toaster.showLong(getActivity(), drill.getObjectId().toString());
                         bootstrapService.addDrill(drill);
                         return true;
                     }
@@ -121,7 +127,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
                     @Override
                     public void onSuccess(final Boolean authSuccess) {
-                        if(typeSelected) parentFragment.refresh();
+                        if(typeSelected) refreshList();
                         AddDrillDialogFragment.this.dismiss();
                     }
 
@@ -205,8 +211,33 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         getActivity().dismissDialog(0);
     }
 
-    public void setDrillListFragment(DrillListFragment drillListFragment){
-        this.parentFragment = drillListFragment;
+    public void setParent(Fragment parent){
+        if(parent instanceof LibraryListFragment){
+            this.parent = (LibraryListFragment) parent;
+        }else if(parent instanceof AgeFragment){
+            this.parent = (AgeFragment) parent;
+        } else if(parent instanceof TypeFragment){
+            this.parent = (TypeFragment) parent;
+        } else if(parent instanceof DrillListFragment){
+            this.parent = (DrillListFragment) parent;
+        }else if(parent instanceof SessionListFragment){
+            this.parent = (SessionListFragment) parent;
+        }
     }
+
+    private void refreshList(){
+        if(parent instanceof LibraryListFragment){
+            ((LibraryListFragment) parent).refresh();
+        }else if(parent instanceof AgeFragment){
+            ((AgeFragment) parent).refresh();
+        } else if(parent instanceof TypeFragment){
+            ((TypeFragment) parent).refresh();
+        } else if(parent instanceof DrillListFragment){
+            ((DrillListFragment) parent).refresh();
+        }else if(parent instanceof SessionListFragment){
+            ((SessionListFragment) parent).refresh();
+        }
+    }
+
 
 }

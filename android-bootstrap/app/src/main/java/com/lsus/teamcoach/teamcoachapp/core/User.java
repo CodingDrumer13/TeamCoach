@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class User implements Serializable {
 
@@ -21,6 +22,7 @@ public class User implements Serializable {
     protected String alias;
     protected String role;
     protected String email;
+    protected String createdAt;
     protected ArrayList<Team> teams;
     protected ArrayList<Session> sessions;
 
@@ -120,6 +122,10 @@ public class User implements Serializable {
     public void setDrills(ArrayList<Drill> drills) { this.drills = drills; }
 
     public ArrayList<Drill> getDrills() { return drills; }
+
+    public String getCreatedAt(){
+        return createdAt;
+    }
 
     public String getAvatarUrl() {
         if (TextUtils.isEmpty(avatarUrl)) {

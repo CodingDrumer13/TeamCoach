@@ -92,6 +92,8 @@ public class AgeFragment extends ItemListFragment<String>{
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         age = ((String) l.getItemAtPosition(position));
 
+        parent.setAgeSelected(true);
+        parent.setAge(age);
         TypeFragment typeFragment = new TypeFragment();
         typeFragment.setRetainInstance(true);
         typeFragment.setAge(age);

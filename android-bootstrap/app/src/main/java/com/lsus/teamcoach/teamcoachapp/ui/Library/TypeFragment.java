@@ -99,6 +99,8 @@ public class TypeFragment extends ItemListFragment<String> implements View.OnCli
         if(library.equalsIgnoreCase("Drills")){
             String drillType = ((String) l.getItemAtPosition(position));
 
+            parent.setTypeSelected(true);
+            parent.setType(drillType);
             DrillListFragment drillFragment = new DrillListFragment();
             drillFragment.setRetainInstance(true);
             drillFragment.setDrillData(age, drillType);
@@ -108,6 +110,8 @@ public class TypeFragment extends ItemListFragment<String> implements View.OnCli
         } else if(library.equalsIgnoreCase("Sessions")){
             String sessionType = ((String) l.getItemAtPosition(position));
 
+            parent.setTypeSelected(true);
+            parent.setType(sessionType);
             SessionListFragment sessionFragment = new SessionListFragment();
             sessionFragment.setRetainInstance(true);
             sessionFragment.setSessionData(age, sessionType);

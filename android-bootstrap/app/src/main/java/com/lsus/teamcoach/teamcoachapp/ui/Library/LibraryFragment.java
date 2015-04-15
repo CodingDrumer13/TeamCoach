@@ -33,6 +33,10 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     @Inject protected LogoutService logoutService;
 
     private Fragment currentFragment;
+    private boolean ageSelected = false;
+    private boolean typeSelected = false;
+    private String age;
+    private String type;
 
 
     @Override
@@ -89,7 +93,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if(view.getId() == addButton.getId()){
-            addDrill(view);
+            addDrill();
         }
         if(view.getId() == backButton.getId()){
             back();
@@ -100,13 +104,16 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     }
 
     //Only called from TeamListFragment
-    public void addDrill(View v){
+    public void addDrill(){
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
-        //newFragment.setAgeSelected(libraryListFragment.getAgeSelected());
-        //newFragment.setAge(libraryListFragment.getAge());
+        newFragment.setAgeSelected(ageSelected);
+        newFragment.setTypeSelected(typeSelected);
+        newFragment.setParent(currentFragment);
+        if(ageSelected) newFragment.setAge(age);
+        if(typeSelected) newFragment.setType(type);
         newFragment.show(ft, "dialog");
     }
 
@@ -128,6 +135,9 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
     private void back(){
         if(currentFragment instanceof AgeFragment){
+            ageSelected = false;
+            typeSelected = false;
+
             LibraryListFragment libraryListFragment = new LibraryListFragment();
             libraryListFragment.setRetainInstance(true);
             libraryListFragment.setButtons(backButton, addButton, homeButton);
@@ -135,6 +145,8 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             replaceFragment(currentFragment, libraryListFragment);
 
         } else if(currentFragment instanceof TypeFragment){
+            ageSelected = false;
+            typeSelected = false;
 
             AgeFragment ageFragment = new AgeFragment();
             ageFragment.setRetainInstance(true);
@@ -143,6 +155,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             replaceFragment(currentFragment, ageFragment);
 
         } else if(currentFragment instanceof DrillListFragment){
+            typeSelected = false;
 
             TypeFragment typeFragment = new TypeFragment();
             typeFragment.setRetainInstance(true);
@@ -152,6 +165,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             replaceFragment(currentFragment, typeFragment);
 
         }else if(currentFragment instanceof SessionListFragment){
+            typeSelected = false;
 
             TypeFragment typeFragment = new TypeFragment();
             typeFragment.setRetainInstance(true);
@@ -163,10 +177,20 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     }
 
     private void home(){
+
         LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         libraryListFragment.setButtons(backButton, addButton, homeButton);
         libraryListFragment.setParent(this);
         replaceFragment(currentFragment, libraryListFragment);
+
     }
+
+    public void setAgeSelected(Boolean ageSelected){ this.ageSelected = ageSelected; }
+
+    public void setTypeSelected(Boolean typeSelected) { this.typeSelected = typeSelected; }
+
+    public void setAge(String age) { this.age = age; }
+
+    public void setType(String type) { this.type = type; }
 }

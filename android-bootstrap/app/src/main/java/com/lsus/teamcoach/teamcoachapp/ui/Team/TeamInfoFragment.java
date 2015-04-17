@@ -102,14 +102,6 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
             //The Submit button has been clicked
 //            onDelete();
         }else if (view.getId() == btnTeamBack.getId()) {
-            //The Submit button has been clicked
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//            fragmentTransaction.replace(TeamInfoFragment.this.getId(), fragmentManager.findFragmentByTag("teamsListFragment"));
-//            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.commit();
-
             this.getFragmentManager().popBackStack();
 
         }

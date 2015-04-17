@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/team_info_fragment">
 
     <!-- Team Name -->
     <TextView
@@ -39,6 +40,7 @@
         android:textStyle="bold"
         android:text="Age Group: "
         />
+
     <TextView
         android:id="@+id/tv_Team_Age_Group"
         android:layout_width="fill_parent"
@@ -49,10 +51,15 @@
         android:layout_marginBottom="20dip"
         android:textColor="@color/table_text_selector"
         />
-    <EditText
-        android:id="@+id/et_Team_Age_Group"
-        style="@style/SignInEditText"
+
+    <Spinner
+        android:id="@+id/sp_Team_Age_Group"
+        style="@style/Spinner"
         android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/table_text_selector"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         />
 
     <!-- Drill Rating -->

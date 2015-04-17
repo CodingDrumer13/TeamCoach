@@ -147,9 +147,7 @@ public class BootstrapService {
     /**
      * Updates a team on Parse.com
      */
-    public Object update(Team team) {
-        return getTeamService().update(team.objectId, team);
-    }
+    public Object update(Team team) { return getTeamService().update(team.objectId, team);}
     /**
      * Get all Sessions from Parse.com
      */

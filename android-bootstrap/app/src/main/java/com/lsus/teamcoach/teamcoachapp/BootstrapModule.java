@@ -37,7 +37,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.AddTeamFrag;
-import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamMenuListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsListFragment;
@@ -85,7 +85,7 @@ import retrofit.converter.GsonConverter;
                 AddSessionDialogFragment.class,
                 SessionInfoActivity.class,
                 AddSessionDialogFragment.class,
-                TeamInfoActivity.class,
+                TeamInfoFragment.class,
                 AddDrillFragment.class,
                 AgeFragment.class,
                 TypeFragment.class

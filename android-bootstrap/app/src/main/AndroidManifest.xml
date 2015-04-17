@@ -83,10 +83,6 @@
             android:name=".ui.BootstrapDefault.UserActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".authenticator.RegisterFragment"
-            android:label="@string/title_activity_register" >
-        </activity>
-        <activity
             android:name=".ui.Library.Drill.DrillInfoActivity"
             android:label="@string/title_activity_register" >
         </activity>
@@ -94,10 +90,7 @@
             android:name=".ui.Library.Session.SessionInfoActivity"
             android:label="@string/title_activity_register" >
         </activity>
-        <activity
-            android:name=".ui.Team.TeamInfoActivity"
-            android:label="@string/title_activity_register" >
-        </activity>
+
     </application>
 
 </manifest>

@@ -38,15 +38,12 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     private String age;
     private String type;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
         Injector.inject(this);
         return view;
-
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -59,7 +56,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         libraryListFragment.setButtons(backButton, addButton, homeButton);
-        libraryListFragment.setParent(this);
+        libraryListFragment.setParentFragment(this);
         currentFragment = libraryListFragment;
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
@@ -72,7 +69,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     protected LogoutService getLogoutService() {
         return logoutService;
     }
-
 
     /**
      * Hide progress dialog
@@ -128,7 +124,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         fragmentTransaction.replace(oldFragment.getId(), newFragment);
         fragmentTransaction.commit();
     }
@@ -141,7 +136,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             LibraryListFragment libraryListFragment = new LibraryListFragment();
             libraryListFragment.setRetainInstance(true);
             libraryListFragment.setButtons(backButton, addButton, homeButton);
-            libraryListFragment.setParent(this);
+            libraryListFragment.setParentFragment(this);
             replaceFragment(currentFragment, libraryListFragment);
 
         } else if(currentFragment instanceof TypeFragment){
@@ -177,13 +172,11 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     }
 
     private void home(){
-
         LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         libraryListFragment.setButtons(backButton, addButton, homeButton);
-        libraryListFragment.setParent(this);
+        libraryListFragment.setParentFragment(this);
         replaceFragment(currentFragment, libraryListFragment);
-
     }
 
     public void setAgeSelected(Boolean ageSelected){ this.ageSelected = ageSelected; }

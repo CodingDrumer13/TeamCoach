@@ -1,36 +1,38 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
-import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TEAM;
-
-
+import butterknife.Views;
 
 /**
  * Created by Don on 4/13/2015.
  */
-public class TeamInfoActivity extends BootstrapActivity implements View.OnClickListener{
-
+public class TeamInfoFragment extends Fragment implements View.OnClickListener{
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
     protected TeamsListFragment teamsListFragment;
-
 
     @Inject protected BootstrapService bootstrapService;
     @Inject protected LogoutService logoutService;
@@ -41,8 +43,8 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
     EditText etTeamName;
     @InjectView(R.id.tv_Team_Age_Group)
     TextView tvTeamAgeGroup;
-    @InjectView(R.id.et_Team_Age_Group)
-    EditText etTeamAgeGroup;
+    @InjectView(R.id.sp_Team_Age_Group)
+    Spinner spTeamAgeGroup;
     @InjectView(R.id.btn_Team_Info_Edit)
     Button btnTeamEdit;
     @InjectView(R.id.btn_Team_info_Submit)
@@ -51,25 +53,23 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
     Button btnTeamDelete;
 
 
-    public void onCreate(Bundle savedInstanceState){
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.team_info_fragment, container, false);
+        Injector.inject(this);
+        return view;
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.team_info_activity);
+        Views.inject(this, view);
 
         btnTeamEdit.setOnClickListener(this);
-        btnTeamEdit.setOnClickListener(this);
-
-        setTitle("Team");
-
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            team = (Team) getIntent().getExtras().getSerializable(TEAM);
-        }
-
+        btnTeamSubmit.setOnClickListener(this);
         tvTeamName.setText(String.format("%s", team.getTeamName()));
         tvTeamAgeGroup.setText(String.format("%s", team.getAgeGroup()));
         btnTeamEdit.setVisibility(View.VISIBLE);
-
-
 
         Singleton singleton = Singleton.getInstance();
 //        if(team.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
@@ -82,13 +82,9 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
 //            timesUsedNum.setVisibility(View.VISIBLE);
 //            btnEdit.setVisibility(View.VISIBLE);
 //        }
-
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-    public void setTeamListFragment(TeamsListFragment teamsListFragment){
+    public void setParentFragment(TeamsListFragment teamsListFragment){
         this.teamsListFragment = teamsListFragment;
     }
 
@@ -114,10 +110,6 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
             return false;
         }
 
-        if(etTeamAgeGroup.getText().toString().equalsIgnoreCase("")){
-            return false;
-        }
-
         return true;
     }
 
@@ -126,7 +118,20 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
         tvTeamAgeGroup.setVisibility(View.GONE);
 
         etTeamName.setVisibility(View.VISIBLE);
-        etTeamAgeGroup.setVisibility(View.VISIBLE);
+        spTeamAgeGroup.setVisibility(View.VISIBLE);
+        spTeamAgeGroup.setBackgroundColor(Color.BLACK);
+
+        etTeamName.setText(tvTeamName.getText());
+
+        //Sets up the values for the Age Groups
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.age_group_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spTeamAgeGroup.setAdapter(ageAdapter);
+
+        spTeamAgeGroup.setSelection(getIndex(spTeamAgeGroup, tvTeamAgeGroup.getText().toString()));
 
         btnTeamEdit.setVisibility(View.GONE);
         btnTeamSubmit.setVisibility(View.VISIBLE);
@@ -135,27 +140,40 @@ public class TeamInfoActivity extends BootstrapActivity implements View.OnClickL
     }
 
     private void onSubmit() {
-        if(isValid()){
-            tvTeamName.setVisibility(View.VISIBLE);
-            tvTeamAgeGroup.setVisibility(View.VISIBLE);
 
-            etTeamName.setVisibility(View.GONE);
-            etTeamAgeGroup.setVisibility(View.GONE);
+        // Setting Editing information to a team
+        team.setTeamName(etTeamName.getText().toString());
+        team.setAgeGroups(spTeamAgeGroup.getSelectedItem().toString());
 
-            btnTeamSubmit.setVisibility(View.GONE);
-            btnTeamEdit.setVisibility(View.VISIBLE);
+        etTeamName.setVisibility(View.GONE);
+        spTeamAgeGroup.setVisibility(View.GONE);
+        btnTeamSubmit.setVisibility(View.GONE);
 
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
+        tvTeamName.setVisibility(View.VISIBLE);
+        tvTeamAgeGroup.setVisibility(View.VISIBLE);
 
-                    //Implement try/catch for update error
-                    bootstrapService.update(team);
+        btnTeamEdit.setVisibility(View.VISIBLE);
 
-                    return true;
-                }
-            };
-            authenticationTask.execute();
-        }
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+
+                //Implement try/catch for update error
+                bootstrapService.update(team);
+
+                return true;
+            }
+        };
+        authenticationTask.execute();
     }
 
+    private int getIndex(Spinner spinner, String item){
+        int index = 0;
+
+        for(int i = 0; i < spinner.getCount(); i++){
+            if(spinner.getItemAtPosition(i).equals(item)){
+                index = i;
+            }
+        }
+        return index;
+    }
 }

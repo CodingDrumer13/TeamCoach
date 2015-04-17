@@ -134,6 +134,13 @@ public class BootstrapService {
     public User currentUserWithChildren(String objectID) {return getUserService().currentUserWithChildren(objectID); }
 
     /**
+     *  Get the team members
+      */
+    public List<User> getTeamMembers(Team team){
+        String constraint = "{\"team\":\"" + team.getObjectId() + "\",\"role\":\"Player\"}";
+        return getUserService().getTeamMembers(constraint).getResults(); }
+
+    /**
      * Get all bootstrap Users that exist on Parse.com
      */
     public Team getTeam(String id){ return getTeamService().getTeam(id); }
@@ -143,6 +150,7 @@ public class BootstrapService {
         return getTeamService().getTeams(constraint).getResults(); }
 
     public Team setTeam(Team team) { return  getTeamService().addTeam(team); }
+
 
     /**
      * Updates a team on Parse.com

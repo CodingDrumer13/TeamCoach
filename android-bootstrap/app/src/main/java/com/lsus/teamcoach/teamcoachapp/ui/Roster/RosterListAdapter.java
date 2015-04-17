@@ -1,12 +1,12 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.Roster;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapApplication;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Adapter to display a list of traffic items
  */
-public class UserListAdapter extends SingleTypeAdapter<User> {
+public class RosterListAdapter extends SingleTypeAdapter<User> {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd");
 
@@ -23,7 +23,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
      * @param inflater
      * @param items
      */
-    public UserListAdapter(final LayoutInflater inflater, final List<User> items) {
+    public RosterListAdapter(final LayoutInflater inflater, final List<User> items) {
         super(inflater, R.layout.roster_list_item);
 
         setItems(items);
@@ -32,7 +32,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
     /**
      * @param inflater
      */
-    public UserListAdapter(final LayoutInflater inflater) {
+    public RosterListAdapter(final LayoutInflater inflater) {
         this(inflater, null);
 
     }

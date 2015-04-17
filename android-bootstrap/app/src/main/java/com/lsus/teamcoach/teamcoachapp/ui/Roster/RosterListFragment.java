@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.Roster;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
@@ -8,12 +8,12 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
-public class UserListFragment extends ItemListFragment<User> {
+public class RosterListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -95,7 +95,7 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));
 
-        startActivity(new Intent(getActivity(), UserActivity.class).putExtra(USER, user));
+        startActivity(new Intent(getActivity(), RosterActivity.class).putExtra(USER, user));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class UserListFragment extends ItemListFragment<User> {
 
     @Override
     protected SingleTypeAdapter<User> createAdapter(final List<User> items) {
-        return new UserListAdapter(getActivity().getLayoutInflater(), items);
+        return new RosterListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     @Override

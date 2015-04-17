@@ -92,5 +92,6 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         AddTeamFrag newFragment = new AddTeamFrag();
         newFragment.setTeamsListFragment(teamsListFragment);
         newFragment.show(ft, "dialog");
+
     }
 }

@@ -152,6 +152,9 @@ public class BootstrapService {
      * Get all Sessions from Parse.com
      */
 
+    public void remove(Team team) { getTeamService().remove(team.objectId); }
+
+
     public Session addSession(Session session){ return getSessionService().addSession(session);}
 
     public Object update(Session session) {

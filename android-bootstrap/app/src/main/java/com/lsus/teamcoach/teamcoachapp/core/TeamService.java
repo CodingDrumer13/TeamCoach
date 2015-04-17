@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -33,11 +34,21 @@ public interface TeamService {
     TeamWrapper getTeams(@Query("where") String constraint);
 
     /**
-     * update a user in the database
+     * update a team in the database
      *
      * @param team The updated team
      * @return A update response.
      */
     @PUT(Constants.Http.URL_TEAM_FRAG+"/{id}")
     Team update(@Path("id") String id, @Body Team team);
+
+    /**
+     * Remove a team from parse.com
+     *
+     * @param id
+     * @param
+     * @return
+     */
+    @DELETE(Constants.Http.URL_TEAM_FRAG+"/{id}")
+    Drill remove(@Path("id") String id);
 }

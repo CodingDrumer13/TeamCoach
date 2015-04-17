@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
@@ -39,7 +40,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
-    protected TeamsFragment parentFragment;
+    protected Fragment parentFragment;
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;

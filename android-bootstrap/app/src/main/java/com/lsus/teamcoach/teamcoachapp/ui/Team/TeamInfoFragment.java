@@ -56,8 +56,6 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     @InjectView(R.id.btn_team_info_back)
     Button btnTeamBack;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,10 +98,9 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         }
         else if (view.getId() == btnTeamDelete.getId()) {
             //The Submit button has been clicked
-//            onDelete();
+            onDelete();
         }else if (view.getId() == btnTeamBack.getId()) {
             this.getFragmentManager().popBackStack();
-
         }
     }
 
@@ -140,22 +137,34 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         btnTeamEdit.setVisibility(View.GONE);
         btnTeamSubmit.setVisibility(View.VISIBLE);
 
-        btnTeamSubmit.setVisibility(View.VISIBLE);
+        btnTeamDelete.setVisibility(View.VISIBLE);
+    }
+
+    private void onDelete(){
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+
+                //Implement try/catch for update error
+                bootstrapService.remove(team);
+
+                return true;
+            }
+
+            @Override protected void onFinally() throws RuntimeException {
+                teamsListFragment.refresh();
+                authenticationTask=null;
+            }
+        };
+        authenticationTask.execute();
+
+
+        this.getFragmentManager().popBackStack();
     }
 
     private void onSubmit() {
         // Setting Editing information to a team
         team.setTeamName(etTeamName.getText().toString());
         team.setAgeGroups(spTeamAgeGroup.getSelectedItem().toString());
-
-        etTeamName.setVisibility(View.GONE);
-        spTeamAgeGroup.setVisibility(View.GONE);
-        btnTeamSubmit.setVisibility(View.GONE);
-
-        tvTeamName.setVisibility(View.VISIBLE);
-        tvTeamAgeGroup.setVisibility(View.VISIBLE);
-
-        btnTeamEdit.setVisibility(View.VISIBLE);
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -167,6 +176,18 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
             }
         };
         authenticationTask.execute();
+
+        etTeamName.setVisibility(View.GONE);
+        spTeamAgeGroup.setVisibility(View.GONE);
+        btnTeamSubmit.setVisibility(View.GONE);
+
+        tvTeamName.setVisibility(View.VISIBLE);
+        tvTeamAgeGroup.setVisibility(View.VISIBLE);
+
+        tvTeamName.setText(team.getTeamName());
+        tvTeamAgeGroup.setText(team.getAgeGroup());
+
+        btnTeamEdit.setVisibility(View.VISIBLE);
     }
 
     private int getIndex(Spinner spinner, String item){

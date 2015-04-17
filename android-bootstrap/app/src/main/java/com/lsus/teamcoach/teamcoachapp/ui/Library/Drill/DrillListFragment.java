@@ -34,7 +34,6 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     private String age;
     private String type;
     private String library;
-
     private LibraryFragment parent;
 
     @Override
@@ -95,7 +94,6 @@ public class DrillListFragment extends ItemListFragment<Drill> {
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
-
         Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
         startActivity(drillInfoIntent);
     }

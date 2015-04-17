@@ -3,6 +3,8 @@ package com.lsus.teamcoach.teamcoachapp.ui.Team;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,9 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     Button btnTeamSubmit;
     @InjectView(R.id.btn_Team_Info_Delete)
     Button btnTeamDelete;
+    @InjectView(R.id.btn_team_info_back)
+    Button btnTeamBack;
+
 
 
     @Override
@@ -65,23 +70,15 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         Views.inject(this, view);
 
+        btnTeamBack.setOnClickListener(this);
+        btnTeamDelete.setOnClickListener(this);
         btnTeamEdit.setOnClickListener(this);
         btnTeamSubmit.setOnClickListener(this);
         tvTeamName.setText(String.format("%s", team.getTeamName()));
         tvTeamAgeGroup.setText(String.format("%s", team.getAgeGroup()));
         btnTeamEdit.setVisibility(View.VISIBLE);
+        btnTeamDelete.setVisibility(View.GONE);
 
-        Singleton singleton = Singleton.getInstance();
-//        if(team.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
-//            btnEdit.setVisibility(View.VISIBLE);
-//        }
-//
-//        if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
-//            timesUsed.setVisibility(View.VISIBLE);
-//            timesUsedNum.setText(String.format("%s", drill.getTimesUsed()));
-//            timesUsedNum.setVisibility(View.VISIBLE);
-//            btnEdit.setVisibility(View.VISIBLE);
-//        }
     }
 
     public void setParentFragment(TeamsListFragment teamsListFragment){
@@ -100,6 +97,21 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         } else if (view.getId() == btnTeamSubmit.getId()) {
             //The Submit button has been clicked
             onSubmit();
+        }
+        else if (view.getId() == btnTeamDelete.getId()) {
+            //The Submit button has been clicked
+//            onDelete();
+        }else if (view.getId() == btnTeamBack.getId()) {
+            //The Submit button has been clicked
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//            fragmentTransaction.replace(TeamInfoFragment.this.getId(), fragmentManager.findFragmentByTag("teamsListFragment"));
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+
+            this.getFragmentManager().popBackStack();
+
         }
     }
 
@@ -140,7 +152,6 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     }
 
     private void onSubmit() {
-
         // Setting Editing information to a team
         team.setTeamName(etTeamName.getText().toString());
         team.setAgeGroups(spTeamAgeGroup.getSelectedItem().toString());
@@ -168,7 +179,6 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
 
     private int getIndex(Spinner spinner, String item){
         int index = 0;
-
         for(int i = 0; i < spinner.getCount(); i++){
             if(spinner.getItemAtPosition(i).equals(item)){
                 index = i;

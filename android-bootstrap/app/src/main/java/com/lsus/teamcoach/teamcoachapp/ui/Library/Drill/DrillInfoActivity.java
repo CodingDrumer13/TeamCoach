@@ -39,7 +39,6 @@ public class DrillInfoActivity extends BootstrapActivity {
     @InjectView(R.id.tv_drill_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
 
-
     private Drill drill;
     private SafeAsyncTask<Boolean> authenticationTask;
 

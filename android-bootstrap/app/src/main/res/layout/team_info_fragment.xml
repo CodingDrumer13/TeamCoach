@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:id="@+id/team_info_fragment">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_team_info_back"
+        android:background="@drawable/button_background_states"
+        style="@style/ShadowText"
+        android:text="Back"
+        android:textColor="@color/text"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        />
+
     <!-- Team Name -->
     <TextView
         android:layout_width="fill_parent"

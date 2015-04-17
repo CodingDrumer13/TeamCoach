@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/teams_root_view">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Teams"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/table_text_header"
-        android:textStyle="bold"
-        android:gravity="center" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

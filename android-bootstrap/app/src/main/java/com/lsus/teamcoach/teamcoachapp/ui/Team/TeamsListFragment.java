@@ -8,7 +8,9 @@ import android.support.v4.content.Loader;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
 import butterknife.Views;
 
 /**
@@ -108,6 +111,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(TeamsListFragment.this.getId(), teamInfoFragment);
+        fragmentTransaction.addToBackStack("teamsListFragment");
         fragmentTransaction.commit();
     }
 
@@ -177,4 +181,5 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     public void setParentFragment(TeamsFragment teamsFragment) {
         this.parentFragment = teamsFragment;
     }
+
 }

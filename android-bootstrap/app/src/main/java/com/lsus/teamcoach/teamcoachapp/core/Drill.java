@@ -18,7 +18,8 @@ public class Drill implements Serializable {
     protected int timesUsed;
     protected String creator;
 
-    public Drill(String drillName, String drillType, String drillAge, String drillDescription, String creator){
+    public Drill(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
+        this.groupId = groupId;
         this.drillName = drillName;
         this.drillType = drillType;
         this.drillAge = drillAge;

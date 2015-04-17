@@ -188,6 +188,8 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         tvTeamAgeGroup.setText(team.getAgeGroup());
 
         btnTeamEdit.setVisibility(View.VISIBLE);
+        btnTeamDelete.setVisibility(View.GONE);
+
     }
 
     private int getIndex(Spinner spinner, String item){

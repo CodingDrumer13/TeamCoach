@@ -114,6 +114,8 @@
     <string name="error_loading_teams">Error Loading Teams</string>
     <string name="page_roster">Roster</string>
     <string name="players">Players</string>
+    <string name="no_players">No Players</string>
+
 
 
 </resources>

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,6 +14,8 @@ import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
@@ -29,8 +32,8 @@ public class RosterListFragment extends ItemListFragment<User> {
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
+    private User user = Singleton.getInstance().getCurrentUser();
 
-    @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
@@ -40,7 +43,7 @@ public class RosterListFragment extends ItemListFragment<User> {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_users);
+        setEmptyText(R.string.no_players);
     }
 
     @Override
@@ -70,7 +73,9 @@ public class RosterListFragment extends ItemListFragment<User> {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-                        latest = serviceProvider.getService(getActivity()).getUsers();
+                        Team team = user.getTeams().get(0);
+                        Log.d("Team ",team.getObjectId());
+                        latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
                     }
 
                     if (latest != null) {

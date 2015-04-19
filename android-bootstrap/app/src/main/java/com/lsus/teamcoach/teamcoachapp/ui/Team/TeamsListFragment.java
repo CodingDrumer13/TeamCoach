@@ -62,6 +62,9 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
+
+        getListAdapter().addHeader(activity.getLayoutInflater()
+                .inflate(R.layout.teams_list_item_labels, null));
     }
 
     @Override

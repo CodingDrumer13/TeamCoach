@@ -51,7 +51,7 @@ public class UserListFragment extends ItemListFragment<User> {
         listView.setDividerHeight(0);
 
         getListAdapter().addHeader(activity.getLayoutInflater()
-                .inflate(R.layout.roster_list_item_labels, null));
+                .inflate(R.layout.user_list_item_labels, null));
     }
 
     @Override

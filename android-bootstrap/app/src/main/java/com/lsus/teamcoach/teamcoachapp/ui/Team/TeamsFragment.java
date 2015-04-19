@@ -84,8 +84,6 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
     //Only called from TeamListFragment
     public void addTeam(View v){
-        Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
-
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 

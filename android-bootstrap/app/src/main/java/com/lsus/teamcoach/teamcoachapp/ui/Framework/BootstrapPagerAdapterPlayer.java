@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterListFragment;
 
 /**
@@ -48,7 +49,7 @@ public class BootstrapPagerAdapterPlayer extends FragmentPagerAdapter {
                 result = new UserListFragment();
                 break;
             case 2:
-                result = new RosterListFragment();
+                result = new RosterFragment();
                 break;
             default:
                 result = null;

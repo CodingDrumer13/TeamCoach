@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,6 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
@@ -33,6 +33,8 @@ public class RosterListFragment extends ItemListFragment<User> {
     @Inject protected LogoutService logoutService;
 
     private User user = Singleton.getInstance().getCurrentUser();
+    protected RosterFragment parentFragment;
+
 
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,27 +71,33 @@ public class RosterListFragment extends ItemListFragment<User> {
             @Override
             public List<User> loadData() throws Exception {
 
-                try {
+//                try {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-                        Team team = user.getTeams().get(0);
-                        Log.d("Team ",team.getObjectId());
-                        latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
+//                        Team team = user.getTeams().get(0);
+//                        Log.d("Team ",team.getObjectId());
+//                        latest = serviceProvider.getService(getActivity()).getTeamMembers(new Team());
+                        if (user.getTeams().size() > 0) {
+                            parentFragment.hideButton();
+                        } else {
+                            parentFragment.showButton();
+                        }
                     }
 
                     if (latest != null) {
                         return latest;
                     } else {
+                        parentFragment.showButton();
                         return Collections.emptyList();
                     }
-                } catch (final OperationCanceledException e) {
-                    final Activity activity = getActivity();
-                    if (activity != null) {
-                        activity.finish();
-                    }
-                    return initialItems;
-                }
+//                } catch (final OperationCanceledException e) {
+//                    final Activity activity = getActivity();
+//                    if (activity != null) {
+//                        activity.finish();
+//                    }
+//                    return initialItems;
+//                }
             }
         };
 
@@ -100,7 +108,7 @@ public class RosterListFragment extends ItemListFragment<User> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));
 
-        startActivity(new Intent(getActivity(), RosterActivity.class).putExtra(USER, user));
+        startActivity(new Intent(getActivity(), UserActivity.class).putExtra(USER, user));
     }
 
     @Override
@@ -124,5 +132,9 @@ public class RosterListFragment extends ItemListFragment<User> {
         setListAdapter(null);
 
         super.onDestroyView();
+    }
+
+    public void setParentFragment(RosterFragment parentFragment) {
+        this.parentFragment = parentFragment;
     }
 }

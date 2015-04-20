@@ -31,7 +31,6 @@ public class UserListFragment extends ItemListFragment<User> {
     @Inject protected LogoutService logoutService;
     private FindTeamFragment parentFragment;
 
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +90,6 @@ public class UserListFragment extends ItemListFragment<User> {
         };
 
     }
-
-
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));

@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,12 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -41,6 +48,8 @@ public class DrillInfoActivity extends BootstrapActivity {
 
     private Drill drill;
     private SafeAsyncTask<Boolean> authenticationTask;
+    private boolean finished;
+    ArrayList<Drill> group;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -119,16 +128,55 @@ public class DrillInfoActivity extends BootstrapActivity {
 
             drill = checkDifferences(drill);
 
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
+            if(!drill.getIsGroup()) {
+                authenticationTask = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
 
-                    //Implement try/catch for update error
-                    bootstrapService.update(drill);
+                        //Implement try/catch for update error
+                        bootstrapService.update(drill);
 
-                    return true;
-                }
-            };
-            authenticationTask.execute();
+                        return true;
+                    }
+                };
+                authenticationTask.execute();
+            } else {
+
+
+                authenticationTask = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
+                        group = new ArrayList<Drill>();
+                        group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
+
+                        return true;
+                    }
+
+                    @Override
+                    protected void onFinally() throws RuntimeException {
+                        Toaster.showLong(DrillInfoActivity.this, "Updating drills, please wait.");
+
+                        for (Drill drill : group){
+                            drill = checkDifferences(drill);
+                        }
+
+                        authenticationTask = new SafeAsyncTask<Boolean>() {
+                            public Boolean call() throws Exception {
+
+                                for (final Drill drill : group) {
+                                    bootstrapService.update(drill);
+                                }
+
+                                return true;
+                            }
+
+                            @Override
+                            protected void onFinally() throws RuntimeException {}
+                        };
+                        authenticationTask.execute();
+
+                    }
+                };
+                authenticationTask.execute();
+            }
         }
     }
 

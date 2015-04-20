@@ -275,6 +275,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         groupId = getHash();
         if(!useAgeRange){
             openThread();
+
         } else {
             int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
             int topPos = sAgeGroupTop.getSelectedItemPosition();
@@ -282,22 +283,25 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
             if(bottomPos == topPos){
                 openThread();
             } else{
+
                 ExecutorService es = Executors.newCachedThreadPool();
+
                 for(int i = bottomPos; i <= topPos; i++){
+
                     sAgeGroupBottom.setSelection(i);
                     age = sAgeGroupBottom.getSelectedItem().toString();
+
                     es.execute(new Runnable() {
                         @Override
                         public void run() {
-                            System.out.println(age);
-                            bootstrapService.addDrill(assembleDrill());
-                            //openThread();
+                            bootstrapService.addDrill(assembleDrill(true));
                         }
                     });
                     if(i == bottomPos) Toaster.showLong(getActivity(), "Creating drills, please Wait.");
                     try {
                         es.awaitTermination(1000, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {}
+
                 }
                 if(typeSelected) refreshList();
                 AddDrillDialogFragment.this.dismiss();
@@ -306,8 +310,10 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     }
 
-    private Drill assembleDrill(){
-        return new Drill(groupId, drillName, type, age, description, creator);
+    private Drill assembleDrill(boolean isGroup){
+        Drill drill = new Drill(groupId, drillName, type, age, description, creator);
+        drill.setIsGroup(isGroup);
+        return drill;
     }
 
     private String getHash(){
@@ -331,7 +337,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     private void openThread(){
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                bootstrapService.addDrill(assembleDrill());
+                bootstrapService.addDrill(assembleDrill(false));
                 return true;
             }
 

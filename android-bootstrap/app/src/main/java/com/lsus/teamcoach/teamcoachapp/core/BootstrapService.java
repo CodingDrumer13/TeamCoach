@@ -99,6 +99,12 @@ public class BootstrapService {
         return getDrillService().update(drill.objectId, drill);
     }
 
+    public List<Drill> getGroupDrills(String groupId) {
+        String constraint = "{\"groupId\":\"" + groupId + "\"}";
+        return getDrillService().getGroup(constraint).getResults();
+    }
+
+
 
     public void remove(Drill drill) { getDrillService().remove(drill.objectId); }
 

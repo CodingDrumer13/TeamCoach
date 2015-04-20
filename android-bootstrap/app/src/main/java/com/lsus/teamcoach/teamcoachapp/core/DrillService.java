@@ -23,6 +23,10 @@ public interface DrillService {
     @GET(Constants.Http.URL_DRILL_FRAG)
     DrillWrapper getDrills(@Query("where") String constraint);
 
+
+    @GET(Constants.Http.URL_DRILL_FRAG)
+    DrillWrapper getGroup(@Query("where") String constraint);
+
     /**
      * Adds a drill to parse.
      *

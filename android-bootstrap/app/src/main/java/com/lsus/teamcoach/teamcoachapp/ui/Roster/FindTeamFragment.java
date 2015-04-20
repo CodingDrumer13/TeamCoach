@@ -40,7 +40,6 @@ public class FindTeamFragment extends Fragment implements View.OnClickListener
     @InjectView(R.id.etFindTeamCoachName) EditText etCoachName;
     @InjectView(R.id.btnFindTeamTeamSearch) Button btnTeamSearch;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.find_team_fragment, container, false);
@@ -88,7 +87,7 @@ public class FindTeamFragment extends Fragment implements View.OnClickListener
         if(v.getId() == btnTeamSearch.getId()){
             FragmentManager fragmentManager = getChildFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            UserListFragment userListFragment = new UserListFragment();
+            CoachListFragment userListFragment = new CoachListFragment();
             userListFragment.setRetainInstance(true);
             userListFragment.setParentFragment(this);
             fragmentTransaction.replace(R.id.flListView, userListFragment);

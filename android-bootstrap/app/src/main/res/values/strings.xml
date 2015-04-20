@@ -115,7 +115,8 @@
     <string name="page_roster">Roster</string>
     <string name="players">Players</string>
     <string name="no_players">No Players</string>
-
+    <string name="no_coaches">No Coaches Found</string>
+    <string name="Coaches">Coaches</string>
 
 
 </resources>

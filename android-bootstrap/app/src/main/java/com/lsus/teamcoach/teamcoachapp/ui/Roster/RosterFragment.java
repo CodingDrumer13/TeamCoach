@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 public class RosterFragment extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.btnAddTeam) Button btnAddTeam;
-
-    @Inject protected LogoutService logoutService;
+//    @Inject protected LogoutService logoutService;
 
     protected RosterListFragment rosterListFragment;
 
@@ -67,9 +67,9 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
         btnAddTeam.setOnClickListener(this);
     }
 
-    protected LogoutService getLogoutService() {
-        return logoutService;
-    }
+//    protected LogoutService getLogoutService() {
+//        return logoutService;
+//    }
 
 
     /**
@@ -97,16 +97,16 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
 
     //Only called from TeamListFragment
     public void addTeam(View v){
-        Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
+        FindTeamFragment findTeamFragment = new FindTeamFragment();
+        findTeamFragment.setParentFragment(this);
+        ft.replace(rosterListFragment.getId(), findTeamFragment);
+        ft.addToBackStack("findTeamFragment");
+        ft.commit();
 
-
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//
-//        AddTeamFrag newFragment = new AddTeamFrag();
-//        newFragment.setTeamsListFragment(teamsListFragment);
-//        newFragment.show(ft, "dialog");
+        hideButton();
 
     }
 

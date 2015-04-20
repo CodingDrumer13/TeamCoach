@@ -15,6 +15,7 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.FindTeamFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
@@ -28,6 +29,7 @@ public class UserListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
+    private FindTeamFragment parentFragment;
 
 
     @Override
@@ -119,5 +121,9 @@ public class UserListFragment extends ItemListFragment<User> {
         setListAdapter(null);
 
         super.onDestroyView();
+    }
+
+    public void setParentFragment(FindTeamFragment parentFragment) {
+        this.parentFragment = parentFragment;
     }
 }

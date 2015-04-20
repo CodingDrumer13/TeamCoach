@@ -30,7 +30,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 public class RosterListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
+//    @Inject protected LogoutService logoutService;
 
     private User user = Singleton.getInstance().getCurrentUser();
     protected RosterFragment parentFragment;
@@ -45,7 +45,7 @@ public class RosterListFragment extends ItemListFragment<User> {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_players);
+//        setEmptyText(R.string.no_players);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RosterListFragment extends ItemListFragment<User> {
 
     @Override
     protected LogoutService getLogoutService() {
-        return logoutService;
+        return null;
     }
 
     @Override

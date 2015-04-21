@@ -132,6 +132,8 @@ public final class Constants {
 
         public static final String SESSION = "session";
 
+        public static final String SESSION_ID = "sesison_id";
+
         public static final String TEAM = "team";
 
         public static final String BOTTOM_AGE = "botAge";

@@ -45,14 +45,11 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.roster, container, false);
-        Injector.inject(this);
         return view;
     }
 
@@ -65,29 +62,12 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         rosterListFragment = new RosterListFragment();
-        rosterListFragment.setRetainInstance(true);
+//        rosterListFragment.setRetainInstance(true);
         rosterListFragment.setParentFragment(this);
         fragmentTransaction.replace(R.id.roster_content, rosterListFragment);
         fragmentTransaction.commit();
 
         btnAddTeam.setOnClickListener(this);
-    }
-
-
-    /**
-     * Hide progress dialog
-     */
-    @SuppressWarnings("deprecation")
-    protected void hideProgress() {
-        getActivity().dismissDialog(0);
-    }
-
-    /**
-     * Show progress dialog
-     */
-    @SuppressWarnings("deprecation")
-    protected void showProgress() {
-        getActivity().showDialog(0);
     }
 
     @Override
@@ -99,7 +79,7 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
 
     //Only called from TeamListFragment
     public void addTeam(View v){
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         FindTeamFragment findTeamFragment = new FindTeamFragment();
@@ -109,7 +89,6 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
         ft.commit();
 
         hideButton();
-
     }
 
     public void showButton(){

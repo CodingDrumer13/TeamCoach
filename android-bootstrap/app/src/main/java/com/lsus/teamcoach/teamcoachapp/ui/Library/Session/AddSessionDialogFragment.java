@@ -42,6 +42,7 @@ import retrofit.RetrofitError;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.BOTTOM_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
 
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_ID;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TOP_AGE;
 
 /**
@@ -327,6 +328,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if(typeSelected) refreshList();
+                addSessionIntent.putExtra(SESSION_ID, AddSessionDialogFragment.this.getSession().getObjectId());
                 //addSessionIntent.putExtra(SESSION, AddSessionDialogFragment.this.getSession());
                 startActivity(addSessionIntent);
                 Toaster.showLong(getActivity(), "Press edit to add your first drill.");

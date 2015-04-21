@@ -43,6 +43,8 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     TextView tvTeamName;
     @InjectView(R.id.et_team_name)
     EditText etTeamName;
+    @InjectView(R.id.tvTeamCode)
+    TextView tvTeamCode;
     @InjectView(R.id.tv_Team_Age_Group)
     TextView tvTeamAgeGroup;
     @InjectView(R.id.sp_Team_Age_Group)
@@ -74,6 +76,7 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         btnTeamSubmit.setOnClickListener(this);
         tvTeamName.setText(String.format("%s", team.getTeamName()));
         tvTeamAgeGroup.setText(String.format("%s", team.getAgeGroup()));
+        tvTeamCode.setText(String.format("%s", team.getObjectId()));
         btnTeamEdit.setVisibility(View.VISIBLE);
         btnTeamDelete.setVisibility(View.GONE);
 
@@ -149,7 +152,7 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
 
                 return true;
             }
-
+            // Should be on success
             @Override protected void onFinally() throws RuntimeException {
                 teamsListFragment.refresh();
                 authenticationTask=null;

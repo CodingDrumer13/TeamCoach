@@ -39,9 +39,15 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 public class RosterFragment extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.btnAddTeam) Button btnAddTeam;
-//    @Inject protected LogoutService logoutService;
 
     protected RosterListFragment rosterListFragment;
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(false);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,10 +72,6 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
 
         btnAddTeam.setOnClickListener(this);
     }
-
-//    protected LogoutService getLogoutService() {
-//        return logoutService;
-//    }
 
 
     /**

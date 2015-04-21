@@ -39,6 +39,7 @@ public class CoachListFragment extends ItemListFragment<User> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+        setHasOptionsMenu(false);
     }
 
     @Override
@@ -58,6 +59,8 @@ public class CoachListFragment extends ItemListFragment<User> {
         getListAdapter().addHeader(activity.getLayoutInflater()
                 .inflate(R.layout.coach_list_item_label, null));
     }
+
+
 
     @Override
     protected LogoutService getLogoutService() {

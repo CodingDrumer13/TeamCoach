@@ -6,14 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seach By:"
-        android:id="@+id/textView"
-        style="@style/ShadowText"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coach Name"
+        android:text="Enter Team Code"
         android:id="@+id/textView2"
         style="@style/ShadowText"/>
 
@@ -21,32 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:id="@+id/etFindTeamCoachName"
+        android:id="@+id/etFindTeamTeamCode"
         style="@style/SignInEditText"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/btnFindTeamTeamSearch"
+        android:text="Submit"
+        android:id="@+id/btnFindTeamSubmit"
         android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/text"
         android:background="@drawable/button_background_states"
         android:textStyle="bold"
         android:gravity="center"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="center_horizontal"
-        android:fillViewport="true">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/flListView"/>
-    </ScrollView>
 
 </LinearLayout>

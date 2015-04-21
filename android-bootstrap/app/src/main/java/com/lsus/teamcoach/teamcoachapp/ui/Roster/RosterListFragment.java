@@ -30,7 +30,6 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 public class RosterListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
-//    @Inject protected LogoutService logoutService;
 
     private User user = Singleton.getInstance().getCurrentUser();
     protected RosterFragment parentFragment;
@@ -74,12 +73,11 @@ public class RosterListFragment extends ItemListFragment<User> {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-//                        Team team = user.getTeams().get(0);
+                        Team team = user.getTeams().get(0);
 //                        Log.d("Team ",team.getObjectId());
-//                        latest = serviceProvider.getService(getActivity()).getTeamMembers(new Team());
-                        if (user.getTeams().size() > 0) {
-                            parentFragment.hideButton();
-                        } else {
+                        if(team.getObjectId() != null) {
+                            latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
+                        }else{
                             parentFragment.showButton();
                         }
                     }
@@ -87,7 +85,6 @@ public class RosterListFragment extends ItemListFragment<User> {
                     if (latest != null) {
                         return latest;
                     } else {
-                        parentFragment.showButton();
                         return Collections.emptyList();
                     }
 //                } catch (final OperationCanceledException e) {
@@ -114,6 +111,16 @@ public class RosterListFragment extends ItemListFragment<User> {
     public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
 
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (user.getTeams().size() > 0) {
+                    parentFragment.hideButton();
+                } else {
+                    parentFragment.showButton();
+                }
+            }
+        });
     }
 
     @Override

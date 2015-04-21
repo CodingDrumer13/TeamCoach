@@ -57,11 +57,11 @@ public class CarouselFragment extends Fragment {
         }catch (Exception e) {
             e.printStackTrace();
 
-            try {
-                wait(1000);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+//            try {
+//                wait(1000);
+//            } catch (InterruptedException e1) {
+//                e1.printStackTrace();
+//            }
 
             if (user.getRole().equalsIgnoreCase("Admin")) {
                 pager.setAdapter(new BootstrapPagerAdapterAdmin(getResources(), getChildFragmentManager()));

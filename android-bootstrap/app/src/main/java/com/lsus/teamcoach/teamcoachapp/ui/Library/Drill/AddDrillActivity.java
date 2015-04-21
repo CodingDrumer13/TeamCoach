@@ -6,11 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,11 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
@@ -41,13 +38,15 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
+
 /**
- * Created by TeamCoach on 3/18/2015.
+ * Created by TeamCoach on 4/20/2015.
  */
-public class AddDrillDialogFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class AddDrillActivity extends BootstrapActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     @InjectView(R.id.btnCancelAddDrill) protected Button btnCancelAddDrill;
     @InjectView(R.id.btnAddDrill) protected Button btnAddDrill;
@@ -62,7 +61,8 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     @InjectView(R.id.sAddDrillType) protected Spinner sDrillType;
     @InjectView(R.id.etAddDrillDescription) protected EditText etDescription;
 
-    @Inject BootstrapService bootstrapService;
+    @Inject
+    BootstrapService bootstrapService;
 
     private SafeAsyncTask<Boolean> authenticationTask;
 
@@ -81,21 +81,17 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     private Fragment parent;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setTitle("Add Drill");
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.add_drill_activity, container, false);
-        Injector.inject(this);
+        setContentView(R.layout.add_drill_activity);
 
-        return view;
-    }
+        setTitle("Add Drill");
 
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Views.inject(this, view);
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            age = getIntent().getExtras().getSerializable(DRILL_AGE).toString();
+            type = getIntent().getExtras().getSerializable(DRILL_TYPE).toString();
+        }
 
         btnCancelAddDrill.setOnClickListener(this);
         btnAddDrill.setOnClickListener(this);
@@ -103,7 +99,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         btnAddImage.setOnClickListener(this);
 
         //Sets up the values for the Age Groups
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.age_group_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -112,34 +108,32 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         sAgeGroupTop.setAdapter(ageAdapter);
 
         //Sets up the values for the Drill Types
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.drill_type_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-       typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         sDrillType.setAdapter(typeAdapter);
 
         sAgeGroupBottom.setOnItemSelectedListener(this);
 
-        //TODO fix setting the age.
-        if(ageSelected){
-            sAgeGroupBottom.setSelection(getIndex(sAgeGroupBottom, age));
-        }
+        sAgeGroupBottom.setSelection(getIndex(sAgeGroupBottom, age));
 
-        if(typeSelected){
-            sDrillType.setSelection(getIndex(sDrillType, type));
-        }
+        sDrillType.setSelection(getIndex(sDrillType, type));
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    public void onClick(View view) {
+     public void onClick(View view) {
         if(btnAddDrill.getId() == view.getId()) {
             if(validateFields()){
                 addDrill();
             }
         }
         if(btnCancelAddDrill.getId() == view.getId()){
-            dismiss();
+            finish();
         }
 
         if(btnAddAgeGroup.getId() == view.getId()){
@@ -153,7 +147,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
         if(btnAddImage.getId() == view.getId()){
             Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            getActivity().startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
         }
     }
 
@@ -174,7 +168,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        Toaster.showLong(getActivity(), "Nothing Selected!");
+        Toaster.showLong(this, "Nothing Selected!");
     }
 
     public void setAgeSelected(Boolean ageSelected){
@@ -190,24 +184,24 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     public void setType(String type) { this.type = type; }
 
     private boolean validateFields(){
-            if (!etDrillName.getText().toString().equalsIgnoreCase("")){
+        if (!etDrillName.getText().toString().equalsIgnoreCase("")){
             drillName = etDrillName.getText().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
         if(!sDrillType.getSelectedItem().toString().equalsIgnoreCase("")) {
             type = sDrillType.getSelectedItem().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
         if(!sAgeGroupBottom.getSelectedItem().toString().equalsIgnoreCase("")){
             age = sAgeGroupBottom.getSelectedItem().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
@@ -215,11 +209,11 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
             int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
             int topPos = sAgeGroupTop.getSelectedItemPosition();
             if(bottomPos > topPos){
-                Toaster.showShort(getActivity(), "Make sure selected age groups are correct!");
+                Toaster.showShort(this, "Make sure selected age groups are correct!");
                 return false;
             } else {
                 if((topPos - bottomPos) > 5){
-                    Toaster.showShort(getActivity(), "Max age range is 5!");
+                    Toaster.showShort(this, "Max age range is 5!");
                     return false;
                 }
             }
@@ -230,7 +224,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         if(!etDescription.getText().toString().equalsIgnoreCase("")){
             description = etDescription.getText().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
@@ -256,7 +250,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
      */
     @SuppressWarnings("deprecation")
     protected void hideProgress() {
-        getActivity().dismissDialog(0);
+        this.dismissDialog(0);
     }
 
     public void setParent(Fragment parent){
@@ -313,14 +307,14 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
                             bootstrapService.addDrill(assembleDrill(true));
                         }
                     });
-                    if(i == bottomPos) Toaster.showLong(getActivity(), "Creating drills, please Wait.");
+                    if(i == bottomPos) Toaster.showLong(this, "Creating drills, please Wait.");
                     try {
                         es.awaitTermination(1000, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {}
 
                 }
                 if(typeSelected) refreshList();
-                AddDrillDialogFragment.this.dismiss();
+                AddDrillActivity.this.finish();
             }
         }
 
@@ -362,16 +356,14 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
                 // Retrofit Errors are handled inside of the {
                 if (!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if (cause != null) {
-                        Toaster.showLong(getActivity(), cause.getMessage());
-                    }
+                    //if (cause != null) Toaster.showLong(this, cause.getMessage());
                 }
             }
 
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if(typeSelected) refreshList();
-                AddDrillDialogFragment.this.dismiss();
+                AddDrillActivity.this.finish();
             }
 
             @Override
@@ -386,12 +378,12 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        Toaster.showLong(getActivity(), "onActivityResult working.");
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == getActivity().RESULT_OK && null != data){
+        Toaster.showLong(this, "onActivityResult working.");
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data){
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+            Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
 
@@ -399,13 +391,11 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Toaster.showLong(getActivity(), "Good result.");
+            Toaster.showLong(this, "Good result.");
 
             drillImage.setVisibility(View.VISIBLE);
             btnAddImage.setVisibility(View.GONE);
             drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
     }
-
-
 }

@@ -15,6 +15,7 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.lsus.teamcoach.teamcoachapp.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class DrillInfoActivity extends BootstrapActivity {
 
     @InjectView(R.id.tv_drill_name) protected TextView drillName;
     @InjectView(R.id.et_drill_name) protected EditText editName;
+    @InjectView(R.id.tv_drill_age) protected TextView drillAge;
+    @InjectView(R.id.tv_drill_type) protected TextView drillType;
     @InjectView(R.id.tv_drill_description) protected TextView drillDescription;
     @InjectView(R.id.et_drill_description) protected EditText editDescription;
     @InjectView(R.id.tv_drill_rating) protected TextView drillRating;
@@ -62,7 +65,10 @@ public class DrillInfoActivity extends BootstrapActivity {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
         }
 
+        //TODO make drill age and type editable.
         drillName.setText(String.format("%s", drill.getDrillName()));
+        drillAge.setText(String.format("%s", drill.getDrillAge()));
+        drillType.setText(String.format("%s", drill.getDrillType()));
         drillDescription.setText(String.format("%s", drill.getDrillDescription()));
         drillRating.setText(String.format("%s", drill.getDrillRating()));
 
@@ -126,6 +132,7 @@ public class DrillInfoActivity extends BootstrapActivity {
             btnRemove.setVisibility(View.GONE);
             btnEdit.setVisibility(View.VISIBLE);
 
+            //TODO Handle if drill is the same, no need to update.
             drill = checkDifferences(drill);
 
             if(!drill.getIsGroup()) {

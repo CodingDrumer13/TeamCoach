@@ -25,12 +25,15 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.DrillSelectorDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SelectListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
@@ -96,7 +99,10 @@ import retrofit.converter.GsonConverter;
                 RosterListFragment.class,
                 RosterFragment.class,
                 FindTeamFragment.class,
-                CoachListFragment.class
+                CoachListFragment.class,
+                AddDrillActivity.class,
+                DrillSelectorDialogFragment.class,
+                SelectListFragment.class
         }
 )
 public class BootstrapModule {

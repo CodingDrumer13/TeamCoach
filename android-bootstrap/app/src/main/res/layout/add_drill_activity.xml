@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/etAddDrillName"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
         android:hint="Drill Name"/>
 
     <LinearLayout
@@ -21,12 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/table_text_selector"
             android:textStyle="bold"
             android:text="From:"
             android:textSize="27dp"
             android:visibility="gone"
-            />
+            android:textColor="#ff000000" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -42,11 +40,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/table_text_selector"
             android:textStyle="bold"
             android:text="To:"
             android:textSize="27dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="#ff000000" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -76,12 +74,25 @@
         android:layout_gravity="center_horizontal"
         android:hint="Drill Type"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Image"
+        android:id="@+id/btnAddImage" />
+
+
+    <ImageView
+        android:id="@+id/iv_drillImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="200sp"
         android:id="@+id/etAddDrillDescription"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
         android:hint="Drill Description"
         android:singleLine="false"/>
 

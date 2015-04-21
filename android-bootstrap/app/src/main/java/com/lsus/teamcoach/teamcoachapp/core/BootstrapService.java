@@ -178,7 +178,9 @@ public class BootstrapService {
     public void remove(Session session) { getSessionService().remove(session.objectId); }
 
     public List<Session> getPublicSessions(String age, String type){
-        String constraint = "{\"isPublic\":\"" + "true" + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + age + "\"}";
+        boolean isPublic = true;
+        //String constraint = "{\"isPublic\":\"" + true + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
+        String constraint = "{\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
         return getSessionService().getSessions(constraint).getResults();
     }
 

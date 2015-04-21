@@ -10,7 +10,6 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
-import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
 
 /**
@@ -32,12 +30,13 @@ public class SessionInfoActivity extends BootstrapActivity {
 
     @InjectView(R.id.tv_session_name) protected TextView sessionName;
     @InjectView(R.id.et_session_name) protected EditText editName;
-    //@InjectView(R.id.tv_session_description) protected TextView sessionDescription;
-    //@InjectView(R.id.et_session_description) protected EditText editDescription;
+    @InjectView(R.id.tv_session_age) protected TextView sessionAge;
+    @InjectView(R.id.tv_session_type) protected TextView sessionType;
     @InjectView(R.id.tv_session_rating) protected TextView sessionRating;
     @InjectView(R.id.button_session_edit) protected Button btnEdit;
     @InjectView(R.id.button_session_submit) protected Button btnSubmit;
     @InjectView(R.id.button_session_remove) protected Button btnRemove;
+    @InjectView(R.id.button_addDrillList) protected Button addDrillList;
     @InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
 
@@ -56,9 +55,18 @@ public class SessionInfoActivity extends BootstrapActivity {
             session = (Session) getIntent().getExtras().getSerializable(SESSION);
         }
 
+        //TODO Handle age ranges here.
+        if(session.getIsGroup()){
+            if (getIntent() != null && getIntent().getExtras() != null) {
+                session = (Session) getIntent().getExtras().getSerializable(SESSION);
+            }
+        }
+
+        //TODO make session age and type editable.
         sessionName.setText(String.format("%s", session.getName()));
-        //sessionDescription.setText(String.format("%s", session.getDrillDescription()));
-        sessionRating.setText(String.format("%s", session.getRating()));
+        sessionAge.setText(String.format("%s", session.getAgeGroup()));
+        sessionType.setText(String.format("%s", session.getSessionType()));
+        sessionRating.setText(String.format("%s", session.getSessionRating()));
 
         Singleton singleton = Singleton.getInstance();
         if(session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
@@ -67,9 +75,9 @@ public class SessionInfoActivity extends BootstrapActivity {
 
         //USED FOR ADMIN PRIVILEGES
         if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
-            //timesUsed.setVisibility(View.VISIBLE);
-            //timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
-            //timesUsedNum.setVisibility(View.VISIBLE);
+            timesUsed.setVisibility(View.VISIBLE);
+            timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
+            timesUsedNum.setVisibility(View.VISIBLE);
             btnEdit.setVisibility(View.VISIBLE);
         }
 
@@ -88,6 +96,8 @@ public class SessionInfoActivity extends BootstrapActivity {
         }else if(view.getId() == btnRemove.getId()){
             //The Remove button has been clicked
             onRemove();
+        }else if(view.getId() == addDrillList.getId()){
+            addNewDrill();
         }
     }
 
@@ -102,6 +112,7 @@ public class SessionInfoActivity extends BootstrapActivity {
         //editDescription.setText(sessionDescription.getText());
 
         btnEdit.setVisibility(View.GONE);
+        addDrillList.setVisibility(View.VISIBLE);
         btnRemove.setVisibility(View.VISIBLE);
         btnSubmit.setVisibility(View.VISIBLE);
     }
@@ -117,6 +128,7 @@ public class SessionInfoActivity extends BootstrapActivity {
             sessionName.setText(editName.getText());
             //sessionDescription.setText(editDescription.getText());
 
+            addDrillList.setVisibility(View.GONE);
             btnSubmit.setVisibility(View.GONE);
             btnRemove.setVisibility(View.GONE);
             btnEdit.setVisibility(View.VISIBLE);
@@ -148,6 +160,10 @@ public class SessionInfoActivity extends BootstrapActivity {
         };
         authenticationTask.execute();
         this.finish();
+    }
+
+    private void addNewDrill(){
+
     }
 
 

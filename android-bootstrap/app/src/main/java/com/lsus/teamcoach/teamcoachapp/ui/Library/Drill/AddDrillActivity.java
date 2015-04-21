@@ -1,68 +1,65 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
-import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.BOTTOM_AGE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
-
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TOP_AGE;
 
 /**
- * Created by TeamCoach on 4/10/2015.
+ * Created by TeamCoach on 4/20/2015.
  */
-public class AddSessionDialogFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class AddDrillActivity extends BootstrapActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    @InjectView(R.id.btnCancelAddSession) protected Button btnCancelAddSession;
-    @InjectView(R.id.btnAddSession) protected Button btnAddSession;
-    @InjectView(R.id.etAddSessionName) protected EditText etSessionName;
-    @InjectView(R.id.sAddSessionType) protected Spinner sSessionType;
-    @InjectView(R.id.sAddSessionAgeGroupBottom) protected Spinner sAgeGroupBottom;
-    @InjectView(R.id.sAddSessionAgeGroupTop) protected Spinner sAgeGroupTop;
+    @InjectView(R.id.btnCancelAddDrill) protected Button btnCancelAddDrill;
+    @InjectView(R.id.btnAddDrill) protected Button btnAddDrill;
+    @InjectView(R.id.btnAddImage) protected Button btnAddImage;
+    @InjectView(R.id.iv_drillImage) protected ImageView drillImage;
+    @InjectView(R.id.etAddDrillName) protected EditText etDrillName;
+    @InjectView(R.id.sAddDrillAgeGroupBottom) protected Spinner sAgeGroupBottom;
+    @InjectView(R.id.sAddDrillAgeGroupTop) protected Spinner sAgeGroupTop;
     @InjectView(R.id.tv_from) protected TextView tvFrom;
     @InjectView(R.id.tv_to) protected TextView tvTo;
     @InjectView(R.id.btnAddAgeGroup) protected Button btnAddAgeGroup;
-    @InjectView(R.id.ck_MakePublic) protected CheckBox ckMakePublic;
-
-    Intent addSessionIntent;
+    @InjectView(R.id.sAddDrillType) protected Spinner sDrillType;
+    @InjectView(R.id.etAddDrillDescription) protected EditText etDescription;
 
     @Inject
     BootstrapService bootstrapService;
@@ -71,42 +68,38 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
 
     private boolean ageSelected;
     private boolean typeSelected;
+    private boolean useAgeRange = false;
     private String groupId;
-    private String sessionName;
+    private String drillName;
     private String age;
     private String type;
-    private boolean useAgeRange = false;
+    private String description;
     private String creator;
-    private boolean isPublic;
+
+    private static int RESULT_LOAD_IMAGE = 1;
+
 
     private Fragment parent;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setTitle("Create Session");
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.add_session_dialog_fragment, container, false);
-        Injector.inject(this);
+        setContentView(R.layout.add_drill_activity);
 
-        return view;
-    }
+        setTitle("Add Drill");
 
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            age = getIntent().getExtras().getSerializable(DRILL_AGE).toString();
+            type = getIntent().getExtras().getSerializable(DRILL_TYPE).toString();
+        }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Views.inject(this, view);
-
-        btnCancelAddSession.setOnClickListener(this);
-        btnAddSession.setOnClickListener(this);
-
-        //TODO Change visibility to make age ranges.
-        //TODO Change SessionInfoActivity to handle ranges.
-        btnAddAgeGroup.setVisibility(View.GONE);
+        btnCancelAddDrill.setOnClickListener(this);
+        btnAddDrill.setOnClickListener(this);
         btnAddAgeGroup.setOnClickListener(this);
+        btnAddImage.setOnClickListener(this);
 
         //Sets up the values for the Age Groups
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.age_group_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,30 +108,32 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
         sAgeGroupTop.setAdapter(ageAdapter);
 
         //Sets up the values for the Drill Types
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.session_type_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.drill_type_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        sSessionType.setAdapter(typeAdapter);
+        sDrillType.setAdapter(typeAdapter);
 
         sAgeGroupBottom.setOnItemSelectedListener(this);
 
-        if(ageSelected){
-            sAgeGroupBottom.setSelection(getIndex(sAgeGroupBottom, age));
-        }
+        sAgeGroupBottom.setSelection(getIndex(sAgeGroupBottom, age));
 
-        if(typeSelected){
-            sSessionType.setSelection(getIndex(sSessionType, type));
-        }
+        sDrillType.setSelection(getIndex(sDrillType, type));
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    public void onClick(View view) {
-        if(btnAddSession.getId() == view.getId()) {
+     public void onClick(View view) {
+        if(btnAddDrill.getId() == view.getId()) {
             if(validateFields()){
-                prepareSession();
+                addDrill();
             }
+        }
+        if(btnCancelAddDrill.getId() == view.getId()){
+            finish();
         }
 
         if(btnAddAgeGroup.getId() == view.getId()){
@@ -150,8 +145,9 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             useAgeRange = true;
         }
 
-        if(btnCancelAddSession.getId() == view.getId()){
-            dismiss();
+        if(btnAddImage.getId() == view.getId()){
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
         }
     }
 
@@ -172,7 +168,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        Toaster.showLong(this, "Nothing Selected!");
     }
 
     public void setAgeSelected(Boolean ageSelected){
@@ -188,24 +184,24 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
     public void setType(String type) { this.type = type; }
 
     private boolean validateFields(){
-        if (!etSessionName.getText().toString().equalsIgnoreCase("")){
-            sessionName = etSessionName.getText().toString();
+        if (!etDrillName.getText().toString().equalsIgnoreCase("")){
+            drillName = etDrillName.getText().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
-        if(!sSessionType.getSelectedItem().toString().equalsIgnoreCase("")) {
-            type = sSessionType.getSelectedItem().toString();
+        if(!sDrillType.getSelectedItem().toString().equalsIgnoreCase("")) {
+            type = sDrillType.getSelectedItem().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
         if(!sAgeGroupBottom.getSelectedItem().toString().equalsIgnoreCase("")){
             age = sAgeGroupBottom.getSelectedItem().toString();
         } else {
-            Toaster.showShort(this.getActivity(), "Please fill out all fields.");
+            Toaster.showShort(this, "Please fill out all fields.");
             return false;
         }
 
@@ -213,14 +209,23 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
             int topPos = sAgeGroupTop.getSelectedItemPosition();
             if(bottomPos > topPos){
-                Toaster.showShort(getActivity(), "Make sure selected age groups are correct!");
+                Toaster.showShort(this, "Make sure selected age groups are correct!");
                 return false;
             } else {
                 if((topPos - bottomPos) > 5){
-                    Toaster.showShort(getActivity(), "Max age range is 5!");
+                    Toaster.showShort(this, "Max age range is 5!");
                     return false;
                 }
             }
+        }
+
+
+
+        if(!etDescription.getText().toString().equalsIgnoreCase("")){
+            description = etDescription.getText().toString();
+        } else {
+            Toaster.showShort(this, "Please fill out all fields.");
+            return false;
         }
 
         Singleton singleton = Singleton.getInstance();
@@ -245,7 +250,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
      */
     @SuppressWarnings("deprecation")
     protected void hideProgress() {
-        getActivity().dismissDialog(0);
+        this.dismissDialog(0);
     }
 
     public void setParent(Fragment parent){
@@ -276,76 +281,49 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
         }
     }
 
-    private void prepareSession(){
+    private void addDrill(){
         groupId = getHash();
-        if(ckMakePublic.isChecked()){
-            isPublic = true;
-        } else {
-            isPublic = false;
-        }
-
-        addSessionIntent = new Intent(getActivity(), SessionInfoActivity.class);
-
         if(!useAgeRange){
-            addSessionIntent.putExtra(SESSION, assembleSession(false));
-            finishAdding(assembleSession(false));
+            openThread();
+
         } else {
             int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
             int topPos = sAgeGroupTop.getSelectedItemPosition();
 
             if(bottomPos == topPos){
-                addSessionIntent.putExtra(SESSION, assembleSession(false));
+                openThread();
             } else{
-                addSessionIntent.putExtra(SESSION, assembleSession(false));
-                addSessionIntent.putExtra(BOTTOM_AGE, sAgeGroupBottom.getSelectedItem().toString());
-                addSessionIntent.putExtra(TOP_AGE, sAgeGroupTop.getSelectedItem().toString());
+
+                ExecutorService es = Executors.newCachedThreadPool();
+
+                for(int i = bottomPos; i <= topPos; i++){
+
+                    sAgeGroupBottom.setSelection(i);
+                    age = sAgeGroupBottom.getSelectedItem().toString();
+
+                    es.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            bootstrapService.addDrill(assembleDrill(true));
+                        }
+                    });
+                    if(i == bottomPos) Toaster.showLong(this, "Creating drills, please Wait.");
+                    try {
+                        es.awaitTermination(1000, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {}
+
+                }
+                if(typeSelected) refreshList();
+                AddDrillActivity.this.finish();
             }
         }
-//        //TODO change back and remove finishAdding method to not use parse.com
-//        startActivity(addSessionIntent);
-//        dismiss();
+
     }
 
-    private void finishAdding(final Session session){
-        authenticationTask = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                bootstrapService.addSession(session);
-                return true;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
-                if (!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if (cause != null) {
-                        Toaster.showLong(getActivity(), cause.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onSuccess(final Boolean authSuccess) {
-                if(typeSelected) refreshList();
-                startActivity(addSessionIntent);
-                Toaster.showLong(getActivity(), "Press edit to add your first drill.");
-                dismiss();
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                hideProgress();
-                authenticationTask = null;
-            }
-        };
-        authenticationTask.execute();
-    }
-
-    private Session assembleSession(boolean isGroup){
-        Session session = new Session(groupId, sessionName, type, age, isPublic, creator);
-        session.setIsGroup(isGroup);
-        session.setDrillList(new ArrayList<Drill>());
-        return session;
+    private Drill assembleDrill(boolean isGroup){
+        Drill drill = new Drill(groupId, drillName, type, age, description, creator);
+        drill.setIsGroup(isGroup);
+        return drill;
     }
 
     private String getHash(){
@@ -364,5 +342,60 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
         }
 
         return thedigest.toString();
+    }
+
+    private void openThread(){
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                bootstrapService.addDrill(assembleDrill(false));
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                // Retrofit Errors are handled inside of the {
+                if (!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    //if (cause != null) Toaster.showLong(this, cause.getMessage());
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean authSuccess) {
+                if(typeSelected) refreshList();
+                AddDrillActivity.this.finish();
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+                authenticationTask = null;
+            }
+        };
+        authenticationTask.execute();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        Toaster.showLong(this, "onActivityResult working.");
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data){
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Toaster.showLong(this, "Good result.");
+
+            drillImage.setVisibility(View.VISIBLE);
+            btnAddImage.setVisibility(View.GONE);
+            drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
     }
 }

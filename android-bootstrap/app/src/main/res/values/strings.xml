@@ -106,6 +106,14 @@
         <item>Goalkeeping</item>
     </string-array>
 
+    <!--Age Group Spinner-->
+    <string-array name="session_type_array">
+        <item>Defending</item>
+        <item>Attacking</item>
+        <item>Fitness</item>
+        <item>Technical</item>
+    </string-array>
+
 
 
 

@@ -105,6 +105,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         AgeFragment ageFragment = new AgeFragment();
         ageFragment.setRetainInstance(true);
         ageFragment.setLibrary(library);
+        parent.setLibrary(library);
         ageFragment.setParent(parent);
         parent.replaceFragment(this, ageFragment);
     }

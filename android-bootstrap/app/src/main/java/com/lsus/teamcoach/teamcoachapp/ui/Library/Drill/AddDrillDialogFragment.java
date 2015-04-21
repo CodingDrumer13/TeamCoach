@@ -1,6 +1,11 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,6 +51,8 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
 
     @InjectView(R.id.btnCancelAddDrill) protected Button btnCancelAddDrill;
     @InjectView(R.id.btnAddDrill) protected Button btnAddDrill;
+    @InjectView(R.id.btnAddImage) protected Button btnAddImage;
+    @InjectView(R.id.iv_drillImage) protected ImageView drillImage;
     @InjectView(R.id.etAddDrillName) protected EditText etDrillName;
     @InjectView(R.id.sAddDrillAgeGroupBottom) protected Spinner sAgeGroupBottom;
     @InjectView(R.id.sAddDrillAgeGroupTop) protected Spinner sAgeGroupTop;
@@ -68,6 +76,8 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     private String description;
     private String creator;
 
+    private static int RESULT_LOAD_IMAGE = 1;
+
 
     private Fragment parent;
 
@@ -75,7 +85,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().setTitle("Add Drill");
 
-        View view = inflater.inflate(R.layout.add_drill_dialog_fragment, container, false);
+        View view = inflater.inflate(R.layout.add_drill_activity, container, false);
         Injector.inject(this);
 
         return view;
@@ -90,6 +100,7 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
         btnCancelAddDrill.setOnClickListener(this);
         btnAddDrill.setOnClickListener(this);
         btnAddAgeGroup.setOnClickListener(this);
+        btnAddImage.setOnClickListener(this);
 
         //Sets up the values for the Age Groups
         ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
@@ -138,6 +149,11 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
             btnAddAgeGroup.setVisibility(View.GONE);
 
             useAgeRange = true;
+        }
+
+        if(btnAddImage.getId() == view.getId()){
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            getActivity().startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
         }
     }
 
@@ -365,6 +381,30 @@ public class AddDrillDialogFragment extends DialogFragment implements View.OnCli
             }
         };
         authenticationTask.execute();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        Toaster.showLong(getActivity(), "onActivityResult working.");
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == getActivity().RESULT_OK && null != data){
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Toaster.showLong(getActivity(), "Good result.");
+
+            drillImage.setVisibility(View.VISIBLE);
+            btnAddImage.setVisibility(View.GONE);
+            drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
     }
 
 

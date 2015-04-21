@@ -9,17 +9,21 @@ import java.util.ArrayList;
 public class Session implements Serializable {
 
     protected String objectId;
+    protected String groupId;
+    protected boolean isGroup;
     protected String name;
     protected String ageGroup;
     protected String sessionType;
     protected ArrayList<Drill> drillList;
-    protected float rating;
+    protected float sessionRating;
+    protected int numberOfRatings;
+    protected int timesUsed;
     protected boolean isPublic;
     protected String creator;
 
-    public Session(String name, ArrayList<Drill> drillList, String sessionType, String ageGroup, Boolean isPublic, String creator){
+    public Session(String groupId, String name, String sessionType, String ageGroup, Boolean isPublic, String creator){
+        this.groupId = groupId;
         this.name = name;
-        this.drillList = drillList;
         this.sessionType = sessionType;
         this.ageGroup = ageGroup;
         this.isPublic = isPublic;
@@ -29,6 +33,14 @@ public class Session implements Serializable {
     public String getObjectId(){ return objectId; }
 
     public void setObjectId(String objectId){ this.objectId = objectId; }
+
+    public String getGroupId() { return groupId; }
+
+    public void setGroupId(String groupId) { this.groupId = groupId; }
+
+    public boolean getIsGroup() { return isGroup; }
+
+    public void setIsGroup(boolean isGroup) { this.isGroup = isGroup; }
 
     public String getName(){ return name; }
 
@@ -46,9 +58,17 @@ public class Session implements Serializable {
 
     public void setDrillList(ArrayList<Drill> drillList){ this.drillList = drillList; }
 
-    public float getRating(){ return rating; }
+    public float getSessionRating(){ return sessionRating; }
 
-    public void setRating(float rating){ this.rating = rating; }
+    public void setSessionRating(float sessionRating){ this.sessionRating = sessionRating; }
+
+    public int getNumberOfRatings() { return numberOfRatings; }
+
+    public void setNumberOfRatings(int numberOfRatings) { this.numberOfRatings = numberOfRatings; }
+
+    public int getTimesUsed() { return timesUsed; }
+
+    public void setTimesUsed(int timesUsed) { this.timesUsed = timesUsed; }
 
     public boolean getIsPublic(){ return isPublic; }
 

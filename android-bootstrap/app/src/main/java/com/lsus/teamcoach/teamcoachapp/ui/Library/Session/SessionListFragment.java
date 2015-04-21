@@ -78,6 +78,7 @@ public class SessionListFragment extends ItemListFragment<Session> {
             @Override
             public List<Session> loadData() throws Exception {
                 if (getActivity() != null) {
+                    //TODO Fix pulling only public drills, not working.
                     return serviceProvider.getService(getActivity()).getPublicSessions(age, type);
                 } else {
                     return Collections.emptyList();

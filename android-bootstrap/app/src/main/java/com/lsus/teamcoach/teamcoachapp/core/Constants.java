@@ -134,6 +134,10 @@ public final class Constants {
 
         public static final String TEAM = "team";
 
+        public static final String BOTTOM_AGE = "botAge";
+
+        public static final String TOP_AGE = "topAge";
+
     }
 
     public static final class Intent {

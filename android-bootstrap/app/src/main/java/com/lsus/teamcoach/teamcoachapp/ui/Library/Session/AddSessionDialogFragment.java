@@ -77,6 +77,8 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
     private String creator;
     private boolean isPublic;
 
+    private Session session;
+
     private Fragment parent;
 
     @Override
@@ -307,7 +309,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
     private void finishAdding(final Session session){
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                bootstrapService.addSession(session);
+                AddSessionDialogFragment.this.setSession(bootstrapService.addSession(session));
                 return true;
             }
 
@@ -325,6 +327,7 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if(typeSelected) refreshList();
+                //addSessionIntent.putExtra(SESSION, AddSessionDialogFragment.this.getSession());
                 startActivity(addSessionIntent);
                 Toaster.showLong(getActivity(), "Press edit to add your first drill.");
                 dismiss();
@@ -363,4 +366,8 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
 
         return thedigest.toString();
     }
+
+    public void setSession(Session session) { this.session = session; }
+
+    public Session getSession() { return session; }
 }

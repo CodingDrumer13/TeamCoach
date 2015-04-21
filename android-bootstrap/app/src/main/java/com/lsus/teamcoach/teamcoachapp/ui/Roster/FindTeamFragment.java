@@ -102,9 +102,7 @@ public class FindTeamFragment extends Fragment implements View.OnClickListener
                 public Boolean call() throws Exception {
                     Team team = bootstrapService.getTeam(etTeamCode.getText().toString());
                     User user = singleton.getCurrentUser();
-                    ArrayList<Team> teams = new ArrayList<Team>();
-                    teams.add(team);
-                    user.setTeams(teams);
+                    user.setTeam(team.getObjectId());
                     bootstrapService.update(user);
                     singleton.setCurrentUser(user);
                     return true;
@@ -122,7 +120,7 @@ public class FindTeamFragment extends Fragment implements View.OnClickListener
 
                 @Override
                 public void onSuccess(final Boolean authSuccess) {
-
+//                    parentFragment
                 }
 
                 @Override

@@ -152,8 +152,8 @@ public class BootstrapService {
     /**
      *  Get the team members
       */
-    public List<User> getTeamMembers(Team team){
-        String constraint = "{\"team\":\"" + team.getObjectId() + "\",\"role\":\"Player\"}";
+    public List<User> getTeamMembers(String team){
+        String constraint = "{\"team\":\"" + team + "\",\"role\":\"Player\"}";
         return getUserService().getTeamMembers(constraint).getResults(); }
 
     /**

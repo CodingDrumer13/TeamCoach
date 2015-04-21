@@ -30,6 +30,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 public class RosterListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     private User user = Singleton.getInstance().getCurrentUser();
     protected RosterFragment parentFragment;
@@ -40,10 +41,15 @@ public class RosterListFragment extends ItemListFragment<User> {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        setEmptyText(R.string.no_players);
+        setEmptyText(R.string.no_players);
     }
 
     @Override
@@ -59,7 +65,7 @@ public class RosterListFragment extends ItemListFragment<User> {
 
     @Override
     protected LogoutService getLogoutService() {
-        return null;
+        return logoutService;
     }
 
     @Override
@@ -73,9 +79,9 @@ public class RosterListFragment extends ItemListFragment<User> {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-                        Team team = user.getTeams().get(0);
+                        String team = user.getTeam();
 //                        Log.d("Team ",team.getObjectId());
-                        if(team.getObjectId() != null) {
+                        if(team != null) {
                             latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
                         }else{
                             parentFragment.showButton();
@@ -99,8 +105,6 @@ public class RosterListFragment extends ItemListFragment<User> {
 
     }
 
-
-
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));
 
@@ -110,17 +114,6 @@ public class RosterListFragment extends ItemListFragment<User> {
     @Override
     public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
-
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (user.getTeams().size() > 0) {
-                    parentFragment.hideButton();
-                } else {
-                    parentFragment.showButton();
-                }
-            }
-        });
     }
 
     @Override

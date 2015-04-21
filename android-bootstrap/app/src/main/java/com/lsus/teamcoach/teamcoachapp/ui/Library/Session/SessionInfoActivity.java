@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_ID;
 
 /**
  * Created by TeamCoach on 4/13/2015.
@@ -59,6 +60,14 @@ public class SessionInfoActivity extends BootstrapActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             session = (Session) getIntent().getExtras().getSerializable(SESSION);
         }
+
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            session.setObjectId(getIntent().getExtras().getSerializable(SESSION_ID).toString());
+        }
+
+
+        Toaster.showLong(this, "Session ID: " + session.getObjectId());
+
 
         //TODO Handle age ranges here.
         if(session.getIsGroup()){
@@ -230,7 +239,7 @@ public class SessionInfoActivity extends BootstrapActivity {
         session.setDrillList(current);
         String drillName = current.get(current.size() - 1).getDrillName();
 
-        Toaster.showLong(this, "Added " + drillName);
+        Toaster.showLong(this, "Added " + drillName + "\nList Size: " + current.size());
     }
 
 }

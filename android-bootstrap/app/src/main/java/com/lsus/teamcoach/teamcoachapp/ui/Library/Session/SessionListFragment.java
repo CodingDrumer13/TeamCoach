@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.Views;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_ID;
 
 /**
  * Created by TeamCoach on 3/12/2015.
@@ -95,7 +96,9 @@ public class SessionListFragment extends ItemListFragment<Session> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Session item = ((Session) l.getItemAtPosition(position));
 
-        Intent sessionInfoIntent = new Intent(getActivity(), SessionInfoActivity.class).putExtra(SESSION, item);
+        Intent sessionInfoIntent = new Intent(getActivity(), SessionInfoActivity.class);
+        sessionInfoIntent.putExtra(SESSION, item);
+        sessionInfoIntent.putExtra(SESSION_ID, item.getObjectId());
         startActivity(sessionInfoIntent);
     }
 

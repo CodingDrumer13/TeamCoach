@@ -283,6 +283,8 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
 
     private void addDrill(){
         groupId = getHash();
+        Toaster.showLong(this, "Creating drills, please Wait.");
+
         if(!useAgeRange){
             openThread();
 
@@ -307,7 +309,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                             bootstrapService.addDrill(assembleDrill(true));
                         }
                     });
-                    if(i == bottomPos) Toaster.showLong(this, "Creating drills, please Wait.");
+
                     try {
                         es.awaitTermination(1000, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {}

@@ -176,7 +176,9 @@ public class DrillInfoActivity extends BootstrapActivity {
                             }
 
                             @Override
-                            protected void onFinally() throws RuntimeException {}
+                            protected void onFinally() throws RuntimeException {
+
+                            }
                         };
                         authenticationTask.execute();
 
@@ -188,17 +190,57 @@ public class DrillInfoActivity extends BootstrapActivity {
     }
 
     private void onRemove(){
-        authenticationTask = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
+        if(!drill.getIsGroup()) {
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
 
-                //Implement try/catch for update error
-                bootstrapService.remove(drill);
+                    //Implement try/catch for update error
+                    bootstrapService.remove(drill);
 
-                return true;
-            }
-        };
-        authenticationTask.execute();
-        this.finish();
+                    return true;
+                }
+            };
+            authenticationTask.execute();
+        } else {
+
+
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+                    group = new ArrayList<Drill>();
+                    group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
+
+                    return true;
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+                    Toaster.showLong(DrillInfoActivity.this, "Removing drills, please wait.");
+
+                    for (Drill drill : group) {
+                        drill = checkDifferences(drill);
+                    }
+
+                    authenticationTask = new SafeAsyncTask<Boolean>() {
+                        public Boolean call() throws Exception {
+
+                            for (final Drill drill : group) {
+                                bootstrapService.remove(drill);
+                            }
+
+                            return true;
+                        }
+
+                        @Override
+                        protected void onFinally() throws RuntimeException {
+                            DrillInfoActivity.this.finish();
+                        }
+                    };
+                    authenticationTask.execute();
+
+                }
+            };
+            authenticationTask.execute();
+        }
     }
 
 

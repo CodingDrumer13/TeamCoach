@@ -25,7 +25,7 @@ public class User implements Serializable {
     protected String createdAt;
     protected ArrayList<Team> teams;
     protected ArrayList<Session> sessions;
-
+    protected String team;
     protected ArrayList<Drill> drills;
 
     public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
@@ -144,5 +144,13 @@ public class User implements Serializable {
             return "https://secure.gravatar.com/avatar/" + id + "?d=404";
         else
             return null;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }

@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterListFragment;
 
 /**
  * Pager adapter
@@ -33,7 +35,7 @@ public class BootstrapPagerAdapterPlayer extends FragmentPagerAdapter {
     //important
     //Number of Fragments on the Carousel has to be set
     @Override
-    public int getCount() { return 2; }
+    public int getCount() { return 3; }
 
     // Gets each fragment for the Carousel
     @Override
@@ -45,6 +47,9 @@ public class BootstrapPagerAdapterPlayer extends FragmentPagerAdapter {
                 break;
             case 1:
                 result = new UserListFragment();
+                break;
+            case 2:
+                result = new RosterFragment();
                 break;
             default:
                 result = null;
@@ -64,6 +69,8 @@ public class BootstrapPagerAdapterPlayer extends FragmentPagerAdapter {
                 return resources.getString(R.string.page_messages);
             case 1:
                 return resources.getString(R.string.page_main_menu);
+            case 2:
+                return resources.getString(R.string.page_roster);
             default:
                 return null;
         }

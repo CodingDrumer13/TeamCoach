@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.Roster;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
@@ -8,14 +8,16 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Roster.FindTeamFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
@@ -25,13 +27,13 @@ import javax.inject.Inject;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
-public class UserListFragment extends ItemListFragment<User> {
+public class RosterListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
-    private FindTeamFragment parentFragment;
 
-    @Override
+    private User user = Singleton.getInstance().getCurrentUser();
+    protected RosterFragment parentFragment;
+
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
@@ -41,7 +43,7 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_users);
+//        setEmptyText(R.string.no_players);
     }
 
     @Override
@@ -52,12 +54,12 @@ public class UserListFragment extends ItemListFragment<User> {
         listView.setDividerHeight(0);
 
         getListAdapter().addHeader(activity.getLayoutInflater()
-                .inflate(R.layout.user_list_item_labels, null));
+                .inflate(R.layout.roster_list_item_labels, null));
     }
 
     @Override
     protected LogoutService getLogoutService() {
-        return logoutService;
+        return null;
     }
 
     @Override
@@ -67,11 +69,17 @@ public class UserListFragment extends ItemListFragment<User> {
             @Override
             public List<User> loadData() throws Exception {
 
-                try {
+//                try {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
-                        latest = serviceProvider.getService(getActivity()).getUsers();
+                        Team team = user.getTeams().get(0);
+//                        Log.d("Team ",team.getObjectId());
+                        if(team.getObjectId() != null) {
+                            latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
+                        }else{
+                            parentFragment.showButton();
+                        }
                     }
 
                     if (latest != null) {
@@ -79,17 +87,19 @@ public class UserListFragment extends ItemListFragment<User> {
                     } else {
                         return Collections.emptyList();
                     }
-                } catch (final OperationCanceledException e) {
-                    final Activity activity = getActivity();
-                    if (activity != null) {
-                        activity.finish();
-                    }
-                    return initialItems;
-                }
+//                } catch (final OperationCanceledException e) {
+//                    final Activity activity = getActivity();
+//                    if (activity != null) {
+//                        activity.finish();
+//                    }
+//                    return initialItems;
+//                }
             }
         };
 
     }
+
+
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final User user = ((User) l.getItemAtPosition(position));
@@ -101,6 +111,16 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
 
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (user.getTeams().size() > 0) {
+                    parentFragment.hideButton();
+                } else {
+                    parentFragment.showButton();
+                }
+            }
+        });
     }
 
     @Override
@@ -110,7 +130,7 @@ public class UserListFragment extends ItemListFragment<User> {
 
     @Override
     protected SingleTypeAdapter<User> createAdapter(final List<User> items) {
-        return new UserListAdapter(getActivity().getLayoutInflater(), items);
+        return new RosterListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     @Override
@@ -120,7 +140,7 @@ public class UserListFragment extends ItemListFragment<User> {
         super.onDestroyView();
     }
 
-    public void setParentFragment(FindTeamFragment parentFragment) {
+    public void setParentFragment(RosterFragment parentFragment) {
         this.parentFragment = parentFragment;
     }
 }

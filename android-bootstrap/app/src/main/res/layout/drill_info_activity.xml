@@ -21,13 +21,57 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="5dip"
         android:singleLine="true"
-        android:layout_marginBottom="20dip"
+        android:layout_marginBottom="15dip"
         android:textColor="@color/table_text_selector" />
     <EditText
         android:id="@+id/et_drill_name"
         style="@style/SignInEditText"
         android:visibility="gone"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <!-- Drill Age -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/table_text_selector"
+            android:textStyle="bold"
+            android:text="Age Group: "
+            />
+        <TextView
+            android:id="@+id/tv_drill_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:singleLine="true"
+            android:layout_marginEnd="20sp"
+            android:textColor="@color/table_text_selector" />
+
+        <!-- Drill Type -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/table_text_selector"
+            android:textStyle="bold"
+            android:text="Type: "
+            />
+        <TextView
+            android:id="@+id/tv_drill_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:singleLine="true"
+
+            android:textColor="@color/table_text_selector" />
+
+        </LinearLayout>
 
 
     <!-- Drill Description -->
@@ -74,6 +118,8 @@
         android:layout_marginBottom="20dip"
         android:textColor="@color/table_text_selector"
         />
+
+
 
     <!-- Drill Times Used -->
     <TextView

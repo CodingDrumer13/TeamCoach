@@ -3,7 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/team_info_fragment">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_team_info_back"
+        android:background="@drawable/button_background_states"
+        style="@style/ShadowText"
+        android:text="Back"
+        android:textColor="@color/text"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        />
 
     <!-- Team Name -->
     <TextView
@@ -39,6 +52,7 @@
         android:textStyle="bold"
         android:text="Age Group: "
         />
+
     <TextView
         android:id="@+id/tv_Team_Age_Group"
         android:layout_width="fill_parent"
@@ -49,54 +63,35 @@
         android:layout_marginBottom="20dip"
         android:textColor="@color/table_text_selector"
         />
-    <EditText
-        android:id="@+id/et_Team_Age_Group"
-        style="@style/SignInEditText"
+
+    <Spinner
+        android:id="@+id/sp_Team_Age_Group"
+        style="@style/Spinner"
         android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/table_text_selector"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         />
 
-    <!-- Drill Rating -->
-    <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:textColor="@color/table_text_selector"-->
-        <!--android:textStyle="bold"-->
-        <!--android:text="Rating: "-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/tv_drill_rating"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:layout_marginTop="5dip"-->
-        <!--android:singleLine="true"-->
-        <!--android:layout_marginBottom="20dip"-->
-        <!--android:textColor="@color/table_text_selector"-->
-        <!--/>-->
+    <!-- Team Code -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:text="Team Code: "
+        />
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textColor="@color/table_text_selector"
+    android:textStyle="bold"
+    android:id="@+id/tvTeamCode"
+    />
 
-    <!--&lt;!&ndash; Drill Times Used &ndash;&gt;-->
-    <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:textColor="@color/table_text_selector"-->
-        <!--android:textStyle="bold"-->
-        <!--android:text="Times Used: "-->
-        <!--android:id="@+id/tv_drill_times_used"-->
-        <!--android:visibility="gone"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/tv_drill_times_used_num"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:layout_marginTop="5dip"-->
-        <!--android:singleLine="true"-->
-        <!--android:layout_marginBottom="20dip"-->
-        <!--android:textColor="@color/table_text_selector"-->
-        <!--android:visibility="gone"-->
-        <!--/>-->
 
     <Button
         android:id="@+id/btn_Team_Info_Edit"

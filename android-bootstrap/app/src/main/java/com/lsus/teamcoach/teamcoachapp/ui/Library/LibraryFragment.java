@@ -1,5 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,14 +13,21 @@ import android.widget.Button;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
+
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_AGE;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 
 /**
  * Created by TeamCoach on 3/18/2015.
@@ -37,16 +45,14 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     private boolean typeSelected = false;
     private String age;
     private String type;
-
+    private String library;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
         Injector.inject(this);
         return view;
-
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         libraryListFragment.setButtons(backButton, addButton, homeButton);
-        libraryListFragment.setParent(this);
+        libraryListFragment.setParentFragment(this);
         currentFragment = libraryListFragment;
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
@@ -72,7 +78,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     protected LogoutService getLogoutService() {
         return logoutService;
     }
-
 
     /**
      * Hide progress dialog
@@ -93,7 +98,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if(view.getId() == addButton.getId()){
-            addDrill();
+            addSomething();
         }
         if(view.getId() == backButton.getId()){
             back();
@@ -103,18 +108,36 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    //Only called from TeamListFragment
-    public void addDrill(){
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+    public void addSomething(){
+        if(library.equalsIgnoreCase("Drills")){
+            Intent addDrillIntent = new Intent(getActivity(), AddDrillActivity.class);
+            if(ageSelected) {
+                addDrillIntent.putExtra(DRILL_AGE, age);
+            } else {
+                addDrillIntent.putExtra(DRILL_AGE, "U4");
+            }
+            if(typeSelected) {
+                addDrillIntent.putExtra(DRILL_TYPE, type);
+            } else {
+                addDrillIntent.putExtra(DRILL_TYPE, "Defending");
+            }
+            startActivity(addDrillIntent);
+        }
 
-        AddDrillDialogFragment newFragment = new AddDrillDialogFragment();
-        newFragment.setAgeSelected(ageSelected);
-        newFragment.setTypeSelected(typeSelected);
-        newFragment.setParent(currentFragment);
-        if(ageSelected) newFragment.setAge(age);
-        if(typeSelected) newFragment.setType(type);
-        newFragment.show(ft, "dialog");
+        if(library.equalsIgnoreCase("Sessions")){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+
+            AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
+            newFragment.setAgeSelected(ageSelected);
+            newFragment.setTypeSelected(typeSelected);
+            newFragment.setParent(currentFragment);
+            if(ageSelected) newFragment.setAge(age);
+            if(typeSelected) newFragment.setType(type);
+            newFragment.show(ft, "dialog");
+        }
+
+
     }
 
     /**
@@ -128,7 +151,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
 
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         fragmentTransaction.replace(oldFragment.getId(), newFragment);
         fragmentTransaction.commit();
     }
@@ -141,7 +163,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             LibraryListFragment libraryListFragment = new LibraryListFragment();
             libraryListFragment.setRetainInstance(true);
             libraryListFragment.setButtons(backButton, addButton, homeButton);
-            libraryListFragment.setParent(this);
+            libraryListFragment.setParentFragment(this);
             replaceFragment(currentFragment, libraryListFragment);
 
         } else if(currentFragment instanceof TypeFragment){
@@ -177,13 +199,11 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     }
 
     private void home(){
-
         LibraryListFragment libraryListFragment = new LibraryListFragment();
         libraryListFragment.setRetainInstance(true);
         libraryListFragment.setButtons(backButton, addButton, homeButton);
-        libraryListFragment.setParent(this);
+        libraryListFragment.setParentFragment(this);
         replaceFragment(currentFragment, libraryListFragment);
-
     }
 
     public void setAgeSelected(Boolean ageSelected){ this.ageSelected = ageSelected; }
@@ -193,4 +213,19 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     public void setAge(String age) { this.age = age; }
 
     public void setType(String type) { this.type = type; }
+
+    public String getLibrary() { return library; }
+
+    public void setLibrary(String library) {
+        this.library = library;
+
+        if(library.equalsIgnoreCase("Drills")){
+            addButton.setText("Add New Drill");
+        }
+
+        if(library.equalsIgnoreCase("Sessions")){
+            addButton.setText("Add New Session");
+        }
+
+    }
 }

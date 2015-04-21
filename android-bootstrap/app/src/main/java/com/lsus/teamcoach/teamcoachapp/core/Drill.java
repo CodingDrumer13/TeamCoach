@@ -9,6 +9,7 @@ public class Drill implements Serializable {
 
     protected String objectId;
     protected String groupId;
+    protected boolean isGroup;
     protected String drillName;
     protected String drillType;
     protected String drillAge;
@@ -18,7 +19,8 @@ public class Drill implements Serializable {
     protected int timesUsed;
     protected String creator;
 
-    public Drill(String drillName, String drillType, String drillAge, String drillDescription, String creator){
+    public Drill(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
+        this.groupId = groupId;
         this.drillName = drillName;
         this.drillType = drillType;
         this.drillAge = drillAge;
@@ -34,6 +36,10 @@ public class Drill implements Serializable {
     public void setGroupId(String groupId) { this.groupId = groupId; }
 
     public String getGroupId() { return groupId; }
+
+    public void setIsGroup(boolean isGroup) { this.isGroup = isGroup; }
+
+    public boolean getIsGroup() { return isGroup; }
 
     public void setDrillName(String drillName) { this.drillName = drillName; }
 

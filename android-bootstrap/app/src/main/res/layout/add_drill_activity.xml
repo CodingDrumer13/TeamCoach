@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddSessionName"
+        android:id="@+id/etAddDrillName"
         android:layout_gravity="center_horizontal"
-        style="@style/SignInEditText"
-        android:hint="Session Name"/>
+        android:hint="Drill Name"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,12 +23,13 @@
             android:textStyle="bold"
             android:text="From:"
             android:textSize="27dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="#ff000000" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sAddSessionAgeGroupBottom"
+            android:id="@+id/sAddDrillAgeGroupBottom"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal"
@@ -45,12 +43,13 @@
             android:textStyle="bold"
             android:text="To:"
             android:textSize="27dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="#ff000000" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sAddSessionAgeGroupTop"
+            android:id="@+id/sAddDrillAgeGroupTop"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal"
@@ -69,33 +68,33 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sAddSessionType"
+        android:id="@+id/sAddDrillType"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_gravity="center_horizontal"
-        android:hint="Session Type"/>
+        android:hint="Drill Type"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
-            android:text="Make Public:"
-            android:textSize="27dp"/>
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ck_MakePublic"
-            android:checked="true"/>
+        android:text="Add Image"
+        android:id="@+id/btnAddImage" />
 
 
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_drillImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:id="@+id/etAddDrillDescription"
+        android:layout_gravity="center_horizontal"
+        android:hint="Drill Description"
+        android:singleLine="false"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -108,12 +107,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:id="@+id/btnCancelAddSession" />
+            android:id="@+id/btnCancelAddDrill" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/btnAddSession" />
-    </LinearLayout>
+            android:text="@string/submit"
+            android:id="@+id/btnAddDrill" />
+
+        </LinearLayout>
 </LinearLayout>

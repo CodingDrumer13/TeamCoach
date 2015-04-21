@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.Roster;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
@@ -8,14 +8,15 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Roster.FindTeamFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
@@ -25,23 +26,27 @@ import javax.inject.Inject;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
-public class UserListFragment extends ItemListFragment<User> {
+/**
+ * Created by Don on 4/19/2015.
+ */
+public class CoachListFragment extends ItemListFragment<User> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
+
     private FindTeamFragment parentFragment;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+        setHasOptionsMenu(false);
     }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_users);
+        setEmptyText(R.string.no_coaches);
     }
 
     @Override
@@ -52,12 +57,14 @@ public class UserListFragment extends ItemListFragment<User> {
         listView.setDividerHeight(0);
 
         getListAdapter().addHeader(activity.getLayoutInflater()
-                .inflate(R.layout.user_list_item_labels, null));
+                .inflate(R.layout.coach_list_item_label, null));
     }
+
+
 
     @Override
     protected LogoutService getLogoutService() {
-        return logoutService;
+        return null;
     }
 
     @Override

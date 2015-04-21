@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
+package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
+
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
@@ -13,7 +14,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
@@ -24,17 +25,20 @@ import javax.inject.Inject;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 
 /**
- * Created by TeamCoach on 3/12/2015.
+ * Created by TeamCoach on 4/21/2015.
  */
-public class DrillListFragment extends ItemListFragment<Drill> {
+public class SelectListFragment extends ItemListFragment<Drill> {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
+    @Inject
+    protected BootstrapServiceProvider serviceProvider;
+    @Inject
+    protected LogoutService logoutService;
 
     private String age;
     private String type;
     private String library;
-    private LibraryFragment parent;
+    private SessionInfoActivity parent;
+    private DrillSelectorDialogFragment container;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         this.refresh();
         super.onResume();
     }
@@ -79,7 +83,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
             @Override
             public List<Drill> loadData() throws Exception {
                 if (getActivity() != null) {
-                    return serviceProvider.getService(getActivity()).getDrills(age, type);
+                    return serviceProvider.getService(getActivity()).getDrills(age);
                 } else {
                     return Collections.emptyList();
                 }
@@ -93,9 +97,9 @@ public class DrillListFragment extends ItemListFragment<Drill> {
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final Drill item = ((Drill) l.getItemAtPosition(position));
-        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
-        startActivity(drillInfoIntent);
+        Drill drill = ((Drill) l.getItemAtPosition(position));
+        parent.setDrillToAdd(drill);
+        container.dismiss();
     }
 
     @Override
@@ -103,26 +107,30 @@ public class DrillListFragment extends ItemListFragment<Drill> {
         return R.string.error_loading_drills;
     }
 
-    public void setDrillData(String age, String type){
+    public void setDrillData(String age, String type) {
         this.age = age;
         this.type = type;
     }
 
-    public String getAge(){
+    public String getAge() {
         return age;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public String getLibrary(){
+    public String getLibrary() {
         return library;
     }
 
-    public void setLibrary(String library){
+    public void setLibrary(String library) {
         this.library = library;
     }
 
-    public void setParent(LibraryFragment parent) { this.parent = parent; }
+    public void setParent(SessionInfoActivity parent) {
+        this.parent = parent;
+    }
+
+    public void setContainer(DrillSelectorDialogFragment container) { this.container = container; }
 }

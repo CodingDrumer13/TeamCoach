@@ -88,6 +88,8 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getFullName(){ return firstName +" "+ lastName; }
+
     public String getAlias() {
         return alias;
     }

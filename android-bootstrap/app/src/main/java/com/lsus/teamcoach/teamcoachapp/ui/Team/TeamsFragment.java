@@ -1,7 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,15 +30,12 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
     protected TeamsListFragment teamsListFragment;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.teams, container, false);
         Injector.inject(this);
         return view;
-
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -49,9 +45,10 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        teamsListFragment= new TeamsListFragment();
+        teamsListFragment = new TeamsListFragment();
         teamsListFragment.setRetainInstance(true);
-        fragmentTransaction.replace(R.id.teamslistView, teamsListFragment);
+        teamsListFragment.setParentFragment(this);
+        fragmentTransaction.replace(R.id.content, teamsListFragment);
         fragmentTransaction.commit();
 
         btnNewTeam.setOnClickListener(this);
@@ -87,13 +84,12 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
 
     //Only called from TeamListFragment
     public void addTeam(View v){
-        Toast.makeText(this.getActivity(), "Add Team Method Called.", Toast.LENGTH_SHORT).show();
-
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         AddTeamFrag newFragment = new AddTeamFrag();
         newFragment.setTeamsListFragment(teamsListFragment);
         newFragment.show(ft, "dialog");
+
     }
 }

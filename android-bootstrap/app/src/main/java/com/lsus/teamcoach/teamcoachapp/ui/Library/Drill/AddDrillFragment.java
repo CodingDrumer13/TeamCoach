@@ -21,7 +21,6 @@ public class AddDrillFragment extends Fragment implements View.OnClickListener{
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
-    View view;
 
 
     public void onCreate(Bundle savedInstanceState){
@@ -33,7 +32,7 @@ public class AddDrillFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.admin, container, false);
+        View view = inflater.inflate(R.layout.admin, container, false);
         return view;
     }
 

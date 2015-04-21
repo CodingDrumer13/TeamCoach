@@ -59,4 +59,6 @@ public interface UserService {
     @GET(Constants.Http.URL_USERS_FRAG_CHILD +"/{objectID}")
     User currentUserWithChildren(@Path("objectID") String objectID);
 
+    @GET(Constants.Http.URL_USERS_FRAG)
+    UsersWrapper getTeamMembers(@Query("where") String constraint);
 }

@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,13 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.lsus.teamcoach.teamcoachapp.util.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -30,6 +38,8 @@ public class DrillInfoActivity extends BootstrapActivity {
 
     @InjectView(R.id.tv_drill_name) protected TextView drillName;
     @InjectView(R.id.et_drill_name) protected EditText editName;
+    @InjectView(R.id.tv_drill_age) protected TextView drillAge;
+    @InjectView(R.id.tv_drill_type) protected TextView drillType;
     @InjectView(R.id.tv_drill_description) protected TextView drillDescription;
     @InjectView(R.id.et_drill_description) protected EditText editDescription;
     @InjectView(R.id.tv_drill_rating) protected TextView drillRating;
@@ -39,9 +49,10 @@ public class DrillInfoActivity extends BootstrapActivity {
     @InjectView(R.id.tv_drill_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
 
-
     private Drill drill;
     private SafeAsyncTask<Boolean> authenticationTask;
+    private boolean finished;
+    ArrayList<Drill> group;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -54,7 +65,10 @@ public class DrillInfoActivity extends BootstrapActivity {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
         }
 
+        //TODO make drill age and type editable.
         drillName.setText(String.format("%s", drill.getDrillName()));
+        drillAge.setText(String.format("%s", drill.getDrillAge()));
+        drillType.setText(String.format("%s", drill.getDrillType()));
         drillDescription.setText(String.format("%s", drill.getDrillDescription()));
         drillRating.setText(String.format("%s", drill.getDrillRating()));
 
@@ -118,18 +132,58 @@ public class DrillInfoActivity extends BootstrapActivity {
             btnRemove.setVisibility(View.GONE);
             btnEdit.setVisibility(View.VISIBLE);
 
+            //TODO Handle if drill is the same, no need to update.
             drill = checkDifferences(drill);
 
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
+            if(!drill.getIsGroup()) {
+                authenticationTask = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
 
-                    //Implement try/catch for update error
-                    bootstrapService.update(drill);
+                        //Implement try/catch for update error
+                        bootstrapService.update(drill);
 
-                    return true;
-                }
-            };
-            authenticationTask.execute();
+                        return true;
+                    }
+                };
+                authenticationTask.execute();
+            } else {
+
+
+                authenticationTask = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
+                        group = new ArrayList<Drill>();
+                        group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
+
+                        return true;
+                    }
+
+                    @Override
+                    protected void onFinally() throws RuntimeException {
+                        Toaster.showLong(DrillInfoActivity.this, "Updating drills, please wait.");
+
+                        for (Drill drill : group){
+                            drill = checkDifferences(drill);
+                        }
+
+                        authenticationTask = new SafeAsyncTask<Boolean>() {
+                            public Boolean call() throws Exception {
+
+                                for (final Drill drill : group) {
+                                    bootstrapService.update(drill);
+                                }
+
+                                return true;
+                            }
+
+                            @Override
+                            protected void onFinally() throws RuntimeException {}
+                        };
+                        authenticationTask.execute();
+
+                    }
+                };
+                authenticationTask.execute();
+            }
         }
     }
 

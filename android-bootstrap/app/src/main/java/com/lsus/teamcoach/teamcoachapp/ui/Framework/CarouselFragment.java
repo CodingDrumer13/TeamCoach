@@ -44,14 +44,35 @@ public class CarouselFragment extends Fragment {
         User user = singleton.getCurrentUser();
 
 
-        if(user.getRole().equalsIgnoreCase("Admin")){
-            pager.setAdapter(new BootstrapPagerAdapterAdmin(getResources(), getChildFragmentManager()));
-        }if(user.getRole().equalsIgnoreCase("Coach")){
-            pager.setAdapter(new BootstrapPagerAdapterCoach(getResources(), getChildFragmentManager()));
-        }if (user.getRole().equalsIgnoreCase("Player")){
-            pager.setAdapter(new BootstrapPagerAdapterPlayer(getResources(), getChildFragmentManager()));
-        }
+        try {
+            if (user.getRole().equalsIgnoreCase("Admin")) {
+                pager.setAdapter(new BootstrapPagerAdapterAdmin(getResources(), getChildFragmentManager()));
+            }
+            if (user.getRole().equalsIgnoreCase("Coach")) {
+                pager.setAdapter(new BootstrapPagerAdapterCoach(getResources(), getChildFragmentManager()));
+            }
+            if (user.getRole().equalsIgnoreCase("Player")) {
+                pager.setAdapter(new BootstrapPagerAdapterPlayer(getResources(), getChildFragmentManager()));
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
 
+//            try {
+//                wait(1000);
+//            } catch (InterruptedException e1) {
+//                e1.printStackTrace();
+//            }
+
+            if (user.getRole().equalsIgnoreCase("Admin")) {
+                pager.setAdapter(new BootstrapPagerAdapterAdmin(getResources(), getChildFragmentManager()));
+            }
+            if (user.getRole().equalsIgnoreCase("Coach")) {
+                pager.setAdapter(new BootstrapPagerAdapterCoach(getResources(), getChildFragmentManager()));
+            }
+            if (user.getRole().equalsIgnoreCase("Player")) {
+                pager.setAdapter(new BootstrapPagerAdapterPlayer(getResources(), getChildFragmentManager()));
+            }
+        }
 
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);

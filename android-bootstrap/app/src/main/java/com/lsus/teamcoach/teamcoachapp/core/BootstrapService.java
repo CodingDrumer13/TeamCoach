@@ -70,10 +70,20 @@ public class BootstrapService {
     //public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
 
     /**
-     * Get bootstrap Drills of a specific sessionType that exists on Parse.com
+     * Get bootstrap Drills of a specific type and age that exists on Parse.com
      */
     public List<Drill> getDrills(String age, String type) {
         String constraint = "{\"drillAge\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
+        return getDrillService().getDrills(constraint).getResults();
+    }
+
+    /**
+     * Get bootstrap Drills based on age from parse.com
+     * @param age
+     * @return
+     */
+    public List<Drill> getDrills(String age) {
+        String constraint = "{\"drillAge\":\"" + age+ "\"}";
         return getDrillService().getDrills(constraint).getResults();
     }
 
@@ -98,6 +108,12 @@ public class BootstrapService {
     public Object update(Drill drill) {
         return getDrillService().update(drill.objectId, drill);
     }
+
+    public List<Drill> getGroupDrills(String groupId) {
+        String constraint = "{\"groupId\":\"" + groupId + "\"}";
+        return getDrillService().getGroup(constraint).getResults();
+    }
+
 
 
     public void remove(Drill drill) { getDrillService().remove(drill.objectId); }
@@ -134,6 +150,13 @@ public class BootstrapService {
     public User currentUserWithChildren(String objectID) {return getUserService().currentUserWithChildren(objectID); }
 
     /**
+     *  Get the team members
+      */
+    public List<User> getTeamMembers(Team team){
+        String constraint = "{\"team\":\"" + team.getObjectId() + "\",\"role\":\"Player\"}";
+        return getUserService().getTeamMembers(constraint).getResults(); }
+
+    /**
      * Get all bootstrap Users that exist on Parse.com
      */
     public Team getTeam(String id){ return getTeamService().getTeam(id); }
@@ -144,15 +167,17 @@ public class BootstrapService {
 
     public Team setTeam(Team team) { return  getTeamService().addTeam(team); }
 
+
     /**
      * Updates a team on Parse.com
      */
-    public Object update(Team team) {
-        return getTeamService().update(team.objectId, team);
-    }
+    public Object update(Team team) { return getTeamService().update(team.objectId, team);}
     /**
      * Get all Sessions from Parse.com
      */
+
+    public void remove(Team team) { getTeamService().remove(team.objectId); }
+
 
     public Session addSession(Session session){ return getSessionService().addSession(session);}
 
@@ -163,7 +188,9 @@ public class BootstrapService {
     public void remove(Session session) { getSessionService().remove(session.objectId); }
 
     public List<Session> getPublicSessions(String age, String type){
-        String constraint = "{\"isPublic\":\"" + "true" + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + age + "\"}";
+        boolean isPublic = true;
+        //String constraint = "{\"isPublic\":\"" + true + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
+        String constraint = "{\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
         return getSessionService().getSessions(constraint).getResults();
     }
 

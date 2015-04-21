@@ -25,19 +25,26 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.DrillSelectorDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SelectListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.CoachListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.FindTeamFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.AddTeamFrag;
-import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamMenuListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsListFragment;
@@ -85,10 +92,17 @@ import retrofit.converter.GsonConverter;
                 AddSessionDialogFragment.class,
                 SessionInfoActivity.class,
                 AddSessionDialogFragment.class,
-                TeamInfoActivity.class,
+                TeamInfoFragment.class,
                 AddDrillFragment.class,
                 AgeFragment.class,
-                TypeFragment.class
+                TypeFragment.class,
+                RosterListFragment.class,
+                RosterFragment.class,
+                FindTeamFragment.class,
+                CoachListFragment.class,
+                AddDrillActivity.class,
+                DrillSelectorDialogFragment.class,
+                SelectListFragment.class
         }
 )
 public class BootstrapModule {

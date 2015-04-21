@@ -30,13 +30,13 @@ import butterknife.Views;
  */
 public class LibraryListFragment extends ItemListFragment<String> implements View.OnClickListener{
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
-
     private Button backButton;
     private Button addButton;
     private Button homeButton;
     private LibraryFragment parent;
+
+    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -105,6 +105,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         AgeFragment ageFragment = new AgeFragment();
         ageFragment.setRetainInstance(true);
         ageFragment.setLibrary(library);
+        parent.setLibrary(library);
         ageFragment.setParent(parent);
         parent.replaceFragment(this, ageFragment);
     }
@@ -136,7 +137,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         this.homeButton = homeButton;
     }
 
-    public void setParent(LibraryFragment fragment){
+    public void setParentFragment(LibraryFragment fragment){
         this.parent = fragment;
     }
 }

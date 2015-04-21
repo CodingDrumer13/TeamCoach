@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,6 +43,7 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
     protected TeamsListFragment teamsListFragment;
+    private boolean result = false;
 
 
     @Inject BootstrapService bootstrapService;
@@ -121,13 +125,29 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
             teamToAdd.put("teamName", etAddTeamName.getText().toString());
             teamToAdd.put("ageGroup", sAddTeamGroup.getSelectedItem().toString());
             teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
-            teamToAdd.saveInBackground();
+
+            try {
+                teamToAdd.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException ex) {
+                        if (ex == null){
+                            teamsListFragment.refresh();
+                            result = true;
+                        }
+                        else{
+                            result = false;
+                            Log.e("", ex.getLocalizedMessage());
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             //Saving team locally in list.
             userTeams.add(team);
             singleton.setUserTeams(userTeams);
 
-            teamsListFragment.refresh();
             AddTeamFrag.this.dismiss();
 
         }

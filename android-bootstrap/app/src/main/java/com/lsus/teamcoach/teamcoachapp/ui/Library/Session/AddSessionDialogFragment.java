@@ -23,7 +23,6 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
@@ -43,7 +42,6 @@ import retrofit.RetrofitError;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.BOTTOM_AGE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_TYPE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.TOP_AGE;
 
 /**

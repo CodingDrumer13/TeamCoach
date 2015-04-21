@@ -1,6 +1,8 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,10 +12,13 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
+import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -163,7 +168,14 @@ public class SessionInfoActivity extends BootstrapActivity {
     }
 
     private void addNewDrill(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
+        DrillSelectorDialogFragment newFragment = new DrillSelectorDialogFragment();
+        newFragment.setAge(session.getAgeGroup());
+        newFragment.setType(session.getSessionType());
+        newFragment.setParent(this);
+        newFragment.show(ft, "dialog");
     }
 
 
@@ -205,4 +217,20 @@ public class SessionInfoActivity extends BootstrapActivity {
 
         return true;
     }
+
+    /**
+     * Handles the drill that is picked from the selector dialog box
+     * @param drill
+     */
+    public void setDrillToAdd(Drill drill){
+        ArrayList<Drill> current = session.getDrillList();
+
+        current.add(drill);
+
+        session.setDrillList(current);
+        String drillName = current.get(current.size() - 1).getDrillName();
+
+        Toaster.showLong(this, "Added " + drillName);
+    }
+
 }

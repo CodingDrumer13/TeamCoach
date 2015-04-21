@@ -32,6 +32,8 @@ import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.DrillSelectorDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SelectListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
@@ -98,7 +100,9 @@ import retrofit.converter.GsonConverter;
                 RosterFragment.class,
                 FindTeamFragment.class,
                 CoachListFragment.class,
-                AddDrillActivity.class
+                AddDrillActivity.class,
+                DrillSelectorDialogFragment.class,
+                SelectListFragment.class
         }
 )
 public class BootstrapModule {

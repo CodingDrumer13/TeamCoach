@@ -70,10 +70,20 @@ public class BootstrapService {
     //public List<Drill> getDrills() { return getDrillService().getDrills().getResults(); }
 
     /**
-     * Get bootstrap Drills of a specific sessionType that exists on Parse.com
+     * Get bootstrap Drills of a specific type and age that exists on Parse.com
      */
     public List<Drill> getDrills(String age, String type) {
         String constraint = "{\"drillAge\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
+        return getDrillService().getDrills(constraint).getResults();
+    }
+
+    /**
+     * Get bootstrap Drills based on age from parse.com
+     * @param age
+     * @return
+     */
+    public List<Drill> getDrills(String age) {
+        String constraint = "{\"drillAge\":\"" + age+ "\"}";
         return getDrillService().getDrills(constraint).getResults();
     }
 

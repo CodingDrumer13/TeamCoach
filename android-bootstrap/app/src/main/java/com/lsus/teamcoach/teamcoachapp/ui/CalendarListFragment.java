@@ -115,7 +115,7 @@ public class CalendarListFragment extends ListFragment {
         Singleton singleton = Singleton.getInstance();
         User user = singleton.getCurrentUser();
 
-        ArrayList<CalendarEvent> menuItems = new ArrayList<CalendarEvent>();
+        ArrayList<CalendarEvent> menuItems =  user.getEvents();
 
 //        if(user.getTeams() == null) {
 //            //Inform the User to add a team
@@ -125,12 +125,13 @@ public class CalendarListFragment extends ListFragment {
 //        }else{
 //            menuItems = (user.getTeams());
 //        }
-        CalendarEvent event = new CalendarEvent();
-        event.setEventName("New Event");
-        Date date = new Date();
-        event.setDate(date);
-        event.setEventType("Game");
-        menuItems.add(event);
+//        CalendarEvent event = new CalendarEvent();
+//        event.setEventName("New Event");
+//        event.setStartDate("Start Date");
+//        event.setStartTime("Start Time");
+//        event.setEndTime("End Time");
+//        event.setEventType("Game");
+//        menuItems.add(event);
 
         return menuItems;
     }

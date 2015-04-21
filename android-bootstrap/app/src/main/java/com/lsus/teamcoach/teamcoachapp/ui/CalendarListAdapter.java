@@ -31,7 +31,7 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_teamCalendar};
+        return new int[]{R.id.tv_eventDate};
     }
 
     @Override

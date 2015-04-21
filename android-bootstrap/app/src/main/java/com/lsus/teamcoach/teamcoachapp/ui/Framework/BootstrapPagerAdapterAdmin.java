@@ -12,6 +12,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.CalendarFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
 
@@ -36,7 +37,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
     //important
     //Number of Fragments on the Carousel has to be set
     @Override
-    public int getCount() { return 5; }
+    public int getCount() { return 6; }
 
     // Gets each fragment for the Carousel
     @Override
@@ -57,6 +58,9 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 break;
             case 4:
                 result = new AdminFragment();
+                break;
+            case 5:
+                result = new CalendarFragment();
                 break;
             default:
                 result = null;
@@ -82,6 +86,8 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 return resources.getString(R.string.page_library);
             case 4:
                 return resources.getString(R.string.page_admin);
+            case 5:
+                return "Calendar";
             default:
                 return null;
         }

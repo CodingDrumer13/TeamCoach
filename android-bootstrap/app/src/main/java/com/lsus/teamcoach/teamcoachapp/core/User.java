@@ -24,6 +24,7 @@ public class User implements Serializable {
     protected String email;
     protected String createdAt;
     protected ArrayList<Team> teams;
+    protected ArrayList<CalendarEvent> events;
     protected ArrayList<Session> sessions;
     protected String team;
     protected ArrayList<Drill> drills;
@@ -116,6 +117,15 @@ public class User implements Serializable {
     }
 
     public void setTeams(ArrayList<Team> teams) { this.teams = teams; }
+
+    public ArrayList<CalendarEvent> getEvents() {
+        if(events == null) {
+            events = new ArrayList<CalendarEvent>();
+        }
+        return events;
+    }
+
+    public void setEvents(ArrayList<CalendarEvent> events) { this.events = events; }
 
     public ArrayList<Session> getSessions(){ return sessions; }
 

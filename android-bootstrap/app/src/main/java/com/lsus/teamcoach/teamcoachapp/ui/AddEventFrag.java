@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -84,7 +85,6 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         Injector.inject(this);
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        //timeZone = new SimpleTimeZone()
         return view;
     }
 
@@ -138,8 +138,57 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             event = new CalendarEvent();
             event.setEventName(et_eventTitle.getText().toString());
             event.setEventType(spin_eventType.getSelectedItem().toString());
-            Date date = new Date();
-            event.setDate(date);
+
+            event.setStartDate(et_EventStartDate.getText().toString());
+            event.setStartTime(et_EventStartTime.getText().toString());
+            event.setEndTime(et_EventEndTime.getText().toString());
+
+            ArrayList<CalendarEvent> events = singleton.getUserEvents();
+            User user = singleton.getCurrentUser();
+
+//            if(events == null){
+//                events = new ArrayList<CalendarEvent>();
+//                singleton.setUserEvents(events);
+//            }
+
+
+//            //ArrayList Example.
+//            JSONArray parseList = new JSONArray();
+//            for (Team team : userTeams){
+//                parseList.put(team);
+//            }
+
+//            //Saving team to Team class on Parse.com
+//            ParseObject teamToAdd = new ParseObject("Team");
+//            teamToAdd.put("teamName", etAddTeamName.getText().toString());
+//            teamToAdd.put("ageGroup", sAddTeamGroup.getSelectedItem().toString());
+//            teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
+//
+//            try {
+//                teamToAdd.saveInBackground(new SaveCallback() {
+//                    @Override
+//                    public void done(ParseException ex) {
+//                        if (ex == null){
+//                            teamsListFragment.refresh();
+//                            result = true;
+//                        }
+//                        else{
+//                            result = false;
+//                            Log.e("", ex.getLocalizedMessage());
+//                        }
+//                    }
+//                });
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
+            //Saving team locally in list.
+            events.add(event);
+            singleton.setUserEvents(events);
+
+            AddEventFrag.this.dismiss();
+
+        }
 
             if (view == btnDate) {
 
@@ -248,7 +297,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
 //            authenticationTask.execute();
 
 
-        }
+
         if(btnCancelCreateEvent.getId() == view.getId()){
             dismiss();
         }

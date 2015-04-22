@@ -31,6 +31,9 @@ import javax.inject.Inject;
 public class CalendarListFragment extends ListFragment {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
+
+    private CalendarListAdapter adapter;
 
     /**
      * List items provided to
@@ -42,14 +45,12 @@ public class CalendarListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
 
-
     }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setListAdapter(createAdapter(getCalendarItems()));
-//        setEmptyText(R.string.no_teams);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class CalendarListFragment extends ListFragment {
 
     //    @Override
     protected void configureList(final Activity activity, final ListView listView) {
-//        super.configureList(activity, listView);
+       //super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
@@ -74,14 +75,14 @@ public class CalendarListFragment extends ListFragment {
 
     public Loader<List<CalendarEvent>> onCreateLoader(final int id, final Bundle args) {
 
-        final List<CalendarEvent> initialItems = items;
+        final List<CalendarEvent> initialItems = getCalendarItems();
         return new ThrowableLoader<List<CalendarEvent>>(getActivity(), items) {
 
             @Override
             public List<CalendarEvent> loadData() throws Exception {
                 if (getActivity() != null) {
-                    serviceProvider.getService(getActivity());
-                    return getCalendarItems();
+                    //serviceProvider.getService(getActivity());
+                    return initialItems;
                 } else {
                     return Collections.emptyList();
                 }
@@ -89,15 +90,16 @@ public class CalendarListFragment extends ListFragment {
         };
     }
 
-    //    @Override
+    //@Override
     protected SingleTypeAdapter<CalendarEvent> createAdapter(final List<CalendarEvent> items) {
-        return new CalendarListAdapter(getActivity().getLayoutInflater(), items);
+        this.adapter = new CalendarListAdapter(getActivity().getLayoutInflater(), items);
+        return adapter;
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final CalendarEvent item = ((CalendarEvent) l.getItemAtPosition(position));
 
-        Toaster.showShort(this.getActivity(), "You clicked: " + item);
+        Toaster.showShort(this.getActivity(), "You clicked: " + item.getEventName());
 
     }
 
@@ -117,22 +119,18 @@ public class CalendarListFragment extends ListFragment {
 
         ArrayList<CalendarEvent> menuItems =  user.getEvents();
 
-//        if(user.getTeams() == null) {
-//            //Inform the User to add a team
-////            Team team = new Team();
-////            team.setTeamName("Name");
-////            menuItems.add(team);
-//        }else{
-//            menuItems = (user.getTeams());
-//        }
-//        CalendarEvent event = new CalendarEvent();
-//        event.setEventName("New Event");
-//        event.setStartDate("Start Date");
-//        event.setStartTime("Start Time");
-//        event.setEndTime("End Time");
-//        event.setEventType("Game");
-//        menuItems.add(event);
 
         return menuItems;
     }
+
+    //@Override
+    protected LogoutService getLogoutService() {
+        return logoutService;
+    }
+
+    protected void updateAdapter()
+    {
+        //adapter.update();
+    }
+
 }

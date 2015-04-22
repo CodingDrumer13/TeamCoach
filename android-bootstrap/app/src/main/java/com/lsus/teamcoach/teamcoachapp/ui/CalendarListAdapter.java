@@ -38,6 +38,7 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
     protected void update(final int position, final CalendarEvent item) {
         super.update(position, item);
 
-        //setText(0, item.getEventName());
+        setText(0, item.getStartDate());
+
     }
 }

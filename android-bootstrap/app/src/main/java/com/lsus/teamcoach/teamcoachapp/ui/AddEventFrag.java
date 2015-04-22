@@ -54,7 +54,6 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     private TimePickerDialog endTimeDialog;
 
     private SimpleDateFormat dateFormatter;
-    //private SimpleTimeZone timeZone;
 
     // Variable for storing current date and time
     private int mYear, mMonth, mDay, mHour, mMinute;
@@ -146,46 +145,10 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             User user = singleton.getCurrentUser();
             ArrayList<CalendarEvent> events = singleton.getUserEvents();
 
-
-//            if(events == null){
-//                events = new ArrayList<CalendarEvent>();
-//                singleton.setUserEvents(events);
-//            }
-
-
-//            //ArrayList Example.
-//            JSONArray parseList = new JSONArray();
-//            for (Team team : userTeams){
-//                parseList.put(team);
-//            }
-
-//            //Saving team to Team class on Parse.com
-//            ParseObject teamToAdd = new ParseObject("Team");
-//            teamToAdd.put("teamName", etAddTeamName.getText().toString());
-//            teamToAdd.put("ageGroup", sAddTeamGroup.getSelectedItem().toString());
-//            teamToAdd.put("coach", ParseUser.getCurrentUser().getEmail());
-//
-//            try {
-//                teamToAdd.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(ParseException ex) {
-//                        if (ex == null){
-//                            teamsListFragment.refresh();
-//                            result = true;
-//                        }
-//                        else{
-//                            result = false;
-//                            Log.e("", ex.getLocalizedMessage());
-//                        }
-//                    }
-//                });
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
             //Saving team locally in list.
             events.add(event);
             user.setEvents(events);
+
 
             AddEventFrag.this.dismiss();
 
@@ -265,53 +228,11 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                 tpd.show();
             }
 
-//            authenticationTask = new SafeAsyncTask<Boolean>() {
-//                public Boolean call() throws Exception {
-//                    team = bootstrapService.setTeam(team);
-//                    User user = singleton.getCurrentUser();
-//                    if(user.getTeams() == null){
-//                        ArrayList<Team> teams = new ArrayList<Team>();
-//                        teams.add(team);
-//                        user.setTeams(teams);
-//                    }else{
-//                        user.getTeams().add(team);
-//                    }
-//                    bootstrapService.update(user);
-//
-//                    singleton.setCurrentUser(user);
-//
-//                    return true;
-//                }
-//
-//                @Override
-//                protected void onException(final Exception e) throws RuntimeException {
-//                    // Retrofit Errors are handled inside of the {
-//                    if (!(e instanceof RetrofitError)) {
-//                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-//                        if (cause != null) {
-//                            Toaster.showLong(getActivity(), cause.getMessage());
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onSuccess(final Boolean authSuccess) {
-//                    AddEventFrag.this.dismiss();
-//                }
-//
-//                @Override
-//                protected void onFinally() throws RuntimeException {
-//                    hideProgress();
-//                    authenticationTask = null;
-//                }
-//            };
-//            authenticationTask.execute();
-
-
-
         if(btnCancelCreateEvent.getId() == view.getId()){
             dismiss();
         }
+
+
     }
 }
 

@@ -143,8 +143,9 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             event.setStartTime(et_EventStartTime.getText().toString());
             event.setEndTime(et_EventEndTime.getText().toString());
 
-            ArrayList<CalendarEvent> events = singleton.getUserEvents();
             User user = singleton.getCurrentUser();
+            ArrayList<CalendarEvent> events = singleton.getUserEvents();
+
 
 //            if(events == null){
 //                events = new ArrayList<CalendarEvent>();
@@ -184,7 +185,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
 
             //Saving team locally in list.
             events.add(event);
-            singleton.setUserEvents(events);
+            user.setEvents(events);
 
             AddEventFrag.this.dismiss();
 
@@ -228,7 +229,12 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 // Display Selected time in textbox
-                                et_EventStartTime.setText(hourOfDay + ":" + minute);
+                                String minuteString;
+                                if(minute < 10){
+                                    minuteString = "0" + minute;}
+                                else
+                                    minuteString = String.valueOf(minute);
+                                et_EventStartTime.setText(hourOfDay + ":" + minuteString);
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
@@ -248,7 +254,12 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 // Display Selected time in textbox
-                                et_EventEndTime.setText(hourOfDay + ":" + minute);
+                                String minuteString;
+                                if(minute < 10){
+                                    minuteString = "0" + minute;}
+                                else
+                                    minuteString = String.valueOf(minute);
+                                et_EventEndTime.setText(hourOfDay + ":" + minuteString);
                             }
                         }, mHour, mMinute, false);
                 tpd.show();

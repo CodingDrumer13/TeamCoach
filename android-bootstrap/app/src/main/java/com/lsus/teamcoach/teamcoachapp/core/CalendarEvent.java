@@ -49,6 +49,9 @@ public class CalendarEvent implements Serializable {
 
     public String getEndTime() {return endTime;}
 
+    public String getTimeSpan() {String span = startTime + " - " + endTime;
+                                    return span;}
+
     public String getEventType() { return eventType; }
 
     public void setEventType(String type) { this.eventType = type; }

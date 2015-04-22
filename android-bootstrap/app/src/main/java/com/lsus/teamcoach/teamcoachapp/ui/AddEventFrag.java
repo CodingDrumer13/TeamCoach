@@ -170,8 +170,8 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 // Display Selected date in textbox
-                                et_EventStartDate.setText(dayOfMonth + "-"
-                                        + (monthOfYear + 1) + "-" + year);
+                                et_EventStartDate.setText((monthOfYear + 1) + "-"
+                                        + dayOfMonth + "-" + year);
 
                             }
                         }, mYear, mMonth, mDay);
@@ -197,7 +197,15 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                                     minuteString = "0" + minute;}
                                 else
                                     minuteString = String.valueOf(minute);
-                                et_EventStartTime.setText(hourOfDay + ":" + minuteString);
+                                String am_pm;
+                                String hour;
+                                if(hourOfDay >= 12){
+                                    am_pm = "PM";
+                                    hour = String.valueOf(hourOfDay - 12);}
+                                else {
+                                    am_pm = "AM";
+                                    hour = String.valueOf(hourOfDay);}
+                                et_EventStartTime.setText(hour + ":" + minuteString + " " + am_pm);
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
@@ -222,7 +230,15 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                                     minuteString = "0" + minute;}
                                 else
                                     minuteString = String.valueOf(minute);
-                                et_EventEndTime.setText(hourOfDay + ":" + minuteString);
+                                String am_pm;
+                                String hour;
+                                if(hourOfDay >= 12){
+                                    am_pm = "PM";
+                                    hour = String.valueOf(hourOfDay - 12);}
+                                else {
+                                    am_pm = "AM";
+                                    hour = String.valueOf(hourOfDay);}
+                                et_EventEndTime.setText(hour + ":" + minuteString + " " + am_pm);
                             }
                         }, mHour, mMinute, false);
                 tpd.show();

@@ -128,9 +128,11 @@ public class CalendarListFragment extends ListFragment {
         return logoutService;
     }
 
-    protected void updateAdapter()
+    @Override
+    public void onResume()
     {
-        //adapter.update();
+        super.onResume();
+
     }
 
 }

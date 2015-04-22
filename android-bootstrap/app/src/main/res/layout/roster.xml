@@ -24,6 +24,7 @@
         android:gravity="center"
         android:id="@+id/btnAddTeam"
         android:onClick="onClick"
+        android:visibility="gone"
         />
 
 </LinearLayout>

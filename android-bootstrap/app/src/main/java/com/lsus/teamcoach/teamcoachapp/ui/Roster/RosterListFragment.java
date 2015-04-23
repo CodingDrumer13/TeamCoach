@@ -36,9 +36,12 @@ public class RosterListFragment extends ItemListFragment<User> {
     private User user = Singleton.getInstance().getCurrentUser();
     protected RosterFragment parentFragment;
 
+    @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+//        setHasOptionsMenu(false);
+
     }
 
     @Override
@@ -115,9 +118,9 @@ public class RosterListFragment extends ItemListFragment<User> {
         super.onLoadFinished(loader, items);
         Log.d("Size of items", ""+items.size());
         if(items.size() == 0){
-            parentFragment.showButton();
+//            parentFragment.showButton();
         }else{
-            parentFragment.hideButton();
+//            parentFragment.hideButton();
         }
     }
 

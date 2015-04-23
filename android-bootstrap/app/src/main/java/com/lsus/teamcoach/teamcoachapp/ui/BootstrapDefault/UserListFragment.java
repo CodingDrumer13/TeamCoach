@@ -3,6 +3,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -35,6 +36,8 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+        setHasOptionsMenu(false);
+
     }
 
     @Override

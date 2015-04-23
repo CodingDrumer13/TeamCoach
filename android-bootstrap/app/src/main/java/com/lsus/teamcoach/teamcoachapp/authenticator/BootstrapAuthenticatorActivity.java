@@ -143,6 +143,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         setContentView(layout.login_activity);
 
         Views.inject(this);
+//
+//        getResources().getDrawable(R.drawable.field_background).;
+        //loginLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.field_background));
 
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));

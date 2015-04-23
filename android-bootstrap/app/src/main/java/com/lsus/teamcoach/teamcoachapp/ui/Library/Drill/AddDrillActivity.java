@@ -330,7 +330,10 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
     private Drill assembleDrill(boolean isGroup){
         Drill drill = new Drill(groupId, drillName, type, age, description, creator);
         drill.setIsGroup(isGroup);
-        if(picture != null) drill.setDrillPicture(picture);
+        if(picture != null) {
+            Toaster.showShort(this, "Storing picture.");
+            drill.setDrillPicture(picture);
+        }
         return drill;
     }
 
@@ -400,11 +403,13 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
 
             drillImage.setVisibility(View.VISIBLE);
             btnAddImage.setVisibility(View.GONE);
+            drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             BitmapFactory.decodeFile(picturePath).compress(Bitmap.CompressFormat.JPEG, 100, bos);
             byte[] picData = bos.toByteArray();
-            drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            picture = new ParseFile("drillPicture", picData);
+
+            picture = new ParseFile("drillPicture.jpeg", picData);
             try {
                 picture.save();
             } catch (ParseException e) {}

@@ -109,8 +109,7 @@ import retrofit.converter.GsonConverter;
                 SelectListFragment.class,
                 CalendarFragment.class,
                 CalendarListFragment.class,
-                AddEventFrag.class
-                SelectListFragment.class,
+                AddEventFrag.class,
                 SessionDrillListFragment.class
         }
 )

@@ -8,44 +8,50 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import butterknife.Views;
 
 /**
  * Created by TeamCoach on 4/21/2015.
  */
-public class SelectListFragment extends ItemListFragment<Drill> {
+public class SessionDrillListFragment extends ItemListFragment<Drill> {
 
-    @Inject
-    protected BootstrapServiceProvider serviceProvider;
-    @Inject
-    protected LogoutService logoutService;
-
-    private String age;
-    private String type;
-    private String library;
     private SessionInfoActivity parent;
-    private DrillSelectorDialogFragment container;
+    private List<Drill> drillList;
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+    }
 
+    @Override
+    protected LogoutService getLogoutService() {
+        return null;
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Views.inject(this, view);
     }
 
     @Override
@@ -54,15 +60,6 @@ public class SelectListFragment extends ItemListFragment<Drill> {
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
-
-        getListAdapter()
-                .addHeader(activity.getLayoutInflater()
-                        .inflate(R.layout.drill_type_list_label, null));
-    }
-
-    @Override
-    protected LogoutService getLogoutService() {
-        return logoutService;
     }
 
     @Override
@@ -73,19 +70,14 @@ public class SelectListFragment extends ItemListFragment<Drill> {
     }
 
     @Override
-    public void onResume() {
-        this.refresh();
-        super.onResume();
-    }
-
-    @Override
     public Loader<List<Drill>> onCreateLoader(final int id, final Bundle args) {
-        return new ThrowableLoader<List<Drill>>(getActivity(), items) {
+        final List<Drill> initialItems = items;
 
+        return new ThrowableLoader<List<Drill>>(getActivity(), items) {
             @Override
             public List<Drill> loadData() throws Exception {
                 if (getActivity() != null) {
-                    return serviceProvider.getService(getActivity()).getDrills(age);
+                    return drillList;
                 } else {
                     return Collections.emptyList();
                 }
@@ -99,9 +91,13 @@ public class SelectListFragment extends ItemListFragment<Drill> {
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        Drill drill = ((Drill) l.getItemAtPosition(position));
-        parent.setDrillToAdd(drill);
-        container.dismiss();
+        final Drill item = ((Drill) l.getItemAtPosition(position));
+    }
+
+    @Override
+    public void onResume(){
+        this.refresh();
+        super.onResume();
     }
 
     @Override
@@ -109,30 +105,7 @@ public class SelectListFragment extends ItemListFragment<Drill> {
         return R.string.error_loading_drills;
     }
 
-    public void setDrillData(String age, String type) {
-        this.age = age;
-        this.type = type;
-    }
+    public void setDrillList(List<Drill> drillList) { this.drillList = drillList; }
 
-    public String getAge() {
-        return age;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getLibrary() {
-        return library;
-    }
-
-    public void setLibrary(String library) {
-        this.library = library;
-    }
-
-    public void setParent(SessionInfoActivity parent) {
-        this.parent = parent;
-    }
-
-    public void setContainer(DrillSelectorDialogFragment container) { this.container = container; }
+    public void setParent(SessionInfoActivity parent){ this.parent = parent; }
 }

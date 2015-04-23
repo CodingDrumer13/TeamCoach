@@ -110,7 +110,7 @@ public class SessionListFragment extends ItemListFragment<Session> {
 
     @Override
     protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_drills;
+        return R.string.error_loading_sessions;
     }
 
     public void setSessionData(String age, String type){

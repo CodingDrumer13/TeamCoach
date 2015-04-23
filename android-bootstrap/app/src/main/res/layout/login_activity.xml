@@ -6,6 +6,16 @@
     android:background="@drawable/main_background"
     android:orientation="vertical"
     android:id="@+id/loginLayout">
+
+    <ImageView
+        android:id="@+id/iv_TeamCoachImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/teamcoachicon"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        />
+
     
 
         <ScrollView
@@ -18,15 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="5dp">
+                android:paddingRight="15dp">
 
                 <TextView
                     style="@style/ShadowText"

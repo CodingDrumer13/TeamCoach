@@ -27,6 +27,7 @@
     <string name="error_loading_news">Loading news failed</string>
     <string name="error_loading_checkins">Loading check-ins failed</string>
     <string name="error_loading_drills">Loading drills failed</string>
+    <string name="error_loading_sessions">Loading sessions failed</string>
     <string name="no_users">No Users</string>
     <string name="no_news">No News</string>
     <string name="no_teams">No Teams</string>

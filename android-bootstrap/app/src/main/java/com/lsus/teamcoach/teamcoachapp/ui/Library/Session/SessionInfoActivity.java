@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -32,7 +33,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_ID;
  */
 public class SessionInfoActivity extends BootstrapActivity {
     @Inject protected BootstrapService bootstrapService;
-    @Inject protected LogoutService logoutService;
+    //@Inject protected LogoutService logoutService;
 
     @InjectView(R.id.tv_session_name) protected TextView sessionName;
     @InjectView(R.id.et_session_name) protected EditText editName;
@@ -45,12 +46,13 @@ public class SessionInfoActivity extends BootstrapActivity {
     @InjectView(R.id.button_addDrillList) protected Button addDrillList;
     @InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
+    @InjectView(R.id.session_container) protected FrameLayout sessionContainer;
 
 
     private Session session;
     private SafeAsyncTask<Boolean> authenticationTask;
 
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.session_info_activity);
@@ -64,13 +66,19 @@ public class SessionInfoActivity extends BootstrapActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             session.setObjectId(getIntent().getExtras().getSerializable(SESSION_ID).toString());
         }
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-
-        Toaster.showLong(this, "Session ID: " + session.getObjectId());
+        SessionDrillListFragment drillListFragment = new SessionDrillListFragment();
+        drillListFragment.setRetainInstance(true);
+        drillListFragment.setParent(this);
+        drillListFragment.setDrillList(session.getDrillList());
+        fragmentTransaction.replace(R.id.session_container, drillListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
 
         //TODO Handle age ranges here.
-        if(session.getIsGroup()){
+        if (session.getIsGroup()) {
             if (getIntent() != null && getIntent().getExtras() != null) {
                 session = (Session) getIntent().getExtras().getSerializable(SESSION);
             }
@@ -83,12 +91,12 @@ public class SessionInfoActivity extends BootstrapActivity {
         sessionRating.setText(String.format("%s", session.getSessionRating()));
 
         Singleton singleton = Singleton.getInstance();
-        if(session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
+        if (session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())) {
             btnEdit.setVisibility(View.VISIBLE);
         }
 
         //USED FOR ADMIN PRIVILEGES
-        if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
+        if (singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")) {
             timesUsed.setVisibility(View.VISIBLE);
             timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
             timesUsedNum.setVisibility(View.VISIBLE);
@@ -238,8 +246,6 @@ public class SessionInfoActivity extends BootstrapActivity {
 
         session.setDrillList(current);
         String drillName = current.get(current.size() - 1).getDrillName();
-
-        Toaster.showLong(this, "Added " + drillName + "\nList Size: " + current.size());
     }
 
 }

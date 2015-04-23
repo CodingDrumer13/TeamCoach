@@ -1,5 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import com.parse.ParseFile;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +19,7 @@ public class Drill implements Serializable {
     protected int drillRating;
     protected int numberOfRatings;
     protected int timesUsed;
+    protected ParseFile drillPicture;
     protected String creator;
 
     public Drill(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
@@ -68,6 +71,10 @@ public class Drill implements Serializable {
     public void setTimesUsed(int timesUsed){ this.timesUsed = timesUsed; }
 
     public int getTimesUsed(){ return timesUsed; }
+
+    public void setDrillPicture(ParseFile drillPicture) { this.drillPicture = drillPicture; }
+
+    public ParseFile getDrillPicture() { return drillPicture; }
 
     public void setCreator(String creator) { this.creator = creator; }
 

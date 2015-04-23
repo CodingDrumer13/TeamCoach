@@ -47,6 +47,7 @@ public class DrillSelectorDialogFragment extends DialogFragment implements View.
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
         SelectListFragment selectListFragment = new SelectListFragment();
         selectListFragment.setRetainInstance(true);
         selectListFragment.setParent(parent);

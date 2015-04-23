@@ -2,6 +2,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +28,10 @@ import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -75,6 +79,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
     private String type;
     private String description;
     private String creator;
+    private ParseFile picture;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -325,6 +330,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
     private Drill assembleDrill(boolean isGroup){
         Drill drill = new Drill(groupId, drillName, type, age, description, creator);
         drill.setIsGroup(isGroup);
+        if(picture != null) drill.setDrillPicture(picture);
         return drill;
     }
 
@@ -380,7 +386,6 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        Toaster.showLong(this, "onActivityResult working.");
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data){
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA};
@@ -393,11 +398,16 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Toaster.showLong(this, "Good result.");
-
             drillImage.setVisibility(View.VISIBLE);
             btnAddImage.setVisibility(View.GONE);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            BitmapFactory.decodeFile(picturePath).compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] picData = bos.toByteArray();
             drillImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            picture = new ParseFile("drillPicture", picData);
+            try {
+                picture.save();
+            } catch (ParseException e) {}
         }
     }
 }

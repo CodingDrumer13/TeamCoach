@@ -16,6 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.core.RestAdapterRequestInterceptor;
 import com.lsus.teamcoach.teamcoachapp.core.RestErrorHandler;
 import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
+import com.lsus.teamcoach.teamcoachapp.ui.AddEventFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
@@ -23,6 +24,8 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.CalendarFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.CalendarListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
@@ -103,6 +106,10 @@ import retrofit.converter.GsonConverter;
                 CoachListFragment.class,
                 AddDrillActivity.class,
                 DrillSelectorDialogFragment.class,
+                SelectListFragment.class,
+                CalendarFragment.class,
+                CalendarListFragment.class,
+                AddEventFrag.class
                 SelectListFragment.class,
                 SessionDrillListFragment.class
         }

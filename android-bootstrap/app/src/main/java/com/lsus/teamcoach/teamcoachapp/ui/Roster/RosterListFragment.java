@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -83,8 +84,6 @@ public class RosterListFragment extends ItemListFragment<User> {
 //                        Log.d("Team ",team.getObjectId());
                         if(team != null) {
                             latest = serviceProvider.getService(getActivity()).getTeamMembers(team);
-                        }else{
-                            parentFragment.showButton();
                         }
                     }
 
@@ -114,6 +113,12 @@ public class RosterListFragment extends ItemListFragment<User> {
     @Override
     public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
+        Log.d("Size of items", ""+items.size());
+        if(items.size() == 0){
+            parentFragment.showButton();
+        }else{
+            parentFragment.hideButton();
+        }
     }
 
     @Override

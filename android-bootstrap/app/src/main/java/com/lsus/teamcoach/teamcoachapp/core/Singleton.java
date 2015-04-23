@@ -15,6 +15,7 @@ public class Singleton {
     private ArrayList<Session> userSessions;
     private ArrayList<Drill> userDrills;
     private ArrayList<Team> userTeams;
+    private ArrayList<CalendarEvent> userEvents;
 
     private Singleton(){
     }
@@ -55,6 +56,10 @@ public class Singleton {
     public ArrayList<Team> getUserTeams() { return getCurrentUser().getTeams(); }
 
     public void setUserTeams(ArrayList<Team> userTeams) { getCurrentUser().setTeams(userTeams); }
+
+    public ArrayList<CalendarEvent> getUserEvents() { return getCurrentUser().getEvents(); }
+
+    public void setUserEvents(ArrayList<CalendarEvent> userEvents) { getCurrentUser().setEvents(userEvents); }
 
     //TODO Change this to match userTeams above!
     public ArrayList<Drill> getUserDrills() { return userDrills; }

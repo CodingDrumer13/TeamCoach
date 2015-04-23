@@ -31,6 +31,7 @@
     <string name="no_users">No Users</string>
     <string name="no_news">No News</string>
     <string name="no_teams">No Teams</string>
+    <string name="no_events">No Events</string>
     <string name="avatar">Avatar</string>
     <string name="choose">Choose</string>
 
@@ -115,12 +116,19 @@
         <item>Technical</item>
     </string-array>
 
+    <!--Event Type Spimner-->
+    <string-array name="event_type_array">
+        <item>Practice</item>
+        <item>Game</item>
+        <item>Other</item>
+    </string-array>
 
 
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="error_loading_teams">Error Loading Teams</string>
+    <string name="error_loading_calendar">Error Loading Calendar</string>
     <string name="page_roster">Roster</string>
     <string name="players">Players</string>
     <string name="no_players">No Players</string>

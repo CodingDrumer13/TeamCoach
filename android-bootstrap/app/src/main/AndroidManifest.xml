@@ -76,7 +76,7 @@
                 someone who explicitly knows the class name
             -->
         </activity>
-        <activity android:name=".ui.BootstrapDefault.NewsActivity" />
+        <activity android:name=".ui.News.NewsActivity" />
         <activity
             android:name=".ui.BootstrapDefault.UserActivity"
             android:label="@string/app_name" />

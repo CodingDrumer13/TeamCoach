@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.News;
 
 import android.os.Bundle;
 import android.widget.TextView;

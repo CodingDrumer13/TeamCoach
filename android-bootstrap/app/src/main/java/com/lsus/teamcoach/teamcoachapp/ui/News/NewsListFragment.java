@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.News;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;

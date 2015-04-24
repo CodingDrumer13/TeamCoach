@@ -1,13 +1,9 @@
 package com.lsus.teamcoach.teamcoachapp.ui;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.*;
 import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.*;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +13,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.util.SimpleTimeZone;
 
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.*;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;

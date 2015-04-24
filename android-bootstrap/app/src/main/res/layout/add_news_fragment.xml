@@ -12,7 +12,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_add_news_title" />
+        android:id="@+id/et_add_news_title"
+        style="@style/SignInEditText"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,6 +24,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_add_news_message" />
+        android:id="@+id/et_add_news_message"
+        style="@style/SignInEditText"
+        android:nestedScrollingEnabled="false" />
 
 </LinearLayout>

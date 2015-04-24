@@ -3,14 +3,15 @@ package com.lsus.teamcoach.teamcoachapp.ui.Library;
 import android.view.LayoutInflater;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.ui.AlternatingColorListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.AlternatingColorListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.TransparentListAdapter;
 
 import java.util.List;
 
 /**
  * Created by TeamCoach on 3/4/2015.
  */
-public class LibraryListAdapter extends AlternatingColorListAdapter<String> {
+public class LibraryListAdapter extends TransparentListAdapter<String> {
     /**
      * @param inflater
      * @param items

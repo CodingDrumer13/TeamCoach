@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.*;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.AlternatingColorListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

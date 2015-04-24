@@ -28,8 +28,11 @@ import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -324,7 +327,6 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                 AddDrillActivity.this.finish();
             }
         }
-
     }
 
     private Drill assembleDrill(boolean isGroup){
@@ -409,10 +411,18 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             BitmapFactory.decodeFile(picturePath).compress(Bitmap.CompressFormat.JPEG, 100, bos);
             byte[] picData = bos.toByteArray();
 
+
             picture = new ParseFile("drillPicture.jpeg", picData);
-            try {
-                picture.save();
-            } catch (ParseException e) {}
+//            pictureToSave.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(ParseException e) {
+//                    if(e == null){
+//                        picture = pictureToSave;
+//                    } else {
+//                        //Saving object failed.
+//                    }
+//                }
+//            });
         }
     }
 }

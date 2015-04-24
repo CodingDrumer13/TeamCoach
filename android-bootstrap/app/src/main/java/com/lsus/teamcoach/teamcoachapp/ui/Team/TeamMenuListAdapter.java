@@ -3,7 +3,7 @@ package com.lsus.teamcoach.teamcoachapp.ui.Team;
 import android.view.LayoutInflater;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.ui.AlternatingColorListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.AlternatingColorListAdapter;
 
 import java.util.List;
 

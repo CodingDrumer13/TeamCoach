@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
-import com.lsus.teamcoach.teamcoachapp.ui.AlternatingColorListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.AlternatingColorListAdapter;
 
 import java.util.List;
 

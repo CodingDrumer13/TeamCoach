@@ -1,5 +1,5 @@
 
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Framework;
 
 import android.view.View;
 import android.widget.BaseAdapter;

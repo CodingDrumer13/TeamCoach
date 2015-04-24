@@ -1,5 +1,5 @@
 
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Framework;
 
 import android.view.LayoutInflater;
 
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @param <V>
  */
-public abstract class AlternatingColorListAdapter<V> extends
+public abstract class TransparentListAdapter<V> extends
         SingleTypeAdapter<V> {
 
     private final int primaryResource;
@@ -28,7 +28,7 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param inflater
      * @param items
      */
-    public AlternatingColorListAdapter(final int layoutId, final LayoutInflater inflater,
+    public TransparentListAdapter(final int layoutId, final LayoutInflater inflater,
                                        final List<V> items) {
         this(layoutId, inflater, items, true);
     }
@@ -41,13 +41,13 @@ public abstract class AlternatingColorListAdapter<V> extends
      * @param items
      * @param selectable
      */
-    public AlternatingColorListAdapter(final int layoutId, final LayoutInflater inflater,
+    public TransparentListAdapter(final int layoutId, final LayoutInflater inflater,
                                        final List<V> items, final boolean selectable) {
         super(inflater, layoutId);
 
         if (selectable) {
-            primaryResource = drawable.table_background_selector;
-            secondaryResource = drawable.table_background_alternate_selector;
+            primaryResource = drawable.abc_ab_stacked_transparent_light_holo;
+            secondaryResource = drawable.abc_ab_stacked_transparent_light_holo;
         } else {
             primaryResource = R.color.pager_background;
             secondaryResource = R.color.pager_background_alternate;

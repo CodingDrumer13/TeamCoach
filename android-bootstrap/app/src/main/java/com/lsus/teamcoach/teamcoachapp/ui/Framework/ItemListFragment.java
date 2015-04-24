@@ -28,7 +28,6 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
-import com.lsus.teamcoach.teamcoachapp.ui.HeaderFooterListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;

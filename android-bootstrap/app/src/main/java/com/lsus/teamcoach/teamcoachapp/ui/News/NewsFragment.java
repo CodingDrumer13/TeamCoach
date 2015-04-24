@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -43,8 +44,10 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.news_framelayout, newsListFragment).commit();
+        ft.replace(R.id.news_framelayout, newsListFragment)
+                .commit();
 
+        btn_add_news.setVisibility(View.VISIBLE);
     }
 
     public void onClick(View view) {
@@ -52,6 +55,9 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         addNewsFragment = new AddNewsFragment();
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(newsListFragment.getId(), addNewsFragment).commit();
+        ft.replace(newsListFragment.getId(), addNewsFragment)
+                .commit();
+
+        btn_add_news.setVisibility(View.GONE);
     }
 }

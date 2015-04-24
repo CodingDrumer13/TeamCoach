@@ -34,4 +34,5 @@ public class AddNewsFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
     }
+
 }

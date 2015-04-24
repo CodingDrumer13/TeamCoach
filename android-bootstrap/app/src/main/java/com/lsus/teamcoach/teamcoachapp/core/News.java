@@ -9,6 +9,10 @@ public class News implements Serializable {
     private String title;
     private String content;
     private String objectId;
+    private String time;
+    private String creator;
+    private String CreatedAt;
+    private String teamId;
 
     public String getTitle() {
         return title;
@@ -32,5 +36,35 @@ public class News implements Serializable {
 
     public void setObjectId(final String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getTime() { return time; }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 }

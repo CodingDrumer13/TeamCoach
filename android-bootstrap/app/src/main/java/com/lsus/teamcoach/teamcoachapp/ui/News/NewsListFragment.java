@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
@@ -21,6 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.NEWS_ITEM;
 
@@ -39,7 +42,7 @@ public class NewsListFragment extends ItemListFragment<News> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_news);
+        setEmptyText(R.string.no_messages);
     }
 
     @Override

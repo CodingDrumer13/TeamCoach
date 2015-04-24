@@ -53,6 +53,8 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     private TimePickerDialog startTimeDialog;
     private TimePickerDialog endTimeDialog;
 
+    private CalendarFragment parent;
+
     private SimpleDateFormat dateFormatter;
 
     // Variable for storing current date and time
@@ -150,6 +152,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             user.setEvents(events);
 
 
+            refreshParent();
             AddEventFrag.this.dismiss();
 
         }
@@ -244,11 +247,15 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                 tpd.show();
             }
 
-        if(btnCancelCreateEvent.getId() == view.getId()){
+        if(btnCancelCreateEvent.getId() == view.getId()) {
             dismiss();
         }
+    }
 
+    public void setParent(CalendarFragment parent) { this.parent = parent; }
 
+    private void refreshParent(){
+        parent.refreshLists();
     }
 }
 

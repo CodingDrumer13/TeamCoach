@@ -91,7 +91,20 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        DialogFragment newFragment = new AddEventFrag();
+        AddEventFrag newFragment = new AddEventFrag();
+        newFragment.setParent(this);
         newFragment.show(ft, "dialog");
+    }
+
+    public void refreshLists(){
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        CalendarListFragment calListFragment = new CalendarListFragment();
+        calListFragment.setRetainInstance(true);
+
+        fragmentTransaction.replace(R.id.teamCalendarView, calListFragment);
+        fragmentTransaction.commit();
     }
 }

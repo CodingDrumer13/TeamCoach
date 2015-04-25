@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -125,7 +126,18 @@ public class User implements Serializable {
         return events;
     }
 
-    public void setEvents(ArrayList<CalendarEvent> events) { this.events = events; }
+    public void setEvents(ArrayList<CalendarEvent> events) {
+        this.events = events;
+        for(int i = 0; i < events.size(); i++)
+        {
+           while((i+1) < events.size()){
+            if (events.get(i).compareTo(events.get(i+1)) > 1)
+            {
+                CalendarEvent e = events.set(i, events.get(i+1));
+                events.add(e);
+            }}
+        }
+    }
 
     public ArrayList<Session> getSessions(){ return sessions; }
 

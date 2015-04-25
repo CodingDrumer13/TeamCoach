@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -22,7 +22,6 @@ import java.util.Locale;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.*;
-import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
@@ -49,8 +48,13 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
 
     private SimpleDateFormat dateFormatter;
 
-    // Variable for storing current date and time
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    // Process to get Current Date
+    private final Calendar c = Calendar.getInstance();
+    private int mYear = c.get(Calendar.YEAR);
+    private int mMonth = c.get(Calendar.MONTH);
+    private int mDay = c.get(Calendar.DAY_OF_MONTH);
+    private int mHour = c.get(Calendar.HOUR_OF_DAY);
+    private int mMinute = c.get(Calendar.MINUTE);
 
 
 
@@ -78,6 +82,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         Injector.inject(this);
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
         return view;
     }
 
@@ -107,7 +112,55 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         // Apply the adapter to the spinner
         spin_eventType.setAdapter(adapter);
 
+        String month, day;
+        if((mMonth+ 1) < 10){ //Add leading zeroes to months less than 10
+            month = "0" + String.valueOf(mMonth+1);}
+        else {
+            month = String.valueOf(mMonth+1);}
+        if(mDay < 10){ //Add leading zeroes to days less than 10
+            day = "0" + String.valueOf(mDay);}
+        else {
+            day = String.valueOf(mDay);}
+
+        et_EventStartDate.setText(month + "-" + day + "-" + mYear);
+
+            String minuteString;
+            if(mMinute < 10){
+                minuteString = "0" + mMinute;}
+            else {
+                minuteString = String.valueOf(mMinute);}
+            String am_pm;
+            String hour;
+            if(mHour >= 12){ //Times after 12 noon
+                am_pm = "PM";
+                if(mHour == 12){
+                    hour = String.valueOf(mHour);}
+                else {
+                    hour = String.valueOf(mHour - 12);}}
+            else if(mHour == 0) { //Midnight
+                am_pm = "AM";
+                hour = String.valueOf(mHour + 12);
+            }
+            else {
+                am_pm = "AM";
+                hour = String.valueOf(mHour);}
+
+        et_EventStartTime.setText(hour + ":" + minuteString + " " + am_pm);
+
+        //Set end time default to 1 1/2 hours after current time
+        String endHour = String.valueOf(Integer.parseInt(hour)+1);
+        String endMinute;
+        if(mMinute > 29){
+            endMinute = String.valueOf((mMinute + 30) - 60);
+            endHour = String.valueOf(Integer.parseInt(hour)+2);
+        }
+        else
+            endMinute = String.valueOf(mMinute+30);
+
+        et_EventEndTime.setText(endHour + ":" + endMinute + " " + am_pm);
+
     }
+
 
     /**
      * Hide progress dialog
@@ -151,11 +204,11 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
 
             if (view == btnDate) {
 
-                // Process to get Current Date
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
+//                // Process to get Current Date
+//                final Calendar c = Calendar.getInstance();
+//                mYear = c.get(Calendar.YEAR);
+//                mMonth = c.get(Calendar.MONTH);
+//                mDay = c.get(Calendar.DAY_OF_MONTH);
 
                 // Launch Date Picker Dialog
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(),
@@ -164,9 +217,18 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
+                                String month, day;
+                                if((monthOfYear + 1) < 10){ //Add leading zeroes to months less than 10
+                                    month = "0" + String.valueOf(monthOfYear+1);}
+                                else {
+                                    month = String.valueOf(monthOfYear+1);}
+                                if(dayOfMonth < 10){ //Add leading zeroes to days less than 10
+                                    day = "0" + String.valueOf(dayOfMonth);}
+                                else {
+                                    day = String.valueOf(dayOfMonth);}
                                 // Display Selected date in textbox
-                                et_EventStartDate.setText((monthOfYear + 1) + "-"
-                                        + dayOfMonth + "-" + year);
+                                et_EventStartDate.setText(month + "-"
+                                        + day + "-" + year);
 
                             }
                         }, mYear, mMonth, mDay);
@@ -174,10 +236,10 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             }
             if (view == btnStartTime) {
 
-                // Process to get Current Time
-                final Calendar c = Calendar.getInstance();
-                mHour = c.get(Calendar.HOUR_OF_DAY);
-                mMinute = c.get(Calendar.MINUTE);
+//                // Process to get Current Time
+//                final Calendar c = Calendar.getInstance();
+//                mHour = c.get(Calendar.HOUR_OF_DAY);
+//                mMinute = c.get(Calendar.MINUTE);
 
                 // Launch Time Picker Dialog
                 TimePickerDialog tpd = new TimePickerDialog(getActivity(),
@@ -194,9 +256,16 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                                     minuteString = String.valueOf(minute);
                                 String am_pm;
                                 String hour;
-                                if(hourOfDay >= 12){
+                                if(hourOfDay >= 12){ //Times after 12 noon
                                     am_pm = "PM";
-                                    hour = String.valueOf(hourOfDay - 12);}
+                                    if(hourOfDay == 12){
+                                        hour = String.valueOf(hourOfDay);}
+                                    else {
+                                        hour = String.valueOf(hourOfDay - 12);}}
+                                else if(hourOfDay == 0) { //Midnight
+                                    am_pm = "AM";
+                                    hour = String.valueOf(hourOfDay + 12);
+                                }
                                 else {
                                     am_pm = "AM";
                                     hour = String.valueOf(hourOfDay);}
@@ -227,9 +296,16 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                                     minuteString = String.valueOf(minute);
                                 String am_pm;
                                 String hour;
-                                if(hourOfDay >= 12){
+                                if(hourOfDay >= 12){ //12 noon and later
                                     am_pm = "PM";
-                                    hour = String.valueOf(hourOfDay - 12);}
+                                    if(hourOfDay == 12){
+                                        hour = String.valueOf(hourOfDay);}
+                                    else {
+                                        hour = String.valueOf(hourOfDay - 12);}}
+                                else if(hourOfDay == 0) { //12 Midnight
+                                    am_pm = "AM";
+                                    hour = String.valueOf(hourOfDay + 12);
+                                }
                                 else {
                                     am_pm = "AM";
                                     hour = String.valueOf(hourOfDay);}

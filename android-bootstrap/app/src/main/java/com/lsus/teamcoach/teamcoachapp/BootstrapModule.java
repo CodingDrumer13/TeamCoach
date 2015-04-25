@@ -16,7 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.core.RestAdapterRequestInterceptor;
 import com.lsus.teamcoach.teamcoachapp.core.RestErrorHandler;
 import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
-import com.lsus.teamcoach.teamcoachapp.ui.AddEventFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.AddEventFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;

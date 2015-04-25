@@ -1,6 +1,8 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import com.parse.ParseFile;
+
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -113,7 +115,6 @@ public class BootstrapService {
         String constraint = "{\"groupId\":\"" + groupId + "\"}";
         return getDrillService().getGroup(constraint).getResults();
     }
-
 
 
     public void remove(Drill drill) { getDrillService().remove(drill.objectId); }

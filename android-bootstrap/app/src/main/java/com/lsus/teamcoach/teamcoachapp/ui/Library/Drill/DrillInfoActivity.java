@@ -1,10 +1,10 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.os.Bundle;
-import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -15,13 +15,8 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
-import com.lsus.teamcoach.teamcoachapp.util.Strings;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -32,7 +27,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 /**
  * Created by TeamCoach on 3/18/2015.
  */
-public class DrillInfoActivity extends BootstrapActivity {
+public class DrillInfoActivity extends BootstrapActivity implements RatingBar.OnRatingBarChangeListener{
     @Inject protected BootstrapService bootstrapService;
     @Inject protected LogoutService logoutService;
 
@@ -42,7 +37,10 @@ public class DrillInfoActivity extends BootstrapActivity {
     @InjectView(R.id.tv_drill_type) protected TextView drillType;
     @InjectView(R.id.tv_drill_description) protected TextView drillDescription;
     @InjectView(R.id.et_drill_description) protected EditText editDescription;
-    @InjectView(R.id.tv_drill_rating) protected TextView drillRating;
+    @InjectView(R.id.drillRatingBar) protected RatingBar drillRating;
+    @InjectView(R.id.tv_rating_bar_number) protected TextView ratingBarNumber;
+    @InjectView(R.id.tv_rating_bar_rating) protected TextView ratingBarRating;
+    @InjectView(R.id.button_rating_submit) protected Button ratingSubmit;
     @InjectView(R.id.button_drill_edit) protected Button btnEdit;
     @InjectView(R.id.button_drill_submit) protected Button btnSubmit;
     @InjectView(R.id.button_drill_remove) protected Button btnRemove;
@@ -50,8 +48,8 @@ public class DrillInfoActivity extends BootstrapActivity {
     @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
 
     private Drill drill;
+    private float userRating;
     private SafeAsyncTask<Boolean> authenticationTask;
-    private boolean finished;
     ArrayList<Drill> group;
 
     public void onCreate(Bundle savedInstanceState){
@@ -70,13 +68,29 @@ public class DrillInfoActivity extends BootstrapActivity {
         drillAge.setText(String.format("%s", drill.getDrillAge()));
         drillType.setText(String.format("%s", drill.getDrillType()));
         drillDescription.setText(String.format("%s", drill.getDrillDescription()));
-        drillRating.setText(String.format("%s", drill.getDrillRating()));
+        drillRating.setRating(drill.getDrillRating());
+        ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
+        ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
 
+
+        /**
+         * Checks to see if the user is the creator of the drill.
+         */
         Singleton singleton = Singleton.getInstance();
         if(drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
             btnEdit.setVisibility(View.VISIBLE);
         }
 
+        /**
+         * If the user is not the creator, make rating the drill possible
+         */
+        if(!drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
+            drillRating.setOnRatingBarChangeListener(this);
+        }
+
+        /**
+         * Checks to see if the user is an Admin
+         */
         if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
             timesUsed.setVisibility(View.VISIBLE);
             timesUsedNum.setText(String.format("%s", drill.getTimesUsed()));
@@ -89,8 +103,7 @@ public class DrillInfoActivity extends BootstrapActivity {
     }
 
     public void onClick(View view) {
-        if(view.getId() == btnEdit.getId())
-        {
+        if(view.getId() == btnEdit.getId()) {
             //The Edit button has been clicked
             onEdit();
         }else if(view.getId() == btnSubmit.getId()){
@@ -99,7 +112,17 @@ public class DrillInfoActivity extends BootstrapActivity {
         }else if(view.getId() == btnRemove.getId()){
             //The Remove button has been clicked
             onRemove();
+        }else if(view.getId() == ratingSubmit.getId()){
+            submitRating();
         }
+    }
+
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        ratingSubmit.setVisibility(View.VISIBLE);
+        ratingBarRating.setVisibility(View.GONE);
+        ratingBarNumber.setVisibility(View.GONE);
+        userRating = ratingBar.getRating();
     }
 
     private void onEdit() {
@@ -243,6 +266,89 @@ public class DrillInfoActivity extends BootstrapActivity {
         }
     }
 
+    private void submitRating(){
+        Toaster.showShort(this, "Submitting rating");
+
+
+        //Sets the new rating for the drill.
+        float currentDrillRating = drill.getDrillRating();
+        int numRatings = drill.getNumberOfRatings();
+        int newNumRatings = numRatings + 1;
+        float newRating = ((currentDrillRating * numRatings) + userRating) / newNumRatings;
+
+        drill.setDrillRating(newRating);
+        drill.setNumberOfRatings(newNumRatings);
+
+        if(!drill.getIsGroup()) {
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+
+                    //Implement try/catch for update error
+                    bootstrapService.update(drill);
+
+                    return true;
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+                    ratingSubmit.setVisibility(View.GONE);
+
+                    ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
+                    ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
+
+                    Toaster.showShort(DrillInfoActivity.this, "Rating submitted!");
+                }
+            };
+            authenticationTask.execute();
+        } else {
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+                    group = new ArrayList<Drill>();
+                    group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
+
+                    return true;
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+
+                    for (Drill drill : group){
+                        drill = checkDifferences(drill);
+                    }
+
+                    authenticationTask = new SafeAsyncTask<Boolean>() {
+                        public Boolean call() throws Exception {
+
+                            for (final Drill drill : group) {
+                                bootstrapService.update(drill);
+                            }
+
+                            return true;
+                        }
+
+                        @Override
+                        protected void onFinally() throws RuntimeException {
+                            ratingSubmit.setVisibility(View.GONE);
+
+                            ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
+                            ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
+
+                            Toaster.showShort(DrillInfoActivity.this, "Rating submitted!");
+                        }
+                    };
+                    authenticationTask.execute();
+
+                }
+            };
+            authenticationTask.execute();
+
+        }
+
+
+
+
+    }
+
 
     /**
      * Checks to see if drill information has changed.
@@ -263,6 +369,20 @@ public class DrillInfoActivity extends BootstrapActivity {
          */
         if(!drill.getDrillDescription().equalsIgnoreCase(drillDescription.getText().toString())){
             drill.setDrillDescription(drillDescription.getText().toString());
+        }
+
+        /**
+         * Checks to see if the drill rating has changed.
+         */
+        if(drill.getDrillRating() != this.drill.getDrillRating()){
+            drill.setDrillRating(this.drill.getDrillRating());
+        }
+
+        /**
+         * Checks to see if the number of ratings of the drill has changed.
+         */
+        if(drill.getNumberOfRatings() != this.drill.getNumberOfRatings()){
+            drill.setNumberOfRatings(this.drill.getNumberOfRatings());
         }
 
         return drill;

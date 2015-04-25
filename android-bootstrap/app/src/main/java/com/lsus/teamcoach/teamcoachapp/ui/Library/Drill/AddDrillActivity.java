@@ -21,6 +21,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
@@ -32,6 +33,7 @@ import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -137,7 +139,8 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
      public void onClick(View view) {
         if(btnAddDrill.getId() == view.getId()) {
             if(validateFields()){
-                addDrill();
+                addDrillObject();
+                //addDrill();
             }
         }
         if(btnCancelAddDrill.getId() == view.getId()){
@@ -289,6 +292,61 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         }
     }
 
+    /**
+     * USED FOR ADDING A DRILL USING PARSE OBJECT
+     */
+    private void addDrillObject(){
+        groupId = getHash();
+        Toaster.showLong(this, "Creating drills, please Wait.");
+
+        if(!useAgeRange){
+            openThread();
+            ParseObject drillObject = assembleDrillObject(false);
+            drillObject.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(typeSelected) refreshList();
+                    AddDrillActivity.this.finish();
+                }
+            });
+            //TODO work here
+
+        } else {
+            int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
+            int topPos = sAgeGroupTop.getSelectedItemPosition();
+
+            if(bottomPos == topPos){
+                openThread();
+            } else{
+
+                ExecutorService es = Executors.newCachedThreadPool();
+
+                for(int i = bottomPos; i <= topPos; i++){
+
+                    sAgeGroupBottom.setSelection(i);
+                    age = sAgeGroupBottom.getSelectedItem().toString();
+
+                    es.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            bootstrapService.addDrill(assembleDrill(true));
+                        }
+                    });
+
+                    try {
+                        es.awaitTermination(1000, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {}
+
+                }
+                if(typeSelected) refreshList();
+                AddDrillActivity.this.finish();
+            }
+        }
+    }
+
+    /**
+     * USED FOR ADDING A DRILL USING REST API
+     */
     private void addDrill(){
         groupId = getHash();
         Toaster.showLong(this, "Creating drills, please Wait.");
@@ -329,6 +387,37 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         }
     }
 
+    /**
+     * USED FOR ADDING A DRILL USING PARSE OBJECT
+     * @param isGroup
+     * @return
+     */
+    private DrillObject assembleDrillObject(boolean isGroup){
+        DrillObject drillObject = new DrillObject();
+        drillObject.setGroupId(groupId);
+        drillObject.setDrillName(drillName);
+        drillObject.setDrillType(type);
+        drillObject.setDrillAge(age);
+        drillObject.setDrillDescription(description);
+        drillObject.setCreator(creator);
+        drillObject.setDrillRating(0);
+        drillObject.setNumberOfRatings(0);
+        drillObject.setTimesUsed(0);
+        drillObject.setIsGroup(isGroup);
+        if(picture != null) {
+            Toaster.showShort(this, "Storing picture.");
+            drillObject.setDrillPicture(picture);
+        }
+        return drillObject;
+
+
+    }
+
+    /**
+     * USED FOR ADDING A DRILL USING PARSE REST API
+     * @param isGroup
+     * @return
+     */
     private Drill assembleDrill(boolean isGroup){
         Drill drill = new Drill(groupId, drillName, type, age, description, creator);
         drill.setIsGroup(isGroup);
@@ -412,17 +501,17 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             byte[] picData = bos.toByteArray();
 
 
-            picture = new ParseFile("drillPicture.jpeg", picData);
-//            pictureToSave.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(ParseException e) {
-//                    if(e == null){
-//                        picture = pictureToSave;
-//                    } else {
-//                        //Saving object failed.
-//                    }
-//                }
-//            });
+            final ParseFile pictureToSave = new ParseFile("drillPicture.jpeg", picData);
+            pictureToSave.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        picture = pictureToSave;
+                    } else {
+                        //Saving object failed.
+                    }
+                }
+            });
         }
     }
 }

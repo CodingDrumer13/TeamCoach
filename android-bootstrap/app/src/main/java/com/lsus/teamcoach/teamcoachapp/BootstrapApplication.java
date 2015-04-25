@@ -6,7 +6,9 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 
+import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Http.PARSE_APP_ID;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Http.PARSE_CLIENT_KEY_ID;
@@ -40,7 +42,10 @@ public class BootstrapApplication extends Application {
 
         instance = this;
 
+
+
         Parse.enableLocalDatastore(this);
+        ParseObject.registerSubclass(DrillObject.class);
         Parse.initialize(this, PARSE_APP_ID, PARSE_CLIENT_KEY_ID);
 
         // Perform injection

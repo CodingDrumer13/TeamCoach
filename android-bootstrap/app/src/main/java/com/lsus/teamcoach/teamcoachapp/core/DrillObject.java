@@ -1,24 +1,16 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 /**
  * Created by TeamCoach on 4/23/2015.
  */
+@ParseClassName("Drill")
 public class DrillObject extends ParseObject {
 
-    public DrillObject(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
-        setGroupId(groupId);
-        setDrillName(drillName);
-        setDrillType(drillType);
-        setDrillAge(drillAge);
-        setDrillDescription(drillDescription);
-        setCreator(creator);
-        setDrillRating(0);
-        setNumberOfRatings(0);
-        setTimesUsed(0);
-    }
+    public DrillObject(){}
 
     public String getObjectId() { return getString("objectId"); }
 

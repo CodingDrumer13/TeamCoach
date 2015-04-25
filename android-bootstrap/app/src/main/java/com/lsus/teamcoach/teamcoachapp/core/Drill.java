@@ -16,7 +16,7 @@ public class Drill implements Serializable {
     protected String drillType;
     protected String drillAge;
     protected String drillDescription;
-    protected int drillRating;
+    protected float drillRating;
     protected int numberOfRatings;
     protected int timesUsed;
     protected ParseFile drillPicture;
@@ -60,9 +60,9 @@ public class Drill implements Serializable {
 
     public String getDrillDescription(){ return drillDescription; }
 
-    public void setDrillRating(int drillRating){ this.drillRating = drillRating; }
+    public void setDrillRating(float drillRating){ this.drillRating = drillRating; }
 
-    public int getDrillRating(){ return drillRating; }
+    public float getDrillRating(){ return drillRating; }
 
     public void setNumberOfRatings(int numberOfRatings){ this.numberOfRatings = numberOfRatings; }
 

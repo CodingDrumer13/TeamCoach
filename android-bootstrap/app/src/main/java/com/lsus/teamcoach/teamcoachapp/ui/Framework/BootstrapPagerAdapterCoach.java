@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.lsus.teamcoach.teamcoachapp.R;
-import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
@@ -30,6 +32,8 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
     public BootstrapPagerAdapterCoach(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
+
+        Log.d("Coach", "In Coach Adapter");
     }
 
     //Important
@@ -43,7 +47,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
         final Fragment result;
         switch (position) {
             case 0:
-                result = new NewsListFragment();
+                result = new NewsFragment();
                 break;
             case 1:
                 result = new UserListFragment();

@@ -53,5 +53,10 @@ public class Team implements Serializable {
 
     public void setCoach(String coach) { this.coach = coach; }
 
+    @Override
+    public String toString(){
+        return teamName;
+    }
+
 
 }

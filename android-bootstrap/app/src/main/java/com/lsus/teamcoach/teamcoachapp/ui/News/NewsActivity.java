@@ -1,6 +1,9 @@
-package com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault;
+package com.lsus.teamcoach.teamcoachapp.ui.News;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.TextView;
 
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -14,6 +17,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.NEWS_ITEM;
 public class NewsActivity extends BootstrapActivity {
 
     private News newsItem;
+    private NewsListFragment newsListFragment;
 
     @InjectView(R.id.tv_title) protected TextView title;
     @InjectView(R.id.tv_content) protected TextView content;
@@ -36,6 +40,9 @@ public class NewsActivity extends BootstrapActivity {
         title.setText(newsItem.getTitle());
         content.setText(newsItem.getContent());
 
+
+
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,11 +16,10 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.User;
-import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;

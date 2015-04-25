@@ -10,10 +10,12 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,6 +38,7 @@ import com.lsus.teamcoach.teamcoachapp.R.string;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.UnAuthorizedErrorEvent;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
@@ -182,8 +185,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 handleRegister(registerButton);
             }
         });
-
-
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
     }
 
     private List<String> userEmailAccounts() {
@@ -281,6 +285,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 singleton.setToken(token);
 
                 //TODO set the team, sessions and drills here!!!!
+                ArrayList<Team> teams = new ArrayList<Team>();
+                teams.addAll(bootstrapService.getTeams(singleton.getCurrentUser().getEmail()));
+                singleton.setUserTeams(teams);
+
 
                 return true;
             }

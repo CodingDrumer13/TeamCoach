@@ -2,6 +2,8 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import com.lsus.teamcoach.teamcoachapp.util.Strings;
+
 /**
  * Bootstrap constants
  */
@@ -108,6 +110,14 @@ public final class Constants {
         public static final String USERNAME = "username";
         public static final String PASSWORD = "password";
         public static final String SESSION_TOKEN = "sessionToken";
+
+
+        /* App .Net Cred */
+        public static final String Client_ID = "RdFLyN4kbknGndfsTJa3xRdwRZWNpUG4";
+
+        public static final String Authorize_URL = "https://account.app.net/oauth/authenticate";
+
+        public static final String Access_Token_URL = "https://account.app.net/oauth/access_token";
 
 
     }

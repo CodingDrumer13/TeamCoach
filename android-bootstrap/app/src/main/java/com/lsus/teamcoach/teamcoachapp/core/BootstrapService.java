@@ -60,6 +60,11 @@ public class BootstrapService {
     }
 
     /**
+     * Adds a News to Parse.com
+     */
+    public News addNews(News news) { return getNewsService().addNews(news); }
+
+    /**
      * Get all bootstrap Users that exist on Parse.com
      */
     public List<User> getUsers() {

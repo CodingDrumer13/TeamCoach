@@ -1,8 +1,6 @@
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +13,7 @@ import android.widget.Button;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.ui.AddEventFrag;
 
 import javax.inject.Inject;
 

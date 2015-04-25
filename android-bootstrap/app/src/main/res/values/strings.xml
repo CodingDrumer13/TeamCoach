@@ -134,6 +134,7 @@
     <string name="no_players">No Players</string>
     <string name="no_coaches">No Coaches Found</string>
     <string name="Coaches">Coaches</string>
+    <string name="no_messages">No Messages</string>
 
 
 </resources>

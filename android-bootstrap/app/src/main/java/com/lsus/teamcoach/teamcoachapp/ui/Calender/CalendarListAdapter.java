@@ -1,4 +1,4 @@
-package com.lsus.teamcoach.teamcoachapp.ui;
+package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
 import android.view.LayoutInflater;
 import android.view.View;

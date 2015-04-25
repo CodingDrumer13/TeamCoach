@@ -20,12 +20,14 @@ import com.lsus.teamcoach.teamcoachapp.ui.AddEventFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.NewsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.CalendarFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.CalendarListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
@@ -110,7 +112,9 @@ import retrofit.converter.GsonConverter;
                 CalendarFragment.class,
                 CalendarListFragment.class,
                 AddEventFrag.class,
-                SessionDrillListFragment.class
+                SessionDrillListFragment.class,
+                NewsFragment.class,
+                AddNewsFragment.class
         }
 )
 public class BootstrapModule {

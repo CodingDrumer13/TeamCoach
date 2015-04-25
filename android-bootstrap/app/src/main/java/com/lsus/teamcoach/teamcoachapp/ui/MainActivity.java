@@ -2,6 +2,7 @@
 
 package com.lsus.teamcoach.teamcoachapp.ui;
 
+import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -9,14 +10,18 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapFragmentActivity;
@@ -26,11 +31,17 @@ import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.lsus.teamcoach.teamcoachapp.util.UIUtils;
 import com.parse.Parse;
+import com.parse.ParseUser;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Views;
+import retrofit.RetrofitError;
 
 
 /**
@@ -42,6 +53,7 @@ import butterknife.Views;
 public class MainActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected BootstrapService bootstrapService;
 
     private boolean userHasAuthenticated = false;
 
@@ -50,6 +62,10 @@ public class MainActivity extends BootstrapFragmentActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private NavigationDrawerFragment navigationDrawerFragment;
+    private SafeAsyncTask<Boolean> authenticationTask;
+
+    protected Singleton singleton = Singleton.getInstance();
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -139,14 +155,48 @@ public class MainActivity extends BootstrapFragmentActivity {
     }
 
 
-    private void initScreen() {
+    private void initScreen() throws IOException, AccountsException {
         if (userHasAuthenticated) {
 
             Ln.d("Foo");
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, new CarouselFragment())
-                    .commit();
+            Log.d("User Email", singleton.getCurrentUser().getEmail());
+
+            authenticationTask = new SafeAsyncTask<Boolean>() {
+                public Boolean call() throws Exception {
+
+                    //TODO set the team, sessions and drills here!!!!
+                    ArrayList < Team > teams = new ArrayList<Team>();
+                    teams.addAll(serviceProvider.getService(MainActivity.this).getTeams(singleton.getCurrentUser().getEmail()));
+                    singleton.setUserTeams(teams);
+
+                    return true;
+                }
+
+                @Override
+                protected void onException(final Exception e) throws RuntimeException {
+                    // Retrofit Errors are handled inside of the {
+                    if(!(e instanceof RetrofitError)) {
+                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                        if(cause != null) {
+                            Toaster.showLong(MainActivity.this, cause.getMessage());
+                            Log.d("Error",cause.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
+                    final FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, new CarouselFragment())
+                            .commit();
+                }
+            };
+            authenticationTask.execute();
+
+
+
+
         }
 
     }

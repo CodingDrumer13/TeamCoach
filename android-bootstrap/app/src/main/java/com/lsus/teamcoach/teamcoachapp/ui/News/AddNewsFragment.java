@@ -21,8 +21,10 @@ import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -37,9 +39,9 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
     protected Singleton singleton = Singleton.getInstance();
     private SafeAsyncTask<Boolean> authenticationTask;
     private News news;
+    protected NewsListFragment newsListFragment;
 
     @Inject protected BootstrapService bootstrapService;
-
 
     @InjectView(R.id.et_add_news_title) EditText et_add_news_title;
     @InjectView(R.id.et_add_news_message) EditText et_add_news_message;
@@ -72,8 +74,12 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
         news = new News();
         news.setContent(et_add_news_message.getText().toString());
         news.setCreator(singleton.getCurrentUser().getObjectId());
+        news.setTitle(et_add_news_title.getText().toString());
         Team team = (Team)sp_news_team.getSelectedItem();
         news.setTeamId(team.getObjectId());
+//        Current time an date
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(new Date());
+        news.setTimestamp(currentDateandTime);
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             @Override
@@ -84,8 +90,8 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 getFragmentManager().popBackStack();
-                NewsListFragment newsListFragment = (NewsListFragment) parent.getChildFragmentManager().findFragmentByTag("newsListFragment");
                 newsListFragment.refresh();
+                parent.showButton();
             }
 
             @Override
@@ -112,5 +118,9 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
 
     public void setParent(NewsFragment parent) {
         this.parent = parent;
+    }
+
+    public void setNewsListFragment(NewsListFragment newsListFragment) {
+        this.newsListFragment = newsListFragment;
     }
 }

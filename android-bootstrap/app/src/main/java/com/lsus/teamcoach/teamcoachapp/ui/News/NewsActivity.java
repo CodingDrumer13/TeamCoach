@@ -26,7 +26,7 @@ public class NewsActivity extends BootstrapActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.news);
+        setContentView(R.layout.news_activity);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
             newsItem = (News) getIntent().getExtras().getSerializable(NEWS_ITEM);

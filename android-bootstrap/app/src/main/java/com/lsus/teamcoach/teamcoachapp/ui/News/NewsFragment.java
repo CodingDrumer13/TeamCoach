@@ -55,12 +55,21 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
         addNewsFragment = new AddNewsFragment();
         addNewsFragment.setParent(this);
+        addNewsFragment.setNewsListFragment(newsListFragment);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack("addNewsFragment");
         ft.replace(newsListFragment.getId(), addNewsFragment)
                 .commit();
 
+        btn_add_news.setVisibility(View.GONE);
+    }
+
+    public void showButton(){
+        btn_add_news.setVisibility(View.VISIBLE);
+    }
+
+    public void hideButton(){
         btn_add_news.setVisibility(View.GONE);
     }
 }

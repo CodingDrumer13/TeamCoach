@@ -1,6 +1,12 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class News implements Serializable {
 
@@ -12,6 +18,7 @@ public class News implements Serializable {
     private String creator;
     private String createdAt;
     private String teamId;
+    private String timestamp;
 
     public String getTitle() {
         return title;
@@ -51,5 +58,24 @@ public class News implements Serializable {
 
     public void setTeamId(String teamId) {
         this.teamId = teamId;
+    }
+
+    public Date getDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = formatter.parse(getCreatedAt());
+            return date;
+        } catch (ParseException e) {
+            Log.d("Date Error","");
+            return null;
+        }
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

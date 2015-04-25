@@ -44,6 +44,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("newsListFragment");
         ft.replace(R.id.news_framelayout, newsListFragment)
                 .commit();
 
@@ -53,8 +54,10 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
         addNewsFragment = new AddNewsFragment();
+        addNewsFragment.setParent(this);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("addNewsFragment");
         ft.replace(newsListFragment.getId(), addNewsFragment)
                 .commit();
 

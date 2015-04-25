@@ -39,6 +39,6 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
 
         setText(0, item.getTitle());
         setText(1, item.getContent());
-        //setNumber(R.id.tv_date, item.getCreatedAt());
+        setText(2, item.getCreatedAt());
     }
 }

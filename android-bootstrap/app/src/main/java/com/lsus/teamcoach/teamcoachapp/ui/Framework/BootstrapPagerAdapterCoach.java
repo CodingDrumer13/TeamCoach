@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
@@ -31,6 +32,8 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
     public BootstrapPagerAdapterCoach(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
+
+        Log.d("Coach", "In Coach Adapter");
     }
 
     //Important

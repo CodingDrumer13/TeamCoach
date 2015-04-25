@@ -38,6 +38,7 @@ import com.lsus.teamcoach.teamcoachapp.R.string;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.UnAuthorizedErrorEvent;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
@@ -284,6 +285,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 singleton.setToken(token);
 
                 //TODO set the team, sessions and drills here!!!!
+                ArrayList<Team> teams = new ArrayList<Team>();
+                teams.addAll(bootstrapService.getTeams(singleton.getCurrentUser().getEmail()));
+                singleton.setUserTeams(teams);
+
 
                 return true;
             }

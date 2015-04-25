@@ -26,8 +26,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/et_add_news_message"
-        style="@style/SignInEditText"
-        android:nestedScrollingEnabled="false"
-        android:layout_weight="0.31" />
+        style="@style/SignInEditText" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_news_team">
+
+        </Spinner>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text"
+        android:background="@drawable/button_background_states"
+        android:textStyle="bold"
+        android:onClick="onClick"
+        android:gravity="center"
+        android:id="@+id/btn_send_message"
+        />
 
 </LinearLayout>

@@ -65,6 +65,19 @@ public class BootstrapService {
     public News addNews(News news) { return getNewsService().addNews(news); }
 
     /**
+     *  Get News by Team
+     */
+    public List<News> getTeamNews(String teamId){
+        String constraint = "{\"teamId\":\"" + teamId + "\"}";
+        return getNewsService().getTeamNews(constraint).getResults();
+    }
+
+    public List<News> getCoachNews(String coachId) {
+        String constraint = "{\"creator\":\"" + coachId + "\"}";
+        return getNewsService().getCoachNews(constraint).getResults();
+    }
+
+    /**
      * Get all bootstrap Users that exist on Parse.com
      */
     public List<User> getUsers() {
@@ -205,4 +218,6 @@ public class BootstrapService {
         String constraint = "{\"creator\":\"" + user + "\",\"ageGroup\":\"" + age + "\"}";
         return getSessionService().getSessions(constraint).getResults();
     }
+
+
 }

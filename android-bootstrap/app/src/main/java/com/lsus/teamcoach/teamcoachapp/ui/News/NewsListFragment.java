@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.News;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
@@ -31,6 +33,8 @@ public class NewsListFragment extends ItemListFragment<News> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
+
+    private Singleton singleton = Singleton.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,16 @@ public class NewsListFragment extends ItemListFragment<News> {
             public List<News> loadData() throws Exception {
                 try {
                     if (getActivity() != null) {
-                        return serviceProvider.getService(getActivity()).getNews();
+                        Log.d("Role ", singleton.getCurrentUser().getRole());
+                        if(singleton.getCurrentUser().getRole() == "Coach"){
+                            return serviceProvider.getService(getActivity()).getCoachNews(singleton.getCurrentUser().getObjectId());
+                        } else
+                        if(singleton.getCurrentUser().getRole() == "Player"){
+                            return serviceProvider.getService(getActivity()).getTeamNews(singleton.getCurrentUser().getTeam());
+                        }
+                        else{
+                            Collections.emptyList();
+                        }
                     } else {
                         return Collections.emptyList();
                     }
@@ -89,6 +102,7 @@ public class NewsListFragment extends ItemListFragment<News> {
                         activity.finish();
                     return initialItems;
                 }
+                return Collections.emptyList();
             }
         };
     }

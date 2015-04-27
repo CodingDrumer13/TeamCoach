@@ -21,6 +21,7 @@ public class NewsActivity extends BootstrapActivity {
 
     @InjectView(R.id.tv_title) protected TextView title;
     @InjectView(R.id.tv_content) protected TextView content;
+    @InjectView(R.id.tv_news_activity_date) protected TextView tvNewsActivityDate;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class NewsActivity extends BootstrapActivity {
 
         title.setText(newsItem.getTitle());
         content.setText(newsItem.getContent());
+        tvNewsActivityDate.setText((newsItem.getTimestamp()));
 
 
 

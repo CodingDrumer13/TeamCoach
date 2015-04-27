@@ -83,25 +83,37 @@ public class NewsListFragment extends ItemListFragment<News> {
                 try {
                     if (getActivity() != null) {
                         Log.d("Role ", singleton.getCurrentUser().getRole());
-                        if(singleton.getCurrentUser().getRole() == "Coach"){
+                        if(singleton.getCurrentUser().getRole().toString().equals("Coach")){
+                            Log.d("Role ","in Role");
+
                             return serviceProvider.getService(getActivity()).getCoachNews(singleton.getCurrentUser().getObjectId());
                         } else
-                        if(singleton.getCurrentUser().getRole() == "Player"){
+                        if(singleton.getCurrentUser().getRole().toString().equals("Player")){
+                            Log.d("Role ","in Player");
+
                             return serviceProvider.getService(getActivity()).getTeamNews(singleton.getCurrentUser().getTeam());
                         }
                         else{
+                            Log.d("BS ","BS is happening right now");
+
                             Collections.emptyList();
                         }
                     } else {
+                        Log.d("BS ","still smelly");
+
                         return Collections.emptyList();
                     }
 
                 } catch (OperationCanceledException e) {
                     Activity activity = getActivity();
+                    Log.d("BS ","What an error");
+
                     if (activity != null)
                         activity.finish();
                     return initialItems;
                 }
+                Log.d("BS ","Now im really confused");
+
                 return Collections.emptyList();
             }
         };

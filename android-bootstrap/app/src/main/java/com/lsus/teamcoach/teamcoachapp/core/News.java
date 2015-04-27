@@ -60,17 +60,6 @@ public class News implements Serializable {
         this.teamId = teamId;
     }
 
-    public Date getDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date = formatter.parse(getCreatedAt());
-            return date;
-        } catch (ParseException e) {
-            Log.d("Date Error","");
-            return null;
-        }
-    }
-
     public String getTimestamp() {
         return timestamp;
     }

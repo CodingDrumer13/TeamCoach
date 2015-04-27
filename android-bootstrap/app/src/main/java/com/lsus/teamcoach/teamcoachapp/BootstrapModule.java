@@ -23,6 +23,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
@@ -114,7 +115,8 @@ import retrofit.converter.GsonConverter;
                 AddEventFrag.class,
                 SessionDrillListFragment.class,
                 NewsFragment.class,
-                AddNewsFragment.class
+                AddNewsFragment.class,
+                NewsListAdapter.class
         }
 )
 public class BootstrapModule {

@@ -3,32 +3,31 @@
 android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-    <FrameLayout
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/news_framelayout">
-    </FrameLayout>
+        android:id="@+id/btn_add_news"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="@style/ShadowText"
+        android:background="@drawable/button_background_states"
+        android:gravity="center"
+        android:text="Send A Message"
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true">
+    </Button>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_add_news"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            style="@style/ShadowText"
-            android:background="@drawable/button_background_states"
-            android:gravity="center"
-            android:text="Send A Message"
-            android:textColor="@color/text"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:onClick="onClick">
-        </Button>
-    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/news_framelayout"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_add_news">
+
+        </FrameLayout>
+
+
 
 </RelativeLayout>

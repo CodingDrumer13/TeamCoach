@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/news_fragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp">
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
@@ -28,26 +23,40 @@
                 android:textColor="@color/table_text_selector"
                 />
 
-            <TextView
-                android:id="@+id/tv_news_activity_date"
+            <ScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/table_text_selector"
-                />
+                android:layout_height="match_parent"
+                android:id="@+id/news_fragment">
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/table_text_light_selector"
+                    />
+            </ScrollView>
 
 
-            </LinearLayout>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="right"
+        >
 
         <TextView
-            android:id="@+id/tv_content"
+            android:id="@+id/tv_news_activity_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/table_text_light_selector"
+            android:textColor="@color/table_text_selector"
             android:gravity="right"
             />
+        </LinearLayout>
 
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

@@ -134,4 +134,8 @@ public class NewsListFragment extends ItemListFragment<News> {
     protected int getErrorMessage(Exception exception) {
         return R.string.error_loading_news;
     }
+
+    /**
+     * TODO autmaticly scroll to the bottom?
+     */
 }

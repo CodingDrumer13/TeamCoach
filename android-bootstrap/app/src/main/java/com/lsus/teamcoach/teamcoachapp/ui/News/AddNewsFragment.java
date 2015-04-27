@@ -123,4 +123,8 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
     public void setNewsListFragment(NewsListFragment newsListFragment) {
         this.newsListFragment = newsListFragment;
     }
+
+    /** Todo
+     * Add a back button here
+     */
 }

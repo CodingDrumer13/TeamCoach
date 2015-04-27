@@ -4,8 +4,10 @@ import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class User implements Serializable {
 
@@ -126,17 +128,31 @@ public class User implements Serializable {
         return events;
     }
 
+
     public void setEvents(ArrayList<CalendarEvent> events) {
+//        //this.events = events;
+//        ArrayList<CalendarEvent> tempEvents = new ArrayList<CalendarEvent>();
+//        for(int i = 0; i < events.size(); i++)
+//        {
+//          int next = i + 1;
+//          for(int k = 0; next < events.size(); next++) {
+//              if (events.get(k).compareTo(events.get(next)) < 1) //If dates are out of order
+//              {
+//                  CalendarEvent e = events.get(next);
+//                  tempEvents.add(e); //Add second event to sorted list
+//                  //events.remove(e); //Remove sorted item from original list
+//              }
+//              else
+//              {
+//                  tempEvents.add(events.get(k)); //Add first event to sorted list
+//                  //events.remove(events.get(k)); //Remove sorted item from original list
+//              }
+//          }
+//       }
+
+        Collections.sort(events, new CalendarComparator());
         this.events = events;
-        for(int i = 0; i < events.size(); i++)
-        {
-           while((i+1) < events.size()){
-            if (events.get(i).compareTo(events.get(i+1)) > 1)
-            {
-                CalendarEvent e = events.set(i, events.get(i+1));
-                events.add(e);
-            }}
-        }
+
     }
 
     public ArrayList<Session> getSessions(){ return sessions; }

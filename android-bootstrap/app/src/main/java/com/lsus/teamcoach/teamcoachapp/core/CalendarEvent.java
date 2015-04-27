@@ -1,7 +1,9 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Caroline on 4/21/2015.
@@ -60,51 +62,70 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
 
     public void setEventType(String type) { this.eventType = type; }
 
-    public String getHour()
+    public int getHour()
     {
         String[] time = getStartTime().split(":");
-        return time[0];
+        return Integer.parseInt(time[0]);
+    }
+
+    public int getMinute()
+    {
+        String[] time = getStartTime().split(":");
+        return Integer.parseInt(time[1].substring(0,2));
+    }
+
+    public int getMonth()
+    {
+        String[] date = getStartDate().split("-");
+        return Integer.parseInt(date[0]);
+    }
+
+    public int getDay()
+    {
+        String[] date = getStartDate().split("-");
+        return Integer.parseInt(date[1]);
+    }
+
+    public int getYear()
+    {
+        String[] date = getStartDate().split("-");
+        return Integer.parseInt(date[2]);
     }
 
     public int compareTo(CalendarEvent c) {
-        int result;
+        int origYear = this.getYear();
+        int origMonth = this.getMonth();
+        int origDay = this.getDay();
+        int origHour = this.getHour();
+        int origMinute = this.getMinute();
 
-        //Years 01-01-2015
-        int compYear = Integer.parseInt(c.getStartDate().substring(6));
-        int startYear = Integer.parseInt(this.getStartDate().substring(6));
-        //Months
-        int compMonth = Integer.parseInt(c.getStartDate().substring(3,5));
-        int startMonth = Integer.parseInt(this.getStartDate().substring(3,5));
-        //Days
-        int compDay = Integer.parseInt(c.getStartDate().substring(0,2));
-        int startDay = Integer.parseInt(this.getStartDate().substring(0,2));
-        //Hours 12:12 PM
-        int compHour = Integer.parseInt(c.getStartTime().substring(0,2));
-        int startHour = Integer.parseInt(this.getStartTime().substring(0,2));
-        //Minutes
-        int compMinute = Integer.parseInt(c.getStartTime().substring(3,5));
-        int startMinute = Integer.parseInt(this.getStartTime().substring(3,5));
+        Calendar origDate = new GregorianCalendar(origYear, origMonth, origDay, origHour, origMinute);
 
+        int toYear = this.getYear();
+        int toMonth = this.getMonth();
+        int toDay = this.getDay();
+        int toHour = this.getHour();
+        int toMinute = this.getMinute();
 
-        if(compYear > startYear){
-            result = AFTER;}
-        else if(compMonth > startMonth){ //Year is <= compYear
-            result = AFTER;}
-        else if (compDay > startDay){ //Month is <= compMonth
-            result = AFTER;}
-        else if (compDay == startDay){ //The dates are the same
-            if(compHour > startHour){
-                result = AFTER;}
-            else { //Hour is <= compHour
-                if (compMinute > startMinute){
-                   result = AFTER; }
-                else if (compMinute == startMinute) { //Dates and times are the same
-                    result = EQUAL;}
-                else
-                    result = BEFORE;}}
-        else
-            result = BEFORE; //The date being compared to this comes before this
+        Calendar toDate = new GregorianCalendar(toYear, toMonth, toDay, toHour, toMinute);
 
-        return result;
+        return origDate.compareTo(toDate);
+
     }
+
+    public GregorianCalendar toDateFormat()
+    {
+        int origYear = this.getYear();
+        int origMonth = this.getMonth();
+        int origDay = this.getDay();
+        int origHour = this.getHour();
+        int origMinute = this.getMinute();
+
+        GregorianCalendar origDate = new GregorianCalendar(origYear, origMonth, origDay, origHour, origMinute);
+
+        return origDate;
+    }
+
+
+
 }

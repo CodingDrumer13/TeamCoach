@@ -24,6 +24,7 @@ public class CalendarComparator implements Comparator<CalendarEvent> {
         int minute1 = ev1.getMinute();
         int minute2 = ev2.getMinute();
 
+        //Sort items by date
         if (year1 < year2)
             return -1;
         else if(month1 < month2)

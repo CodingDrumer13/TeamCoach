@@ -92,6 +92,11 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
 
+        //Edit texts are not editable, must use date or time picker
+        et_EventStartDate.setKeyListener(null);
+        et_EventStartTime.setKeyListener(null);
+        et_EventEndTime.setKeyListener(null);
+
         btnCancelCreateEvent.setOnClickListener(this);
         btnCreateEvent.setOnClickListener(this);
         et_EventStartDate.setOnClickListener(this);

@@ -1,7 +1,9 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Framework;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +25,14 @@ import butterknife.Views;
  */
 public class CarouselFragment extends Fragment {
 
-    @InjectView(R.id.tpi_header)
-    protected TitlePageIndicator indicator;
+//    @InjectView(R.id.tpi_header)
+//    protected TitlePageIndicator indicator;
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
+
+    @InjectView(R.id.pager_title_strip)
+    protected PagerTabStrip pagerTabStrip;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +44,10 @@ public class CarouselFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         Views.inject(this, getView());
+
+        //Show team color change
+//        pager.setBackgroundColor(R.color.teamcoach_background2);
+        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.teamcoach_background2));
 
         Singleton singleton = Singleton.getInstance();
         User user = singleton.getCurrentUser();
@@ -74,7 +83,7 @@ public class CarouselFragment extends Fragment {
             }
         }
 
-        indicator.setViewPager(pager);
+//        indicator.setViewPager(pager);
         pager.setCurrentItem(1);
 
     }

@@ -3,7 +3,6 @@ package com.lsus.teamcoach.teamcoachapp.core;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
-import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
@@ -39,7 +38,7 @@ public interface TeamService {
      * @param team The updated team
      * @return A update response.
      */
-    @PUT(Constants.Http.URL_TEAM_FRAG+"/{id}")
+    @PUT(Constants.Http.URL_TEAM_FRAG +"/{id}")
     Team update(@Path("id") String id, @Body Team team);
 
     /**
@@ -49,6 +48,6 @@ public interface TeamService {
      * @param
      * @return
      */
-    @DELETE(Constants.Http.URL_TEAM_FRAG+"/{id}")
+    @DELETE(Constants.Http.URL_TEAM_FRAG +"/{id}")
     Drill remove(@Path("id") String id);
 }

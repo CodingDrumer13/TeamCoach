@@ -42,6 +42,8 @@ public class BootstrapService {
 
     private TeamService getTeamService() { return getRestAdapter().create(TeamService.class); }
 
+    private CalendarService getCalendarService() { return getRestAdapter().create(CalendarService.class); }
+
     private SessionService getSessionService() { return getRestAdapter().create(SessionService.class); }
 
     private CheckInService getCheckInService() {
@@ -218,6 +220,27 @@ public class BootstrapService {
         String constraint = "{\"creator\":\"" + user + "\",\"ageGroup\":\"" + age + "\"}";
         return getSessionService().getSessions(constraint).getResults();
     }
+
+
+    /**
+     * Get all bootstrap Users that exist on Parse.com
+     */
+    public CalendarEvent getEvent(String id){ return getCalendarService().getEvent(id); }
+
+    public List<CalendarEvent> getEvents(String creator){
+        String constraint = "{\"creator\":\"" + creator + "\"}";
+        return getCalendarService().getEvents(constraint).getResults(); }
+
+    public CalendarEvent setEvent(CalendarEvent event) { return  getCalendarService().addEvent(event); }
+
+
+    /**
+     * Updates an event on Parse.com
+     */
+    public Object update(CalendarEvent event) { return getCalendarService().update(event.objectId, event);}
+
+
+    public void remove(CalendarEvent event) { getCalendarService().remove(event.objectId); }
 
 
 }

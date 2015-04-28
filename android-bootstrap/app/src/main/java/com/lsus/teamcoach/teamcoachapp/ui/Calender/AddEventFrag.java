@@ -127,6 +127,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         // Apply the adapter to the spinner
         spin_eventType.setAdapter(adapter);
 
+        //Set default values for start date, start time, and end time
         String month, day;
         if((mMonth+ 1) < 10){ //Add leading zeroes to months less than 10
             month = "0" + String.valueOf(mMonth+1);}
@@ -167,10 +168,12 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         String endMinute;
         if(mMinute > 29){
             endMinute = String.valueOf((mMinute + 30) - 60);
+            if (((mMinute + 30) - 60) < 10)
+               endMinute = "0" + endMinute;
             endHour = String.valueOf(Integer.parseInt(hour)+2);
         }
         else
-            endMinute = String.valueOf(mMinute+30);
+            endMinute = String.valueOf(mMinute + 30);
 
         et_EventEndTime.setText(endHour + ":" + endMinute + " " + am_pm);
 

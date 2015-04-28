@@ -19,7 +19,7 @@ public class Drill implements Serializable {
     protected float drillRating;
     protected int numberOfRatings;
     protected int timesUsed;
-    protected ParseFile drillPicture;
+    protected boolean hasPicture;
     protected String creator;
 
     public Drill(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
@@ -72,9 +72,13 @@ public class Drill implements Serializable {
 
     public int getTimesUsed(){ return timesUsed; }
 
-    public void setDrillPicture(ParseFile drillPicture) { this.drillPicture = drillPicture; }
+    public void setHasPicture(boolean hasPicture) { this.hasPicture = hasPicture; }
 
-    public ParseFile getDrillPicture() { return drillPicture; }
+    public boolean getHasPicture() { return hasPicture; }
+
+//    public void setDrillPicture(ParseFile drillPicture) { this.drillPicture = drillPicture; }
+//
+//    public ParseFile getDrillPicture() { return drillPicture; }
 
     public void setCreator(String creator) { this.creator = creator; }
 

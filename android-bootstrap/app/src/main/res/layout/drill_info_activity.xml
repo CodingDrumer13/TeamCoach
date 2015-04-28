@@ -196,8 +196,8 @@
         android:background="@drawable/button_background_states"
         android:textColor="@color/text"
         android:visibility="gone"
-        android:layout_gravity="center_horizontal"
         android:onClick="onClick"
+        android:paddingTop="100dp"
         />
 
     <LinearLayout

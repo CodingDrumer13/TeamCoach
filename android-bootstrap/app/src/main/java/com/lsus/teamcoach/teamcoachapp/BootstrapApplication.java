@@ -7,6 +7,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
+import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -46,6 +47,7 @@ public class BootstrapApplication extends Application {
 
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(DrillObject.class);
+        ParseObject.registerSubclass(DrillPictureObject.class);
         Parse.initialize(this, PARSE_APP_ID, PARSE_CLIENT_KEY_ID);
 
         // Perform injection

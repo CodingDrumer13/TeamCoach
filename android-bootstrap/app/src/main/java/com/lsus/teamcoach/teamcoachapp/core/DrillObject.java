@@ -50,9 +50,13 @@ public class DrillObject extends ParseObject {
 
     public int getTimesUsed(){ return getInt("timesUsed"); }
 
-    public void setDrillPicture(ParseFile drillPicture) { put("drillPicture", drillPicture); }
+    public void setHasPicture(boolean hasPicture) { put("hasPicture", hasPicture); }
 
-    public ParseFile getDrillPicture() { return getParseFile("drillPicture"); }
+    public boolean getHasPicture() { return getBoolean("hasPicture"); }
+
+//    public void setDrillPicture(ParseFile drillPicture) { put("drillPicture", drillPicture); }
+//
+//    public ParseFile getDrillPicture() { return getParseFile("drillPicture"); }
 
     public void setCreator(String creator) { put("creator", creator); }
 

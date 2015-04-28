@@ -22,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
+import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
@@ -85,6 +86,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
     private String description;
     private String creator;
     private ParseFile picture;
+    private boolean hasPicture = false;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -144,7 +146,6 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         if(btnAddDrill.getId() == view.getId()) {
             if(validateFields()){
                 addDrillObject();
-                //addDrill();
             }
         }
         if(btnCancelAddDrill.getId() == view.getId()){
@@ -198,6 +199,10 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
 
     public void setType(String type) { this.type = type; }
 
+    /**
+     * Validates all fields to make sure they are filled out correctly.
+     * @return
+     */
     private boolean validateFields(){
         if (!etDrillName.getText().toString().equalsIgnoreCase("")){
             drillName = etDrillName.getText().toString();
@@ -249,6 +254,12 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         return true;
     }
 
+    /**
+     * Gets the index of a string in a spinner.
+     * @param spinner
+     * @param item
+     * @return
+     */
     private int getIndex(Spinner spinner, String item){
         int index = 0;
 
@@ -304,12 +315,30 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         Toaster.showShort(this, "Creating drills, please Wait.");
 
         if(!useAgeRange){
-            ParseObject drillObject = assembleDrillObject(false);
+            final ParseObject drillObject = assembleDrillObject(false);
             drillObject.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(typeSelected) refreshList();
-                    AddDrillActivity.this.finish();
+                    if(e == null) {
+                        if (hasPicture) {
+                            DrillPictureObject drillPicture = new DrillPictureObject();
+                            drillPicture.setDrillId(drillObject.getString("groupId"));
+                            drillPicture.setDrillPicture(picture);
+                            drillPicture.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+
+                                    if (typeSelected) refreshList();
+                                    AddDrillActivity.this.finish();
+                                }
+                            });
+                        } else {
+                            if (typeSelected) refreshList();
+                            AddDrillActivity.this.finish();
+                        }
+                    } else {
+                        e.printStackTrace();
+                    }
                 }
             });
         } else {
@@ -317,12 +346,30 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             int topPos = sAgeGroupTop.getSelectedItemPosition();
 
             if(bottomPos == topPos){
-                ParseObject drillObject = assembleDrillObject(false);
+                final ParseObject drillObject = assembleDrillObject(false);
                 drillObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if (typeSelected) refreshList();
-                        AddDrillActivity.this.finish();
+                        if(e == null) {
+                            if (hasPicture) {
+                                DrillPictureObject drillPicture = new DrillPictureObject();
+                                drillPicture.setDrillId(drillObject.getString("groupId"));
+                                drillPicture.setDrillPicture(picture);
+                                drillPicture.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+
+                                        if (typeSelected) refreshList();
+                                        AddDrillActivity.this.finish();
+                                    }
+                                });
+                            } else {
+                                if (typeSelected) refreshList();
+                                AddDrillActivity.this.finish();
+                            }
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } else{
@@ -334,60 +381,35 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                     sAgeGroupBottom.setSelection(i);
                     age = sAgeGroupBottom.getSelectedItem().toString();
 
-                    ParseObject drillObject = assembleDrillObject(false);
+                    final ParseObject drillObject = assembleDrillObject(false);
                     drillObject.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if (typeSelected) refreshList();
-                            AddDrillActivity.this.finish();
+                            if(e == null) {
+                                if (hasPicture) {
+                                    DrillPictureObject drillPicture = new DrillPictureObject();
+                                    drillPicture.setDrillId(drillObject.getString("groupId"));
+                                    drillPicture.setDrillPicture(picture);
+                                    drillPicture.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+
+                                            if (typeSelected) refreshList();
+                                            AddDrillActivity.this.finish();
+                                        }
+                                    });
+                                } else {
+                                    if (typeSelected) refreshList();
+                                    AddDrillActivity.this.finish();
+                                }
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
                     });
 
                     try {
                         es.awaitTermination(500, TimeUnit.MILLISECONDS);
-                    } catch (InterruptedException e) {}
-
-                }
-                if(typeSelected) refreshList();
-                AddDrillActivity.this.finish();
-            }
-        }
-    }
-
-    /**
-     * USED FOR ADDING A DRILL USING REST API
-     */
-    private void addDrill(){
-        groupId = getHash();
-        Toaster.showLong(this, "Creating drills, please Wait.");
-
-        if(!useAgeRange){
-            openThread();
-
-        } else {
-            int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
-            int topPos = sAgeGroupTop.getSelectedItemPosition();
-
-            if(bottomPos == topPos){
-                openThread();
-            } else{
-
-                ExecutorService es = Executors.newCachedThreadPool();
-
-                for(int i = bottomPos; i <= topPos; i++){
-
-                    sAgeGroupBottom.setSelection(i);
-                    age = sAgeGroupBottom.getSelectedItem().toString();
-
-                    es.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            bootstrapService.addDrill(assembleDrill(true));
-                        }
-                    });
-
-                    try {
-                        es.awaitTermination(1000, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {}
 
                 }
@@ -414,30 +436,16 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         drillObject.setNumberOfRatings(0);
         drillObject.setTimesUsed(0);
         drillObject.setIsGroup(isGroup);
-        if(picture != null) {
-            Toaster.showShort(this, "Storing picture.");
-            drillObject.setDrillPicture(picture);
-        }
+        drillObject.setHasPicture(hasPicture);
         return drillObject;
 
 
     }
 
     /**
-     * USED FOR ADDING A DRILL USING PARSE REST API
-     * @param isGroup
+     * Creates a hash for grouping drills of an age range.
      * @return
      */
-    private Drill assembleDrill(boolean isGroup){
-        Drill drill = new Drill(groupId, drillName, type, age, description, creator);
-        drill.setIsGroup(isGroup);
-        if(picture != null) {
-            Toaster.showShort(this, "Storing picture.");
-            drill.setDrillPicture(picture);
-        }
-        return drill;
-    }
-
     private String getHash(){
         Singleton singleton = Singleton.getInstance();
         String toHash = singleton.getCurrentUser().getUsername() + System.currentTimeMillis();
@@ -456,41 +464,14 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         return thedigest.toString();
     }
 
-    private void openThread(){
-        authenticationTask = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                bootstrapService.addDrill(assembleDrill(false));
-                return true;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
-                if (!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    //if (cause != null) Toaster.showLong(this, cause.getMessage());
-                }
-            }
-
-            @Override
-            public void onSuccess(final Boolean authSuccess) {
-                if(typeSelected) refreshList();
-                AddDrillActivity.this.finish();
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                hideProgress();
-                authenticationTask = null;
-            }
-        };
-        authenticationTask.execute();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data){
+
+            hasPicture = true;
+
+
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA};
 

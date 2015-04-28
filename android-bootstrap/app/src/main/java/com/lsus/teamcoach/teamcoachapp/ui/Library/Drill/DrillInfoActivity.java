@@ -62,14 +62,8 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
         setTitle(R.string.title_drill_info);
 
-        String pictureUrl = "";
         if (getIntent() != null && getIntent().getExtras() != null) {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
-            pictureUrl = getIntent().getExtras().getSerializable(DRILL_PICTURE_URL).toString();
-
-            if(!pictureUrl.equalsIgnoreCase("")){
-                Toaster.showShort(this, "Picture working: " + pictureUrl);
-            }
         }
 
 

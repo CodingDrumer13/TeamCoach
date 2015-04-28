@@ -97,21 +97,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
-        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class);
-        if(item.getDrillPicture() != null){
-            ParseFile picture = item.getDrillPicture();
-            try {
-                drillInfoIntent.putExtra(DRILL_PICTURE_URL, picture.getUrl());
-                item.setDrillPicture(null);
-            } catch (Exception e) {
-                Toaster.showShort(getActivity(), "Loading Picture Failed.");
-                drillInfoIntent.putExtra(DRILL_PICTURE_URL, "");
-                item.setDrillPicture(null);
-            }
-        } else {
-            drillInfoIntent.putExtra(DRILL_PICTURE_URL, "");
-        }
-        drillInfoIntent.putExtra(DRILL, item);
+        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
         startActivity(drillInfoIntent);
     }
 

@@ -1,6 +1,8 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
+import android.widget.RatingBar;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
@@ -32,7 +34,7 @@ public class DrillListAdapter extends AlternatingColorListAdapter<Drill> {
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_drillType};
+        return new int[]{R.id.tv_drillType, R.id.drillRatingBar};
     }
 
     @Override
@@ -40,5 +42,6 @@ public class DrillListAdapter extends AlternatingColorListAdapter<Drill> {
         super.update(position, item);
 
         setText(0, item.getDrillName());
+        ((RatingBar)view(1)).setRating(item.getDrillRating());
     }
 }

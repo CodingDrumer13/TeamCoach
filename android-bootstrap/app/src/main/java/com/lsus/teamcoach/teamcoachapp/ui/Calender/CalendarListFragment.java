@@ -16,6 +16,7 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import javax.inject.Inject;
 /**
  * Created by Caroline on 3/25/2015
  */
-public class CalendarListFragment extends ListFragment {
+public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -40,7 +41,7 @@ public class CalendarListFragment extends ListFragment {
     /**
      * List items provided to
      */
-    protected List<CalendarEvent> items = Collections.emptyList();
+    //protected List<CalendarEvent> items = Collections.emptyList();
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class CalendarListFragment extends ListFragment {
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setListAdapter(createAdapter(getCalendarItems()));
         setEmptyText("No Events");
     }
 
@@ -60,12 +60,13 @@ public class CalendarListFragment extends ListFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    //    @Override
+    @Override
     protected void configureList(final Activity activity, final ListView listView) {
-       //super.configureList(activity, listView);
+       super.configureList(activity, listView);
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
+
 
     }
 
@@ -76,9 +77,9 @@ public class CalendarListFragment extends ListFragment {
         super.onDestroyView();
     }
 
+    @Override
     public Loader<List<CalendarEvent>> onCreateLoader(final int id, final Bundle args) {
 
-        final List<CalendarEvent> initialItems = getCalendarItems();
         return new ThrowableLoader<List<CalendarEvent>>(getActivity(), items) {
 
             @Override
@@ -92,10 +93,10 @@ public class CalendarListFragment extends ListFragment {
         };
     }
 
-    //@Override
-    protected SingleTypeAdapter<CalendarEvent> createAdapter(final List<CalendarEvent> items) {
-        this.adapter = new CalendarListAdapter(getActivity().getLayoutInflater(), items);
-        return adapter;
+    @Override
+    protected SingleTypeAdapter<CalendarEvent> createAdapter(List<CalendarEvent> items) {
+        return new CalendarListAdapter(getActivity().getLayoutInflater(), items);
+
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
@@ -109,12 +110,7 @@ public class CalendarListFragment extends ListFragment {
         return R.string.error_loading_calendar;
     }
 
-
-    /**
-     * Gets the list of all the coaches teams . THIS NEEDS TO BE UPDATED SO IT IS NOT HARD CODED???
-     * @return
-     */
-    public List<CalendarEvent> getCalendarItems() {
+    private List<CalendarEvent> getCalendarItems() {
         Singleton singleton = Singleton.getInstance();
         User user = singleton.getCurrentUser();
 
@@ -124,7 +120,7 @@ public class CalendarListFragment extends ListFragment {
         return menuItems;
     }
 
-    //@Override
+    @Override
     protected LogoutService getLogoutService() {
         return logoutService;
     }

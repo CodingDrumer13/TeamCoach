@@ -203,11 +203,14 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             event.setEventName(et_eventTitle.getText().toString());
             event.setEventType(spin_eventType.getSelectedItem().toString());
 
-            event.setStartDate(et_EventStartDate.getText().toString());
-            event.setStartTime(et_EventStartTime.getText().toString());
-            event.setEndTime(et_EventEndTime.getText().toString());
+            event.setEventDate(et_EventStartDate.getText().toString());
+            event.setEventStartTime(et_EventStartTime.getText().toString());
+            event.setEventEndTime(et_EventEndTime.getText().toString());
 
             User user = singleton.getCurrentUser();
+
+            event.setCreator(user.getEmail());
+
             ArrayList<CalendarEvent> events = singleton.getUserEvents();
 
             //ArrayList Example.

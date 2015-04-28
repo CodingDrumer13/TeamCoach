@@ -11,9 +11,9 @@ import java.util.GregorianCalendar;
 public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
 
     protected String eventName, eventType;
-    protected String startDate, endDate;
-    protected String startTime, endTime;
-    protected String objectId;
+    protected String eventDate;
+    protected String eventStartTime, eventEndTime;
+    protected String objectId, creator;
 
     private final int BEFORE = -1;
     private final int EQUAL = 0;
@@ -22,13 +22,12 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
 
     public CalendarEvent(){}
 
-    public CalendarEvent(String eventName, String startDate, String startTime,
-                         String endTime, String eventType){
+    public CalendarEvent(String eventName, String eventDate, String eventStartTime,
+                         String eventEndTime, String eventType){
         this.eventName = eventName;
-        this.startDate = startDate;
-        this.startTime = startTime;
-        //this.endDate = endDate;
-        this.endTime = endTime;
+        this.eventDate = eventDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
         this.eventType = eventType;
     }
 
@@ -40,23 +39,19 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
         this.eventName = eventName;
     }
 
-    public void setStartDate(String date){this.startDate = date;}
+    public void setEventDate(String date){this.eventDate = date;}
 
-    public String getStartDate() {return startDate;}
+    public String getEventDate() {return eventDate;}
 
-    //public void setEndDate(String date){this.endDate = date;}
+    public void setEventStartTime(String time) {this.eventStartTime = time;}
 
-    //public String getEndDate() {return endDate;}
+    public String getEventStartTime() {return eventStartTime;}
 
-    public void setStartTime(String time) {this.startTime = time;}
+    public void setEventEndTime(String time) {this.eventEndTime = time;}
 
-    public String getStartTime() {return startTime;}
+    public String getEventEndTime() {return eventEndTime;}
 
-    public void setEndTime(String time) {this.endTime = time;}
-
-    public String getEndTime() {return endTime;}
-
-    public String getTimeSpan() {String span = startTime + " - " + endTime;
+    public String getTimeSpan() {String span = getEventStartTime() + " - " + getEventEndTime();
                                     return span;}
 
     public String getEventType() { return eventType; }
@@ -67,33 +62,37 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
 
     public void setObjectId(String objectId) { this.objectId = objectId; }
 
+    public String getCreator() {return creator;}
+
+    public void setCreator(String creator) {this.creator = creator;}
+
     public int getHour()
     {
-        String[] time = getStartTime().split(":");
+        String[] time = getEventStartTime().split(":");
         return Integer.parseInt(time[0]);
     }
 
     public int getMinute()
     {
-        String[] time = getStartTime().split(":");
+        String[] time = getEventStartTime().split(":");
         return Integer.parseInt(time[1].substring(0,2));
     }
 
     public int getMonth()
     {
-        String[] date = getStartDate().split("-");
+        String[] date = getEventDate().split("-");
         return Integer.parseInt(date[0]);
     }
 
     public int getDay()
     {
-        String[] date = getStartDate().split("-");
+        String[] date = getEventDate().split("-");
         return Integer.parseInt(date[1]);
     }
 
     public int getYear()
     {
-        String[] date = getStartDate().split("-");
+        String[] date = getEventDate().split("-");
         return Integer.parseInt(date[2]);
     }
 

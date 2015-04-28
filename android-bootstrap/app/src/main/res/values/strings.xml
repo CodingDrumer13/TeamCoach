@@ -8,7 +8,7 @@
     <string name="refresh_action">Refresh</string>
     <string name="logout_action">Logout</string>
 
-    <!--CarocelFragment-->
+    <!--CarouselFragment-->
     <string name="page_messages">Messages</string>
     <string name="page_schedule">Schedule</string>
     <string name="page_admin">Administration</string>

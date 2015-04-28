@@ -32,6 +32,9 @@ public class CalendarListFragment extends ListFragment {
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
+    protected Singleton singleton = Singleton.getInstance();
+    protected User user = singleton.getCurrentUser();
+
     private CalendarListAdapter adapter;
 
     /**
@@ -50,6 +53,7 @@ public class CalendarListFragment extends ListFragment {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setListAdapter(createAdapter(getCalendarItems()));
+        setEmptyText("No Events");
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -80,8 +84,7 @@ public class CalendarListFragment extends ListFragment {
             @Override
             public List<CalendarEvent> loadData() throws Exception {
                 if (getActivity() != null) {
-                    //serviceProvider.getService(getActivity());
-                    return initialItems;
+                    return serviceProvider.getService(getActivity()).getEvents(singleton.getCurrentUser().getEmail());
                 } else {
                     return Collections.emptyList();
                 }
@@ -101,7 +104,6 @@ public class CalendarListFragment extends ListFragment {
         Toaster.showShort(this.getActivity(), "You clicked: " + item.getEventName());
 
     }
-
 
     protected int getErrorMessage(final Exception exception) {
         return R.string.error_loading_calendar;
@@ -127,11 +129,5 @@ public class CalendarListFragment extends ListFragment {
         return logoutService;
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-    }
 
 }

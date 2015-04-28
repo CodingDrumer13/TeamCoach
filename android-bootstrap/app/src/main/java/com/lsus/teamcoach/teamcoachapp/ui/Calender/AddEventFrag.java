@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,12 @@ import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.*;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONArray;
 
 import javax.inject.Inject;
 
@@ -45,6 +52,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     private TimePickerDialog endTimeDialog;
 
     private CalendarFragment parent;
+    private CalendarListFragment calListFragment;
 
     private SimpleDateFormat dateFormatter;
 
@@ -55,6 +63,8 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     private int mDay = c.get(Calendar.DAY_OF_MONTH);
     private int mHour = c.get(Calendar.HOUR_OF_DAY);
     private int mMinute = c.get(Calendar.MINUTE);
+
+    private boolean result = false;
 
 
 
@@ -196,6 +206,40 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
 
             User user = singleton.getCurrentUser();
             ArrayList<CalendarEvent> events = singleton.getUserEvents();
+
+            //ArrayList Example.
+            JSONArray parseList = new JSONArray();
+            for (CalendarEvent e : events){
+                parseList.put(e);
+            }
+
+            //Saving team to Team class on Parse.com
+            ParseObject eventToAdd = new ParseObject("Event");
+            eventToAdd.put("eventName", et_eventTitle.getText().toString());
+            eventToAdd.put("eventDate", et_EventStartDate.getText().toString());
+            eventToAdd.put("eventStartTime", et_EventStartTime.getText().toString());
+            eventToAdd.put("eventEndTime", et_EventEndTime.getText().toString());
+            eventToAdd.put("eventType", spin_eventType.getSelectedItem().toString());
+            eventToAdd.put("creator", ParseUser.getCurrentUser().getEmail());
+
+            try {
+                eventToAdd.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException ex) {
+                        if (ex == null){
+                            //calListFragment.refresh();
+                            refreshParent();
+                            result = true;
+                        }
+                        else{
+                            result = false;
+                            Log.e("", ex.getLocalizedMessage());
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             //Saving team locally in list.
             events.add(event);

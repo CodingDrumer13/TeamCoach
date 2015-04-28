@@ -2,8 +2,6 @@
 
 package com.lsus.teamcoach.teamcoachapp.core;
 
-import com.lsus.teamcoach.teamcoachapp.util.Strings;
-
 /**
  * Bootstrap constants
  */
@@ -87,6 +85,12 @@ public final class Constants {
          */
         public static final String URL_TEAM_FRAG = "/1/classes/Team";
         public static final String URL_TEAM = URL_BASE + URL_TEAM_FRAG;
+
+        /**
+         * List Event URL
+         */
+        public static final String URL_EVENT_FRAG = "/1/classes/Event";
+        public static final String URL_EVENT = URL_BASE + URL_EVENT_FRAG;
 
         /**
          * List Checkin's URL

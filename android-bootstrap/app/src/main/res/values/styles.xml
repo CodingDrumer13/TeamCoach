@@ -51,7 +51,7 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-    <!-- Custom Spinner -->
+    <!-- Custom Loader Spinner -->
     <style name="Spinner">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateDrawable">@drawable/spinner</item>
@@ -72,6 +72,20 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@drawable/list_item_background</item>
+    </style>
+
+    <!--Teamcoah Custon Spinner from Samadhan Medge-->
+    <style name="teamcoach_spinner_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/teamcoach_gradient_spinner</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:popupBackground">@color/background_selected</item>
     </style>
 
     <style name="BootstrapButton">

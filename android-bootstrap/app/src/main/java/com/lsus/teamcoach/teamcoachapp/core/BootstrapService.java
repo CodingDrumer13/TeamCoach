@@ -94,7 +94,7 @@ public class BootstrapService {
      */
     public List<Drill> getDrills(String age, String type) {
         String constraint = "{\"drillAge\":\"" + age + "\",\"drillType\":\"" + type + "\"}";
-        return getDrillService().getDrills(constraint).getResults();
+        return getDrillService().getDrills(constraint, "-drillRating").getResults();
     }
 
     /**
@@ -104,7 +104,7 @@ public class BootstrapService {
      */
     public List<Drill> getDrills(String age) {
         String constraint = "{\"drillAge\":\"" + age+ "\"}";
-        return getDrillService().getDrills(constraint).getResults();
+        return getDrillService().getDrills(constraint, "-drillRating").getResults();
     }
 
     /**

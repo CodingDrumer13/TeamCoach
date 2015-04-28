@@ -21,7 +21,7 @@ public interface DrillService {
      * @return
      */
     @GET(Constants.Http.URL_DRILL_FRAG)
-    DrillWrapper getDrills(@Query("where") String constraint);
+    DrillWrapper getDrills(@Query("where") String constraint, @Query("order") String drillRating);
 
 
     @GET(Constants.Http.URL_DRILL_FRAG)

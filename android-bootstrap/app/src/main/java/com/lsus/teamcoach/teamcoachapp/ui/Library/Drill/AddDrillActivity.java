@@ -319,7 +319,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             drillObject.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e == null) {
+                    if (e == null) {
                         if (hasPicture) {
                             DrillPictureObject drillPicture = new DrillPictureObject();
                             drillPicture.setDrillId(drillObject.getString("groupId"));
@@ -373,44 +373,32 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                     }
                 });
             } else{
-
-                ExecutorService es = Executors.newCachedThreadPool();
-
                 for(int i = bottomPos; i <= topPos; i++){
 
                     sAgeGroupBottom.setSelection(i);
                     age = sAgeGroupBottom.getSelectedItem().toString();
 
-                    final ParseObject drillObject = assembleDrillObject(false);
-                    drillObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                if (hasPicture) {
-                                    DrillPictureObject drillPicture = new DrillPictureObject();
-                                    drillPicture.setDrillId(drillObject.getString("groupId"));
-                                    drillPicture.setDrillPicture(picture);
-                                    drillPicture.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
+                    ParseObject drillObject = assembleDrillObject(false);
 
-                                            if (typeSelected) refreshList();
-                                            AddDrillActivity.this.finish();
-                                        }
-                                    });
-                                } else {
+                    try {
+                        drillObject.save();
+                    } catch (ParseException e) {}
+
+                    if(i == bottomPos) {
+                        if (hasPicture) {
+                            DrillPictureObject drillPicture = new DrillPictureObject();
+                            drillPicture.setDrillId(drillObject.getString("groupId"));
+                            drillPicture.setDrillPicture(picture);
+                            drillPicture.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+
                                     if (typeSelected) refreshList();
                                     AddDrillActivity.this.finish();
                                 }
-                            } else {
-                                e.printStackTrace();
-                            }
+                            });
                         }
-                    });
-
-                    try {
-                        es.awaitTermination(500, TimeUnit.MILLISECONDS);
-                    } catch (InterruptedException e) {}
+                    }
 
                 }
                 if(typeSelected) refreshList();

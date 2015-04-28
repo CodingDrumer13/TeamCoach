@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -12,19 +13,25 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
+import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_PICTURE_URL;
 
 /**
  * Created by TeamCoach on 3/18/2015.
@@ -48,6 +55,7 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
     @InjectView(R.id.button_drill_remove) protected Button btnRemove;
     @InjectView(R.id.tv_drill_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_drill_times_used_num) protected TextView timesUsedNum;
+    @InjectView(R.id.iv_drillImage) protected ImageView drillPicture;
 
     private Drill drill;
     private float userRating;
@@ -64,6 +72,24 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
         if (getIntent() != null && getIntent().getExtras() != null) {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
+        }
+
+        if(drill.getHasPicture()){
+            Toaster.showShort(this, "Group Id: " + drill.getGroupId());
+            ParseQuery<DrillPictureObject> query = new ParseQuery("DrillPicture");
+            query.whereEqualTo("drillId", drill.getGroupId());
+            query.findInBackground(new FindCallback<DrillPictureObject>() {
+                @Override
+                public void done(List<DrillPictureObject> list, ParseException e) {
+                    if(e == null){
+                        picture = list.get(0).getParseFile("picture");
+                        System.out.println("Working-----------------");
+
+                    }else {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
 

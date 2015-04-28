@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -12,7 +13,13 @@ public class DrillPictureObject extends ParseObject {
 
     public DrillPictureObject(){}
 
-    public String getObjectId() { return getString("objectId"); }
+    public String getObjectId() {
+        try {
+            return fetchIfNeeded().getString("objectId");
+        } catch (ParseException e) {
+        }
+        return "";
+    }
 
     public void setDrillId(String id) { put("drillId", id); }
 

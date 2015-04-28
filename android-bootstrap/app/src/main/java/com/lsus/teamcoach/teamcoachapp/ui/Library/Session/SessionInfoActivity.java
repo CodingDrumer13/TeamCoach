@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -31,7 +32,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.SESSION_ID;
 /**
  * Created by TeamCoach on 4/13/2015.
  */
-public class SessionInfoActivity extends BootstrapActivity {
+public class SessionInfoActivity extends BootstrapActivity implements RatingBar.OnRatingBarChangeListener{
     @Inject protected BootstrapService bootstrapService;
     //@Inject protected LogoutService logoutService;
 
@@ -39,18 +40,22 @@ public class SessionInfoActivity extends BootstrapActivity {
     @InjectView(R.id.et_session_name) protected EditText editName;
     @InjectView(R.id.tv_session_age) protected TextView sessionAge;
     @InjectView(R.id.tv_session_type) protected TextView sessionType;
-    @InjectView(R.id.tv_session_rating) protected TextView sessionRating;
     @InjectView(R.id.button_session_edit) protected Button btnEdit;
     @InjectView(R.id.button_session_submit) protected Button btnSubmit;
     @InjectView(R.id.button_session_remove) protected Button btnRemove;
     @InjectView(R.id.button_addDrillList) protected Button addDrillList;
     @InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
     @InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
-    @InjectView(R.id.session_container) protected FrameLayout sessionContainer;
+    @InjectView(R.id.sessionRatingBar) protected RatingBar sessionRating;
+    @InjectView(R.id.tv_rating_bar_number) protected TextView ratingBarNumber;
+    @InjectView(R.id.tv_rating_bar_rating) protected TextView ratingBarRating;
+    @InjectView(R.id.button_rating_submit) protected Button ratingSubmit;
 
 
     private Session session;
     private SafeAsyncTask<Boolean> authenticationTask;
+
+    private float userRating;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,22 @@ public class SessionInfoActivity extends BootstrapActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+        sessionRating.setRating(session.getSessionRating());
+        ratingBarRating.setText("(" + String.format("%.1f",session.getSessionRating()) + " out of 5.0)");
+        ratingBarNumber.setText(session.getNumberOfRatings() + " user ratings");
+
+
+        Singleton singleton = Singleton.getInstance();
+
+        /**
+         * If the user is not the creator, make rating the session possible
+         */
+        if(!session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
+            sessionRating.setOnRatingBarChangeListener(this);
+        } else {
+            sessionRating.setIsIndicator(true);
+        }
+
 
         //TODO Handle age ranges here.
         if (session.getIsGroup()) {
@@ -88,9 +109,8 @@ public class SessionInfoActivity extends BootstrapActivity {
         sessionName.setText(String.format("%s", session.getName()));
         sessionAge.setText(String.format("%s", session.getAgeGroup()));
         sessionType.setText(String.format("%s", session.getSessionType()));
-        sessionRating.setText(String.format("%s", session.getSessionRating()));
 
-        Singleton singleton = Singleton.getInstance();
+
         if (session.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())) {
             btnEdit.setVisibility(View.VISIBLE);
         }
@@ -120,7 +140,17 @@ public class SessionInfoActivity extends BootstrapActivity {
             onRemove();
         }else if(view.getId() == addDrillList.getId()){
             addNewDrill();
+        } else if(view.getId() == ratingSubmit.getId()){
+            submitRating();
         }
+    }
+
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        ratingSubmit.setVisibility(View.VISIBLE);
+        ratingBarRating.setVisibility(View.GONE);
+        ratingBarNumber.setVisibility(View.GONE);
+        userRating = ratingBar.getRating();
     }
 
     private void onEdit() {
@@ -193,6 +223,31 @@ public class SessionInfoActivity extends BootstrapActivity {
         newFragment.setType(session.getSessionType());
         newFragment.setParent(this);
         newFragment.show(ft, "dialog");
+    }
+
+    private void submitRating(){
+        Toaster.showShort(this, "Submitting rating");
+
+
+        //Sets the new rating for the drill.
+        float currentSessionRating = session.getSessionRating();
+        int numRatings = session.getNumberOfRatings();
+        int newNumRatings = numRatings + 1;
+        float newRating = ((currentSessionRating * numRatings) + userRating) / newNumRatings;
+
+        session.setSessionRating(newRating);
+        session.setNumberOfRatings(newNumRatings);
+
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+
+                //Implement try/catch for update error
+                bootstrapService.update(session);
+
+                return true;
+            }
+        };
+        authenticationTask.execute();
     }
 
 

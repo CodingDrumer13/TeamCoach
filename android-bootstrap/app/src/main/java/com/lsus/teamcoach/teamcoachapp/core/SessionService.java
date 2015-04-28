@@ -17,7 +17,7 @@ public interface SessionService {
 
 
     @GET(Constants.Http.URL_SESSIONS_FRAG)
-    SessionWrapper getSessions(@Query("where") String constraint);
+    SessionWrapper getSessions(@Query("where") String constraint, @Query("order") String sessionRating);
 
     /**
      * Adds a drill to parse.

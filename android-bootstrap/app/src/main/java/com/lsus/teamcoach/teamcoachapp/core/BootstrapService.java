@@ -212,13 +212,13 @@ public class BootstrapService {
         boolean isPublic = true;
         //String constraint = "{\"isPublic\":\"" + true + "\",\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
         String constraint = "{\"ageGroup\":\"" + age + "\",\"sessionType\":\"" + type + "\"}";
-        return getSessionService().getSessions(constraint).getResults();
+        return getSessionService().getSessions(constraint, "-sessionRating").getResults();
     }
 
     //TODO double check this is right!!
     public List<Session> getUserSession(String user, String age){
         String constraint = "{\"creator\":\"" + user + "\",\"ageGroup\":\"" + age + "\"}";
-        return getSessionService().getSessions(constraint).getResults();
+        return getSessionService().getSessions(constraint, "-sessionRating").getResults();
     }
 
 

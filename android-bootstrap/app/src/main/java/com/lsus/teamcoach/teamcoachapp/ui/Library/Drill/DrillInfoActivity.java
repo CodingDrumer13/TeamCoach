@@ -13,7 +13,6 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
-import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
 import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
@@ -376,10 +375,6 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
             authenticationTask.execute();
 
         }
-
-
-
-
     }
 
 

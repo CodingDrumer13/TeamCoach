@@ -136,6 +136,8 @@ public final class Constants {
 
         public static final String DRILL = "drill";
 
+        public static final String DRILL_PICTURE_URL = "drill_picture_url";
+
         public static final String SESSION_AGE = "session_age";
 
         public static final String SESSION_TYPE = "session_type";

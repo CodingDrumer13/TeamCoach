@@ -103,6 +103,10 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             type = getIntent().getExtras().getSerializable(DRILL_TYPE).toString();
         }
 
+        if(picture != null){
+            Toaster.showShort(this, "Picture working.");
+        }
+
         btnCancelAddDrill.setOnClickListener(this);
         btnAddDrill.setOnClickListener(this);
         btnAddAgeGroup.setOnClickListener(this);
@@ -297,10 +301,9 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
      */
     private void addDrillObject(){
         groupId = getHash();
-        Toaster.showLong(this, "Creating drills, please Wait.");
+        Toaster.showShort(this, "Creating drills, please Wait.");
 
         if(!useAgeRange){
-            openThread();
             ParseObject drillObject = assembleDrillObject(false);
             drillObject.saveInBackground(new SaveCallback() {
                 @Override
@@ -309,14 +312,19 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                     AddDrillActivity.this.finish();
                 }
             });
-            //TODO work here
-
         } else {
             int bottomPos = sAgeGroupBottom.getSelectedItemPosition();
             int topPos = sAgeGroupTop.getSelectedItemPosition();
 
             if(bottomPos == topPos){
-                openThread();
+                ParseObject drillObject = assembleDrillObject(false);
+                drillObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (typeSelected) refreshList();
+                        AddDrillActivity.this.finish();
+                    }
+                });
             } else{
 
                 ExecutorService es = Executors.newCachedThreadPool();
@@ -326,15 +334,17 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                     sAgeGroupBottom.setSelection(i);
                     age = sAgeGroupBottom.getSelectedItem().toString();
 
-                    es.execute(new Runnable() {
+                    ParseObject drillObject = assembleDrillObject(false);
+                    drillObject.saveInBackground(new SaveCallback() {
                         @Override
-                        public void run() {
-                            bootstrapService.addDrill(assembleDrill(true));
+                        public void done(ParseException e) {
+                            if (typeSelected) refreshList();
+                            AddDrillActivity.this.finish();
                         }
                     });
 
                     try {
-                        es.awaitTermination(1000, TimeUnit.MILLISECONDS);
+                        es.awaitTermination(500, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {}
 
                 }

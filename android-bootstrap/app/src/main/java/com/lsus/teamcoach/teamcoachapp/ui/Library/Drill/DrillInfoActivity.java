@@ -15,6 +15,7 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.ParseFile;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 import butterknife.InjectView;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_PICTURE_URL;
 
 /**
  * Created by TeamCoach on 3/18/2015.
@@ -49,6 +51,7 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
     private Drill drill;
     private float userRating;
+    private ParseFile picture;
     private SafeAsyncTask<Boolean> authenticationTask;
     ArrayList<Drill> group;
 
@@ -59,9 +62,17 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
         setTitle(R.string.title_drill_info);
 
+        String pictureUrl = "";
         if (getIntent() != null && getIntent().getExtras() != null) {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
+            pictureUrl = getIntent().getExtras().getSerializable(DRILL_PICTURE_URL).toString();
+
+            if(!pictureUrl.equalsIgnoreCase("")){
+                Toaster.showShort(this, "Picture working: " + pictureUrl);
+            }
         }
+
+
 
         //TODO make drill age and type editable.
         drillName.setText(String.format("%s", drill.getDrillName()));
@@ -69,7 +80,7 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
         drillType.setText(String.format("%s", drill.getDrillType()));
         drillDescription.setText(String.format("%s", drill.getDrillDescription()));
         drillRating.setRating(drill.getDrillRating());
-        ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
+        ratingBarRating.setText("(" + String.format("%.1f",drill.getDrillRating()) + " out of 5.0)");
         ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
 
 
@@ -86,6 +97,8 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
          */
         if(!drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
             drillRating.setOnRatingBarChangeListener(this);
+        } else {
+            drillRating.setIsIndicator(true);
         }
 
         /**

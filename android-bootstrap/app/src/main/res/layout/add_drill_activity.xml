@@ -31,12 +31,13 @@
             android:textColor="@color/table_text_selector" />
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:id="@+id/sAddDrillAgeGroupBottom"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal"
+            style="@style/teamcoach_spinner_style"
             android:hint="Age Group"/>
 
         <TextView
@@ -51,12 +52,13 @@
             android:textColor="@color/table_text_selector" />
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:id="@+id/sAddDrillAgeGroupTop"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal"
+            style="@style/teamcoach_spinner_style"
             android:hint="Age Group"
             android:visibility="gone"/>
 
@@ -78,6 +80,7 @@
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:layout_gravity="center_horizontal"
+        style="@style/teamcoach_spinner_style"
         android:hint="Drill Type"/>
 
     <Button

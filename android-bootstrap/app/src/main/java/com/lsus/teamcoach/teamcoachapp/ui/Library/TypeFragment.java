@@ -40,6 +40,14 @@ public class TypeFragment extends ItemListFragment<String> implements View.OnCli
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+
+        parent.setHeaderVisibility(true);
+        if(library.equalsIgnoreCase("Drills")){
+            parent.setHeader("Drill Types");
+        }
+        if(library.equalsIgnoreCase("Sessions")){
+            parent.setHeader("Session Types");
+        }
     }
 
     @Override

@@ -49,6 +49,7 @@ public class LibraryListFragment extends ItemListFragment<String> implements Vie
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
 
+        parent.setHeaderVisibility(false);
         backButton.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
         homeButton.setVisibility(View.GONE);

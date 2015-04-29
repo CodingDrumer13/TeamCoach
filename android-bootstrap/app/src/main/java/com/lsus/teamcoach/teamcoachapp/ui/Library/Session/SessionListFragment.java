@@ -45,12 +45,17 @@ public class SessionListFragment extends ItemListFragment<Session> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+
+        this.setHasOptionsMenu(false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
+
+        parent.setHeaderVisibility(true);
+        parent.setHeader(type + " Sessions");
     }
 
     @Override

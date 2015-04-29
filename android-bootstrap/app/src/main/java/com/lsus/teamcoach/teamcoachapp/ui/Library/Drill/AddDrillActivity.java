@@ -24,6 +24,7 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.DrillObject;
 import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
@@ -116,7 +117,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
 
         //Sets up the values for the Age Groups
         ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this,
-                R.array.age_group_array, android.R.layout.simple_spinner_item);
+                R.array.age_group_array, R.layout.teamcoach_spinner_item);
         // Specify the layout to use when the list of choices appears
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -125,7 +126,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
 
         //Sets up the values for the Drill Types
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,
-                R.array.drill_type_array, android.R.layout.simple_spinner_item);
+                R.array.drill_type_array, R.layout.teamcoach_spinner_item);
         // Specify the layout to use when the list of choices appears
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

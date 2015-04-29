@@ -1,5 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.widget.RatingBar;
 
@@ -12,14 +13,14 @@ import java.util.List;
 /**
  * Created by TeamCoach on 3/12/2015.
  */
-public class DrillListAdapter extends AlternatingColorListAdapter<Drill> {
+public class DrillListRatingAdapter extends AlternatingColorListAdapter<Drill> {
     /**
      * @param inflater
      * @param items
      * @param selectable
      */
-    public DrillListAdapter(final LayoutInflater inflater, final List<Drill> items,
-                            final boolean selectable) {
+    public DrillListRatingAdapter(final LayoutInflater inflater, final List<Drill> items,
+                                  final boolean selectable) {
         super(R.layout.drill_type_list_item, inflater, items, selectable);
     }
 
@@ -27,13 +28,13 @@ public class DrillListAdapter extends AlternatingColorListAdapter<Drill> {
      * @param inflater
      * @param items
      */
-    public DrillListAdapter(final LayoutInflater inflater, final List<Drill> items) {
+    public DrillListRatingAdapter(final LayoutInflater inflater, final List<Drill> items) {
         super(R.layout.drill_type_list_item, inflater, items);
     }
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_drillType};
+        return new int[]{R.id.tv_drillType, R.id.drillRatingBar};
     }
 
     @Override
@@ -41,5 +42,6 @@ public class DrillListAdapter extends AlternatingColorListAdapter<Drill> {
         super.update(position, item);
 
         setText(0, item.getDrillName());
+        ((RatingBar)view(1)).setRating(item.getDrillRating());
     }
 }

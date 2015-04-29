@@ -1,7 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -14,15 +13,13 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListRatingAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
 
 /**
  * Created by TeamCoach on 4/21/2015.
@@ -45,7 +42,7 @@ public class SelectListFragment extends ItemListFragment<Drill> {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
 
-
+        this.setHasOptionsMenu(false);
     }
 
     @Override
@@ -95,12 +92,13 @@ public class SelectListFragment extends ItemListFragment<Drill> {
 
     @Override
     protected SingleTypeAdapter<Drill> createAdapter(final List<Drill> items) {
-        return new DrillListAdapter(getActivity().getLayoutInflater(), items);
+        return new DrillListRatingAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         Drill drill = ((Drill) l.getItemAtPosition(position));
         parent.setDrillToAdd(drill);
+        parent.refreshList();
         container.dismiss();
     }
 

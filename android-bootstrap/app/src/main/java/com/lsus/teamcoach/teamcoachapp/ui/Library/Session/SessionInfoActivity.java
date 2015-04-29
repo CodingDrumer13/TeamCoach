@@ -54,11 +54,15 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
 
     private Session session;
     private SafeAsyncTask<Boolean> authenticationTask;
+    private boolean editClicked = false;
 
     private float userRating;
+    private SessionDrillListFragment drillListFragment;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.session_info_activity);
 
@@ -73,10 +77,12 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        SessionDrillListFragment drillListFragment = new SessionDrillListFragment();
+        drillListFragment = new SessionDrillListFragment();
         drillListFragment.setRetainInstance(true);
         drillListFragment.setParent(this);
+        if(session.getDrillList() == null) session.setDrillList(new ArrayList<Drill>());
         drillListFragment.setDrillList(session.getDrillList());
+
         fragmentTransaction.replace(R.id.session_container, drillListFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -134,6 +140,7 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
             onEdit();
         }else if(view.getId() == btnSubmit.getId()){
             //The Submit button has been clicked
+            editClicked = false;
             onSubmit();
         }else if(view.getId() == btnRemove.getId()){
             //The Remove button has been clicked
@@ -303,4 +310,9 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
         String drillName = current.get(current.size() - 1).getDrillName();
     }
 
+    public void refreshList(){
+        drillListFragment.refresh();
+    }
+
+    public boolean isEditClicked() { return editClicked; }
 }

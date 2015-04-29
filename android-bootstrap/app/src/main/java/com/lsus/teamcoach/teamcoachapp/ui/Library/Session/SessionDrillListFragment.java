@@ -1,6 +1,7 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Session;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -8,24 +9,18 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
-import com.github.kevinsawicki.wishlist.Toaster;
-import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
-import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListAdapter;
-import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListRatingAdapter;
 import com.lsus.teamcoach.teamcoachapp.ui.ThrowableLoader;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.Views;
 
@@ -95,8 +90,14 @@ public class SessionDrillListFragment extends ItemListFragment<Drill> {
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
-        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
-        startActivity(drillInfoIntent);
+        if(parent.isEditClicked()){
+            AlertDialog.Builder removeDrill = new AlertDialog.Builder(this.getActivity().getApplicationContext());
+            removeDrill.setTitle("Remove Drill");
+            removeDrill.setMessage("Are you sure you want to remove this drill?");
+        } else {
+            Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
+            startActivity(drillInfoIntent);
+        }
     }
 
     @Override

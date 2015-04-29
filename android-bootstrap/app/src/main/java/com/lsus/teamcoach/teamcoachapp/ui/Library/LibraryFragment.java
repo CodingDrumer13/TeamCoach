@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
@@ -37,6 +38,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
     @InjectView(R.id.btnNewButton) protected Button addButton;
     @InjectView(R.id.btnLibraryBack) protected Button backButton;
     @InjectView(R.id.btnLibraryHome) protected Button homeButton;
+    @InjectView(R.id.tv_library_list_header) protected TextView libraryHeader;
 
     @Inject protected LogoutService logoutService;
 
@@ -69,6 +71,8 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         currentFragment = libraryListFragment;
         fragmentTransaction.replace(R.id.library_container, libraryListFragment);
         fragmentTransaction.commit();
+
+        libraryHeader.setVisibility(View.GONE);
 
         backButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
@@ -136,8 +140,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
             if(typeSelected) newFragment.setType(type);
             newFragment.show(ft, "dialog");
         }
-
-
     }
 
     /**
@@ -226,6 +228,17 @@ public class LibraryFragment extends Fragment implements View.OnClickListener{
         if(library.equalsIgnoreCase("Sessions")){
             addButton.setText("Add New Session");
         }
+    }
 
+    public void setHeader(String headerText){
+        libraryHeader.setText(headerText);
+    }
+
+    public void setHeaderVisibility(boolean visible){
+        if(visible){
+            libraryHeader.setVisibility(View.VISIBLE);
+        } else {
+            libraryHeader.setVisibility(View.GONE);
+        }
     }
 }

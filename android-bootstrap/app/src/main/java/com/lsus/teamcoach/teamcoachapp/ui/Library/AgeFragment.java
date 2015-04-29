@@ -46,6 +46,14 @@ public class AgeFragment extends ItemListFragment<String>{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
+
+        parent.setHeaderVisibility(true);
+        if(library.equalsIgnoreCase("Drills")){
+            parent.setHeader("Drills Age Group");
+        }
+        if(library.equalsIgnoreCase("Sessions")){
+            parent.setHeader("Sessions Age Group");
+        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -102,7 +104,18 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final CalendarEvent item = ((CalendarEvent) l.getItemAtPosition(position));
 
-        Toaster.showShort(this.getActivity(), "You clicked: " + item.getEventName());
+        // Create a new Fragment to be placed in the activity layout
+        CalendarInfoFragment calInfoFragment = new CalendarInfoFragment();
+        calInfoFragment.setParentFragment(this);
+        calInfoFragment.setRetainInstance(true);
+        calInfoFragment.setEvent(item);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(CalendarListFragment.this.getId(), calInfoFragment);
+        fragmentTransaction.addToBackStack("calListFragment");
+        fragmentTransaction.commit();
 
     }
 

@@ -22,9 +22,6 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
      * @param items
      * @param selectable
      */
-
-    private List<CalendarEvent> items;
-    private LayoutInflater inflater;
     protected Singleton singleton = Singleton.getInstance();
 
     public CalendarListAdapter(final LayoutInflater inflater, final List<CalendarEvent> items,
@@ -46,33 +43,6 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
                             R.id.tv_eventTime};
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//        if (convertView == null) {
-////            convertView = inflater.inflate(R.layout.calendar_list_item, null);
-//            holder = new ViewHolder();
-//            holder.tv_eventDate = (TextView) convertView.findViewById(R.id.tv_eventDate);
-//            holder.tv_eventName = (TextView) convertView.findViewById(R.id.tv_eventName);
-//            holder.tv_eventTime = (TextView) convertView.findViewById(R.id.tv_eventTime);
-//
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        holder.tv_eventDate.setText(items.get(position).getStartDate());
-//        holder.tv_eventName.setText(items.get(position).getEventName());
-//        holder.tv_eventTime.setText(items.get(position).getTimeSpan());
-//
-//        return convertView;
-//    }
-//
-//    static class ViewHolder {
-//        TextView tv_eventDate;
-//        TextView tv_eventName;
-//        TextView tv_eventTime;
-//    }
 
     @Override
     protected void update(final int position, final CalendarEvent item) {

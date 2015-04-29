@@ -23,6 +23,7 @@ import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
+import com.lsus.teamcoach.teamcoachapp.ui.AboutUs.AboutUsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapFragmentActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.CarouselFragment;
@@ -248,6 +249,9 @@ public class MainActivity extends BootstrapFragmentActivity {
             case R.id.timer:
                 navigateToTimer();
                 return true;
+            case R.id.aboutus:
+                navigateToAboutScreen();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -255,6 +259,11 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     private void navigateToTimer() {
         final Intent i = new Intent(this, BootstrapTimerActivity.class);
+        startActivity(i);
+    }
+
+    private void navigateToAboutScreen(){
+        final Intent i = new Intent(this, AboutUsActivity.class);
         startActivity(i);
     }
 
@@ -272,7 +281,10 @@ public class MainActivity extends BootstrapFragmentActivity {
                 // Timer
                 navigateToTimer();
                 break;
+            case 2:
+                // About US
+                navigateToAboutScreen();
+                break;
         }
     }
-
 }

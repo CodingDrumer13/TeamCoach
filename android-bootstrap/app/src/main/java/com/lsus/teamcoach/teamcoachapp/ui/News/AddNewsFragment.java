@@ -143,4 +143,11 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
     /** Todo
      * Add a back button here
      */
+
+
+    //Input Check for edittext
+//    private void updateUIWithValidation() {
+//        final boolean populated = populated(et_add_news_title) && populated(et_add_news_message);
+//        signInButton.setEnabled(populated);
+//    }
 }

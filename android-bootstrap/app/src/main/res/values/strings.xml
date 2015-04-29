@@ -139,6 +139,14 @@
     <string name="no_coaches">No Coaches Found</string>
     <string name="Coaches">Coaches</string>
     <string name="no_messages">No Messages</string>
+    <string name="about_us">About Us</string>
+
+    <string name="teamcoach_aboutme_info">
+       The Teamcoach staff are a small organization of students stationed at Louisiana State University of Shreveport.
+        We are an intuitive team that love to develop useful and initiative applications.
+        We pride ourselves at providing pristine user interface that sets our customers apart from their competitors.
+        Any questions about our staff or products can be directed to teamcoach@gmail.com.
+    </string>
 
 
 </resources>

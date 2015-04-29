@@ -49,7 +49,7 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-
+        this.setHasOptionsMenu(false);
     }
 
     @Override

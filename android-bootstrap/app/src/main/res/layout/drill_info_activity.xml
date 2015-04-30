@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/app_background"
+    android:background="@drawable/coaching_background"
     android:layout_height="match_parent">
 
     <!-- Drill Name -->
@@ -139,6 +139,7 @@
         android:id="@+id/iv_drillImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"
         />
 
@@ -160,6 +161,7 @@
         android:textColor="@color/table_text_selector"
         />
     <EditText
+        android:layout_height="150dp"
         android:id="@+id/et_drill_description"
         style="@style/SignInEditText"
         android:visibility="gone"

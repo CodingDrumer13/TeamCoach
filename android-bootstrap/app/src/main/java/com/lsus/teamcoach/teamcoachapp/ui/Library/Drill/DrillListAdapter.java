@@ -1,7 +1,6 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
 import android.view.LayoutInflater;
-import android.widget.RatingBar;
 
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;

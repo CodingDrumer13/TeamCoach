@@ -140,6 +140,8 @@ public final class Constants {
 
         public static final String DRILL = "drill";
 
+        public static final String DRILL_INFO_PARENT = "drill_info_parent";
+
         public static final String DRILL_PICTURE_URL = "drill_picture_url";
 
         public static final String SESSION_AGE = "session_age";

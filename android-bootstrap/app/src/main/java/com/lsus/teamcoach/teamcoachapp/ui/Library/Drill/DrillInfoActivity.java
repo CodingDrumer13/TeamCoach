@@ -1,6 +1,10 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Library.Drill;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +20,14 @@ import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -30,7 +38,10 @@ import javax.inject.Inject;
 
 import butterknife.InjectView;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_INFO_PARENT;
 
 /**
  * Created by TeamCoach on 3/18/2015.
@@ -60,6 +71,7 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
     private float userRating;
     private ParseFile picture;
     private SafeAsyncTask<Boolean> authenticationTask;
+    private String parent;
     ArrayList<Drill> group;
 
     public void onCreate(Bundle savedInstanceState){
@@ -71,22 +83,36 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
         if (getIntent() != null && getIntent().getExtras() != null) {
             drill = (Drill) getIntent().getExtras().getSerializable(DRILL);
+            parent = (String) getIntent().getExtras().getSerializable(DRILL_INFO_PARENT);
         }
 
+        /**
+         * If the drill has a picture, It retrieves the picture, retrieves the data for the picture,
+         * then sets up the picture to be displayed.
+         */
         if(drill.getHasPicture()){
-            Toaster.showShort(this, "Group Id: " + drill.getGroupId());
-            ParseQuery<DrillPictureObject> query = new ParseQuery("DrillPicture");
+
+            ParseQuery<ParseObject> query = new ParseQuery("DrillPicture");
             query.whereEqualTo("drillId", drill.getGroupId());
-            query.findInBackground(new FindCallback<DrillPictureObject>() {
+            query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void done(List<DrillPictureObject> list, ParseException e) {
+                public void done(List<ParseObject> list, ParseException e) {
                     if(e == null){
                         picture = list.get(0).getParseFile("picture");
-                        System.out.println("Working-----------------");
 
-                    }else {
-                        e.printStackTrace();
-                    }
+                        picture.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] bytes, ParseException e) {
+                                Bitmap bmp = null;
+                                try {
+                                    bmp = BitmapFactory.decodeByteArray(picture.getData(), 0, picture.getData().length);
+                                    drillPicture.setVisibility(View.VISIBLE);
+                                    drillPicture.setImageBitmap(bmp);
+                                } catch (ParseException e1) {}
+
+                            }
+                        });
+                    }else {}
                 }
             });
         }
@@ -132,6 +158,29 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            // This is the home button in the top left corner of the screen.
+            case android.R.id.home:
+                // Don't call finish! Because activity could have been started by an
+                // outside activity and the home button would not operated as expected!
+                if(parent.equalsIgnoreCase("Session")) {
+                    final Intent sessionIntent = new Intent(this, SessionInfoActivity.class);
+                    sessionIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(sessionIntent);
+                    return true;
+                } else {
+                    final Intent homeIntent = new Intent(this, MainActivity.class);
+                    homeIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(homeIntent);
+                    return true;
+                }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onClick(View view) {

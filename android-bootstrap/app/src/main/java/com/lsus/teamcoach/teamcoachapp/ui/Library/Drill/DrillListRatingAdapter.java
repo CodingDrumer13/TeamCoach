@@ -21,7 +21,7 @@ public class DrillListRatingAdapter extends AlternatingColorListAdapter<Drill> {
      */
     public DrillListRatingAdapter(final LayoutInflater inflater, final List<Drill> items,
                                   final boolean selectable) {
-        super(R.layout.drill_type_list_item, inflater, items, selectable);
+        super(R.layout.drill_type_list_rating_item, inflater, items, selectable);
     }
 
     /**
@@ -29,7 +29,7 @@ public class DrillListRatingAdapter extends AlternatingColorListAdapter<Drill> {
      * @param items
      */
     public DrillListRatingAdapter(final LayoutInflater inflater, final List<Drill> items) {
-        super(R.layout.drill_type_list_item, inflater, items);
+        super(R.layout.drill_type_list_rating_item, inflater, items);
     }
 
     @Override

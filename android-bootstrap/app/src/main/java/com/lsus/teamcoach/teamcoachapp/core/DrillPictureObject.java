@@ -13,14 +13,6 @@ public class DrillPictureObject extends ParseObject {
 
     public DrillPictureObject(){}
 
-    public String getObjectId() {
-        try {
-            return fetchIfNeeded().getString("objectId");
-        } catch (ParseException e) {
-        }
-        return "";
-    }
-
     public void setDrillId(String id) { put("drillId", id); }
 
     public String getDrillId() { return getString("drillId"); }

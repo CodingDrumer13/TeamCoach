@@ -95,7 +95,7 @@ public class SessionListFragment extends ItemListFragment<Session> {
 
     @Override
     protected SingleTypeAdapter<Session> createAdapter(final List<Session> items) {
-        return new SessionListAdapter(getActivity().getLayoutInflater(), items);
+        return new SessionListRatingAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {

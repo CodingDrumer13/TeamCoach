@@ -316,19 +316,19 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
         Toaster.showShort(this, "Creating drills, please Wait.");
 
         if(!useAgeRange){
-            final ParseObject drillObject = assembleDrillObject(false);
+            final DrillObject drillObject = assembleDrillObject(false);
             drillObject.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
                         if (hasPicture) {
-                            DrillPictureObject drillPicture = new DrillPictureObject();
+                            final DrillPictureObject drillPicture = new DrillPictureObject();
                             drillPicture.setDrillId(drillObject.getString("groupId"));
                             drillPicture.setDrillPicture(picture);
                             drillPicture.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-
+                                    Toaster.showShort(AddDrillActivity.this, drillPicture.getObjectId());
                                     if (typeSelected) refreshList();
                                     AddDrillActivity.this.finish();
                                 }
@@ -479,7 +479,6 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             BitmapFactory.decodeFile(picturePath).compress(Bitmap.CompressFormat.JPEG, 100, bos);
             byte[] picData = bos.toByteArray();
-
 
             final ParseFile pictureToSave = new ParseFile("drillPicture.jpeg", picData);
             pictureToSave.saveInBackground(new SaveCallback() {

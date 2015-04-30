@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import butterknife.Views;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL;
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_INFO_PARENT;
 
 /**
  * Created by TeamCoach on 3/12/2015.
@@ -101,7 +102,9 @@ public class DrillListFragment extends ItemListFragment<Drill> {
 
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         final Drill item = ((Drill) l.getItemAtPosition(position));
-        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class).putExtra(DRILL, item);
+        Intent drillInfoIntent = new Intent(getActivity(), DrillInfoActivity.class);
+        drillInfoIntent.putExtra(DRILL, item);
+        drillInfoIntent.putExtra(DRILL_INFO_PARENT, "Drill List");
         startActivity(drillInfoIntent);
     }
 

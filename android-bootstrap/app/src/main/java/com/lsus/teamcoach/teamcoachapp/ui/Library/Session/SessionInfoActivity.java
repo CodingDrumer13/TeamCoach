@@ -44,12 +44,13 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
     @InjectView(R.id.button_session_submit) protected Button btnSubmit;
     @InjectView(R.id.button_session_remove) protected Button btnRemove;
     @InjectView(R.id.button_addDrillList) protected Button addDrillList;
-    @InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
-    @InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
+    //@InjectView(R.id.tv_session_times_used) protected TextView timesUsed;
+    //@InjectView(R.id.tv_session_times_used_num) protected TextView timesUsedNum;
     @InjectView(R.id.sessionRatingBar) protected RatingBar sessionRating;
     @InjectView(R.id.tv_rating_bar_number) protected TextView ratingBarNumber;
     @InjectView(R.id.tv_rating_bar_rating) protected TextView ratingBarRating;
     @InjectView(R.id.button_rating_submit) protected Button ratingSubmit;
+    @InjectView(R.id.session_container) protected FrameLayout sessionContainer;
 
 
     private Session session;
@@ -61,8 +62,6 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.session_info_activity);
 
@@ -123,9 +122,9 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
 
         //USED FOR ADMIN PRIVILEGES
         if (singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")) {
-            timesUsed.setVisibility(View.VISIBLE);
-            timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
-            timesUsedNum.setVisibility(View.VISIBLE);
+            //timesUsed.setVisibility(View.VISIBLE);
+            //timesUsedNum.setText(String.format("%s", session.getTimesUsed()));
+            //timesUsedNum.setVisibility(View.VISIBLE);
             btnEdit.setVisibility(View.VISIBLE);
         }
 
@@ -134,9 +133,9 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
     }
 
     public void onClick(View view) {
-        if(view.getId() == btnEdit.getId())
-        {
+        if(view.getId() == btnEdit.getId()){
             //The Edit button has been clicked
+            editClicked = true;
             onEdit();
         }else if(view.getId() == btnSubmit.getId()){
             //The Submit button has been clicked
@@ -148,6 +147,7 @@ public class SessionInfoActivity extends BootstrapActivity implements RatingBar.
         }else if(view.getId() == addDrillList.getId()){
             addNewDrill();
         } else if(view.getId() == ratingSubmit.getId()){
+            editClicked = false;
             submitRating();
         }
     }

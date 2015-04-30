@@ -149,10 +149,6 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
         this.newsListFragment = newsListFragment;
     }
 
-    /** Todo
-     * Add a back button here
-     */
-
     private TextWatcher validationTextWatcher() {
         return new TextWatcherAdapter() {
             public void afterTextChanged(final Editable gitDirEditText) {

@@ -2,6 +2,8 @@ package com.lsus.teamcoach.teamcoachapp.ui.Team;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -44,6 +47,7 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
     private Team team;
     protected TeamsListFragment teamsListFragment;
     private boolean result = false;
+    private final TextWatcher watcher = validationTextWatcher();
 
 
     @Inject BootstrapService bootstrapService;
@@ -71,6 +75,10 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
         btnAddTeamNegative.setOnClickListener(this);
         btnAddTeamPositive.setOnClickListener(this);
+        btnAddTeamPositive.setEnabled(false);
+
+        etAddTeamName.addTextChangedListener(watcher);
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.age_group_array, android.R.layout.simple_spinner_item);
@@ -158,5 +166,24 @@ public class AddTeamFrag extends DialogFragment implements View.OnClickListener 
 
     public void setTeamsListFragment(TeamsListFragment teamsListFragment){
         this.teamsListFragment = teamsListFragment;
+    }
+
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+
+        };
+    }
+
+    //    Input Check for edittext
+    private void updateUIWithValidation() {
+        final boolean populated = populated(etAddTeamName);
+        btnAddTeamPositive.setEnabled(populated);
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
     }
 }

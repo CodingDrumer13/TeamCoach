@@ -66,15 +66,27 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
 
     public void setCreator(String creator) {this.creator = creator;}
 
-    public int getHour()
+    public int getStartHour()
     {
         String[] time = getEventStartTime().split(":");
         return Integer.parseInt(time[0]);
     }
 
-    public int getMinute()
+    public int getStartMinute()
     {
         String[] time = getEventStartTime().split(":");
+        return Integer.parseInt(time[1].substring(0,2));
+    }
+
+    public int getEndHour()
+    {
+        String[] time = getEventEndTime().split(":");
+        return Integer.parseInt(time[0]);
+    }
+
+    public int getEndMinute()
+    {
+        String[] time = getEventEndTime().split(":");
         return Integer.parseInt(time[1].substring(0,2));
     }
 
@@ -100,34 +112,21 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
         int origYear = this.getYear();
         int origMonth = this.getMonth();
         int origDay = this.getDay();
-        int origHour = this.getHour();
-        int origMinute = this.getMinute();
+        int origHour = this.getStartHour();
+        int origMinute = this.getStartMinute();
 
         Calendar origDate = new GregorianCalendar(origYear, origMonth, origDay, origHour, origMinute);
 
         int toYear = this.getYear();
         int toMonth = this.getMonth();
         int toDay = this.getDay();
-        int toHour = this.getHour();
-        int toMinute = this.getMinute();
+        int toHour = this.getStartHour();
+        int toMinute = this.getStartMinute();
 
         Calendar toDate = new GregorianCalendar(toYear, toMonth, toDay, toHour, toMinute);
 
         return origDate.compareTo(toDate);
 
-    }
-
-    public GregorianCalendar toDateFormat()
-    {
-        int origYear = this.getYear();
-        int origMonth = this.getMonth();
-        int origDay = this.getDay();
-        int origHour = this.getHour();
-        int origMinute = this.getMinute();
-
-        GregorianCalendar origDate = new GregorianCalendar(origYear, origMonth, origDay, origHour, origMinute);
-
-        return origDate;
     }
 
 

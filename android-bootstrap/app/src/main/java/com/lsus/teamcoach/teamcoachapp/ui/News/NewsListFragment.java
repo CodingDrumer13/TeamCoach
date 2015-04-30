@@ -59,6 +59,11 @@ public class NewsListFragment extends ItemListFragment<News> {
         getListAdapter()
                 .addHeader(activity.getLayoutInflater()
                         .inflate(R.layout.news_list_item_labels, null));
+
+
+//      Autmaticly scroll to the bottom?
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        listView.setStackFromBottom(true);
     }
 
     @Override
@@ -135,7 +140,4 @@ public class NewsListFragment extends ItemListFragment<News> {
         return R.string.error_loading_news;
     }
 
-    /**
-     * TODO autmaticly scroll to the bottom?
-     */
 }

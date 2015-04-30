@@ -18,11 +18,11 @@ public class CalendarComparator implements Comparator<CalendarEvent> {
         int day1 = ev1.getDay();
         int day2 = ev2.getDay();
 
-        int hour1 = ev1.getHour();
-        int hour2 = ev2.getHour();
+        int hour1 = ev1.getStartHour();
+        int hour2 = ev2.getStartHour();
 
-        int minute1 = ev1.getMinute();
-        int minute2 = ev2.getMinute();
+        int minute1 = ev1.getStartMinute();
+        int minute2 = ev2.getStartMinute();
 
         //Sort items by date
         if (year1 < year2)

@@ -39,8 +39,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/et_add_news_message"
         style="@style/SignInEditText"
-        android:singleLine="false"
-        android:layout_weight="0.50" />
+        android:layout_weight="1"
+        android:inputType="textCapSentences|textMultiLine"
+        android:gravity="top"
+        />
 
     <Spinner
         android:layout_width="match_parent"

@@ -49,6 +49,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+
     }
 
     @Override

@@ -16,10 +16,12 @@ import com.lsus.teamcoach.teamcoachapp.core.RestAdapterRequestInterceptor;
 import com.lsus.teamcoach.teamcoachapp.core.RestErrorHandler;
 import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
+import com.lsus.teamcoach.teamcoachapp.ui.AboutUs.AboutUsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.AddEventFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
@@ -113,10 +115,11 @@ import retrofit.converter.GsonConverter;
                 CalendarFragment.class,
                 CalendarListFragment.class,
                 AddEventFrag.class,
+                CalendarInfoFragment.class,
                 SessionDrillListFragment.class,
                 NewsFragment.class,
                 AddNewsFragment.class,
-                NewsListAdapter.class
+                AboutUsActivity.class
         }
 )
 public class BootstrapModule {

@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     android:textAlignment="inherit"
-    android:textColor="@color/teamcoach_spinner"
+    android:textColor="@android:color/white"
+    android:textAppearance="?android:attr/textAppearanceLarge"
     />
 
     <!--android:background="@drawable/teamcoach_back_border"-->

@@ -25,7 +25,6 @@ import javax.inject.Inject;
 public class NewsListAdapter extends AlternatingColorListAdapter<News> {
 
     protected Singleton singleton = Singleton.getInstance();
-    @Inject protected BootstrapService bootstrapService;
 
     /**
      * @param inflater
@@ -35,7 +34,6 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
     public NewsListAdapter(final LayoutInflater inflater, final List<News> items,
                            final boolean selectable) {
         super(R.layout.news_list_item, inflater, items, selectable);
-        Injector.inject(this);
     }
 
     /**
@@ -44,8 +42,6 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
      */
     public NewsListAdapter(final LayoutInflater inflater, final List<News> items) {
         super(R.layout.news_list_item, inflater, items);
-        Injector.inject(this);
-
     }
 
     @Override
@@ -108,4 +104,5 @@ public class NewsListAdapter extends AlternatingColorListAdapter<News> {
 
 
     }
+
 }

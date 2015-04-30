@@ -44,7 +44,7 @@
     <color name="dark_grey">#1f1f1f</color>
     <color name="navigation_drawer_item_separator">#c2c2c2</color>
     <color name="teamcoach_spinner">#1f1f1f</color>
-    <color name="teamcoach_background2">#ff2257ff</color> <!--Original #1fb6ed-->
+    <color name="teamcoach_background2">#ff2250ce</color> <!--Original #1fb6ed-->
 
 
 </resources>

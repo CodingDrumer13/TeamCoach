@@ -164,13 +164,29 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         et_EventStartTime.setText(hour + ":" + minuteString + " " + am_pm);
 
         //Set end time default to 1 1/2 hours after current time
-        String endHour = String.valueOf(Integer.parseInt(hour)+1);
+        String endHour;
+        if((mHour+1) >= 12){
+            am_pm = "PM";
+            if ((mHour+1) == 12)
+                hour = String.valueOf(mHour+1);
+            else
+                hour = String.valueOf((mHour+1)-12);
+            endHour = String.valueOf(Integer.parseInt(hour));}
+        else {
+            am_pm = "AM";
+            hour = String.valueOf((Integer.parseInt(hour)+1));
+            endHour = hour;}
+
         String endMinute;
         if(mMinute > 29){
             endMinute = String.valueOf((mMinute + 30) - 60);
             if (((mMinute + 30) - 60) < 10)
                endMinute = "0" + endMinute;
-            endHour = String.valueOf(Integer.parseInt(hour)+2);
+            if(Integer.parseInt(hour+1) > 12) {
+                hour = String.valueOf(((Integer.parseInt(hour))+1)-12);
+                endHour = hour;}
+            else
+                endHour = String.valueOf(Integer.parseInt(hour)+1);
         }
         else
             endMinute = String.valueOf(mMinute + 30);

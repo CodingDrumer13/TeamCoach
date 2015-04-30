@@ -24,5 +24,11 @@
         android:title="@string/logout_action" >
     </item>
 
+    <item
+        android:id="@+id/aboutus"
+        bootstrap:showAsAction="never"
+        android:title="@string/about_us" >
+    </item>
+
 
 </menu>

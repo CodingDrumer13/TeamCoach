@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.News;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import java.sql.Time;
@@ -42,6 +45,8 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
     private News news;
     protected NewsListFragment newsListFragment;
     private NewsFragment parent;
+    private final TextWatcher watcher = validationTextWatcher();
+
 
     @Inject protected BootstrapService bootstrapService;
 
@@ -66,6 +71,10 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
 
         btn_send_message.setOnClickListener(this);
         btnNewBack.setOnClickListener(this);
+
+        btn_send_message.setEnabled(false);
+        et_add_news_message.addTextChangedListener(watcher);
+        et_add_news_title.addTextChangedListener(watcher);
 
         ArrayAdapter<Team> spinnerArrayAdapter = new ArrayAdapter<Team>(this.getActivity(), R.layout.teamcoach_spinner_item, singleton.getUserTeams()); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -140,7 +149,23 @@ public class AddNewsFragment extends Fragment implements View.OnClickListener{
         this.newsListFragment = newsListFragment;
     }
 
-    /** Todo
-     * Add a back button here
-     */
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+
+        };
+    }
+
+//    Input Check for edittext
+    private void updateUIWithValidation() {
+        final boolean populated = populated(et_add_news_title) && populated(et_add_news_message);
+        btn_send_message.setEnabled(populated);
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
+    }
+
 }

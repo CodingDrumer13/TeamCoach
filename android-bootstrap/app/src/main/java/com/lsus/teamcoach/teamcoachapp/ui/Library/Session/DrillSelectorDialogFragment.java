@@ -25,7 +25,7 @@ public class DrillSelectorDialogFragment extends DialogFragment implements View.
 
     @InjectView(R.id.btnCancelSelectDrill) protected Button btnCancelSelectDrill;
 
-    SessionInfoActivity parent;
+    SessionInfoFragment parent;
     private String age;
     private String type;
 
@@ -66,9 +66,9 @@ public class DrillSelectorDialogFragment extends DialogFragment implements View.
         }
     }
 
-    public void setParent(SessionInfoActivity parent) { this.parent = parent;}
+    public void setParent(SessionInfoFragment parent) { this.parent = parent;}
 
-    public SessionInfoActivity getParent() { return parent; }
+    public SessionInfoFragment getParent() { return parent; }
 
     public void setAge(String age) { this.age = age; }
 

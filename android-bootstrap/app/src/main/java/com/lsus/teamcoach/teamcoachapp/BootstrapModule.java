@@ -22,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
@@ -119,7 +120,8 @@ import retrofit.converter.GsonConverter;
                 SessionDrillListFragment.class,
                 NewsFragment.class,
                 AddNewsFragment.class,
-                AboutUsActivity.class
+                AboutUsActivity.class,
+                SessionInfoFragment.class
         }
 )
 public class BootstrapModule {

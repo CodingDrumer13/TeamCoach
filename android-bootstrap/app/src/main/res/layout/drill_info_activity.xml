@@ -164,6 +164,8 @@
         android:layout_height="150dp"
         android:id="@+id/et_drill_description"
         style="@style/SignInEditText"
+        android:inputType="textCapSentences|textMultiLine"
+        android:gravity="top"
         android:visibility="gone"
         />
 
@@ -171,7 +173,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_gravity="top">
 
         <!-- Drill Times Used -->
         <TextView
@@ -195,11 +198,6 @@
             />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"></LinearLayout>
 
     <Button
         android:id="@+id/button_drill_edit"

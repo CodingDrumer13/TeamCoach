@@ -34,7 +34,7 @@ public class SelectListFragment extends ItemListFragment<Drill> {
     private String age;
     private String type;
     private String library;
-    private SessionInfoActivity parent;
+    private SessionInfoFragment parent;
     private DrillSelectorDialogFragment container;
 
     @Override
@@ -128,7 +128,7 @@ public class SelectListFragment extends ItemListFragment<Drill> {
         this.library = library;
     }
 
-    public void setParent(SessionInfoActivity parent) {
+    public void setParent(SessionInfoFragment parent) {
         this.parent = parent;
     }
 

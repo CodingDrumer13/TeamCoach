@@ -32,7 +32,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_INFO_PA
  */
 public class SessionDrillListFragment extends ItemListFragment<Drill> {
 
-    private SessionInfoActivity parent;
+    private SessionInfoFragment parent;
     private List<Drill> drillList;
 
 
@@ -137,5 +137,5 @@ public class SessionDrillListFragment extends ItemListFragment<Drill> {
 
     public void setDrillList(List<Drill> drillList) { this.drillList = drillList; }
 
-    public void setParent(SessionInfoActivity parent){ this.parent = parent; }
+    public void setParent(SessionInfoFragment parent){ this.parent = parent; }
 }

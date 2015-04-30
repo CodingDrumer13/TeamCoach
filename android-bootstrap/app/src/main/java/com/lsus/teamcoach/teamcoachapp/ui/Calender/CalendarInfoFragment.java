@@ -255,7 +255,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         tvEventDateInfo.setVisibility(View.VISIBLE);
 
         tvEventNameInfo.setText(event.getEventName());
-        tvEventNameInfo.setText(event.getEventType());
+        tvEventTeamInfo.setText(event.getEventTeam());
+        tvEventTypeInfo.setText(event.getEventType());
         tvEventDateInfo.setText(event.getEventDate());
 
         btnCalendarInfoEdit.setVisibility(View.VISIBLE);

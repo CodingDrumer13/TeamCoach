@@ -18,6 +18,8 @@ import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
@@ -33,6 +35,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
  private SafeAsyncTask<Boolean> authenticationTask;
     private CalendarEvent event;
     protected CalendarListFragment calListFragment;
+    protected Singleton singleton = Singleton.getInstance();
 
     @Inject
     protected BootstrapService bootstrapService;
@@ -42,12 +45,12 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     TextView tvEventNameInfo;
     @InjectView(R.id.et_event_name_info)
     EditText etEventNameInfo;
+    @InjectView(R.id.tv_event_team_info)
+    TextView tvEventTeamInfo;
+    @InjectView(R.id.spin_event_team_info)
+    Spinner spinEventTeamInfo;
     @InjectView(R.id.tv_event_start_date_info)
     TextView tvEventDateInfo;
-//    @InjectView(R.id.et_event_start_time_info)
-//    EditText etEventStartTimeInfo;
-//    @InjectView((R.id.et_event_end_time_info))
-//    EditText etEventEndTimeInfo;
     @InjectView(R.id.tv_event_type_info)
     TextView tvEventTypeInfo;
     @InjectView(R.id.spin_event_type_info)
@@ -62,10 +65,6 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     Button btnCalendarInfoBack;
     @InjectView(R.id.btnEventDateInfo)
     Button btnEventDateInfo;
-//    @InjectView(R.id.btnEventStartTimeInfo)
-//    Button btnEventStartTimeInfo;
-//    @InjectView(R.id.btnEventEndTimeInfo)
-//    Button btnEventEndTimeInfo;
 
 
     @Override
@@ -88,29 +87,18 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         btnCalendarInfoEdit.setOnClickListener(this);
         btnCalendarInfoSubmit.setOnClickListener(this);
         btnEventDateInfo.setOnClickListener(this);
-//        btnEventStartTimeInfo.setOnClickListener(this);
-//        btnEventEndTimeInfo.setOnClickListener(this);
 
         tvEventNameInfo.setText(String.format("%s", event.getEventName()));
+        tvEventTeamInfo.setText(event.getEventTeam());
         tvEventDateInfo.setText(event.getEventDate());
-//        etEventStartTimeInfo.setText(event.getEventStartTime());
-//        etEventEndTimeInfo.setText(event.getEventEndTime());
         tvEventTypeInfo.setText(String.format("%s", event.getEventType()));
 
         btnCalendarInfoEdit.setVisibility(View.VISIBLE);
         btnCalendarInfoDelete.setVisibility(View.GONE);
 
         btnEventDateInfo.setVisibility(View.GONE);
-//        btnEventStartTimeInfo.setVisibility(View.GONE);
-//        btnEventEndTimeInfo.setVisibility(View.GONE);
-
-//        btnEventDateInfo.setClickable(false);
-//        btnEventStartTimeInfo.setClickable(false);
-//        btnEventEndTimeInfo.setClickable(false);
 
         tvEventDateInfo.setKeyListener(null);
-//        etEventStartTimeInfo.setKeyListener(null);
-//        etEventEndTimeInfo.setKeyListener(null);
 
     }
 
@@ -185,6 +173,14 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         etEventNameInfo.setText(tvEventNameInfo.getText());
 
+        tvEventTeamInfo.setVisibility(View.GONE);
+        spinEventTeamInfo.setVisibility(View.VISIBLE);
+
+        //Set adapter for team spinner
+        ArrayAdapter<Team> spinnerArrayAdapter = new ArrayAdapter<Team>(this.getActivity(), R.layout.teamcoach_spinner_item, singleton.getUserTeams()); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinEventTeamInfo.setAdapter(spinnerArrayAdapter);
+
         //Sets up the values for the Event Types
         ArrayAdapter<CharSequence> eventTypeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.event_type_array, android.R.layout.simple_spinner_item);
@@ -197,8 +193,6 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         btnEventDateInfo.setVisibility(View.VISIBLE);
         tvEventDateInfo.setVisibility(View.GONE);
-//        btnEventStartTimeInfo.setVisibility(View.VISIBLE);
-//        btnEventEndTimeInfo.setVisibility(View.VISIBLE);
 
         btnCalendarInfoEdit.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.VISIBLE);
@@ -232,8 +226,10 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         event.setEventName(etEventNameInfo.getText().toString());
         event.setEventType(spinEventTypeInfo.getSelectedItem().toString());
         event.setEventDate(tvEventDateInfo.getText().toString());
-//        event.setEventStartTime(etEventStartTimeInfo.getText().toString());
-//        event.setEventEndTime(etEventEndTimeInfo.getText().toString());
+        event.setEventTeam(spinEventTeamInfo.getSelectedItem().toString());
+
+        Team team = (Team) spinEventTeamInfo.getSelectedItem();
+        event.setTeamId(team.getObjectId());
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -248,9 +244,11 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         etEventNameInfo.setVisibility(View.GONE);
         spinEventTypeInfo.setVisibility(View.GONE);
+        spinEventTeamInfo.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.GONE);
 
         tvEventNameInfo.setVisibility(View.VISIBLE);
+        tvEventTeamInfo.setVisibility(View.VISIBLE);
         tvEventTypeInfo.setVisibility(View.VISIBLE);
 
         btnEventDateInfo.setVisibility(View.GONE);
@@ -259,8 +257,6 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         tvEventNameInfo.setText(event.getEventName());
         tvEventNameInfo.setText(event.getEventType());
         tvEventDateInfo.setText(event.getEventDate());
-//        etEventStartTimeInfo.setText(event.getEventStartTime());
-//        etEventEndTimeInfo.setText(event.getEventEndTime());
 
         btnCalendarInfoEdit.setVisibility(View.VISIBLE);
         btnCalendarInfoDelete.setVisibility(View.GONE);

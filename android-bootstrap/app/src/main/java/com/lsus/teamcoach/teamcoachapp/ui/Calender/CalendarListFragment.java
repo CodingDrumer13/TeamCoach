@@ -87,7 +87,7 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
             @Override
             public List<CalendarEvent> loadData() throws Exception {
                 if (getActivity() != null) {
-                    return serviceProvider.getService(getActivity()).getEvents(singleton.getCurrentUser().getEmail());
+                    return serviceProvider.getService(getActivity()).getEvents(singleton.getCurrentUser().getObjectId());
                 } else {
                     return Collections.emptyList();
                 }

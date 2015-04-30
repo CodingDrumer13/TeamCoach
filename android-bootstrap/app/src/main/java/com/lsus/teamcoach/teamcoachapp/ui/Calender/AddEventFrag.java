@@ -45,11 +45,11 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     private CalendarEvent event;
     private Singleton singleton = Singleton.getInstance();
 
-    //Date and time picker dialog boxes
-    private DatePickerDialog startDateDialog;
-    private DatePickerDialog endDateDialog;
-    private TimePickerDialog startTimeDialog;
-    private TimePickerDialog endTimeDialog;
+//    //Date and time picker dialog boxes
+//    private DatePickerDialog startDateDialog;
+//    private DatePickerDialog endDateDialog;
+//    private TimePickerDialog startTimeDialog;
+//    private TimePickerDialog endTimeDialog;
 
     private CalendarFragment parent;
     private CalendarListFragment calListFragment;
@@ -71,6 +71,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
     @Inject BootstrapService bootstrapService;
 
     @InjectView(R.id.et_eventTitle) EditText et_eventTitle;
+    @InjectView(R.id.spin_eventTeam) Spinner spin_eventTeam;
     @InjectView(R.id.spin_eventType) Spinner spin_eventType;
     @InjectView(R.id.btnCancelCreateEvent) Button btnCancelCreateEvent;
     @InjectView(R.id.btnCreateEvent) Button btnCreateEvent;
@@ -116,6 +117,11 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         btnDate.setOnClickListener(this);
         btnStartTime.setOnClickListener(this);
         btnEndTime.setOnClickListener(this);
+
+        //Set adapter for team spinner
+        ArrayAdapter<Team> spinnerArrayAdapter = new ArrayAdapter<Team>(this.getActivity(), R.layout.teamcoach_spinner_item, singleton.getUserTeams()); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_eventTeam.setAdapter(spinnerArrayAdapter);
 
         //Set labels for event type drop down list
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
@@ -180,11 +186,9 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         String endMinute;
         if(mMinute > 29){
             endMinute = String.valueOf((mMinute + 30) - 60);
-            if (((mMinute + 30) - 60) < 10)
+            if (((mMinute + 30) - 60) < 10){
                endMinute = "0" + endMinute;
-            if(Integer.parseInt(hour+1) > 12) {
-                hour = String.valueOf(((Integer.parseInt(hour))+1)-12);
-                endHour = hour;}
+               endHour = String.valueOf(((Integer.parseInt(hour))+1));}
             else
                 endHour = String.valueOf(Integer.parseInt(hour)+1);
         }
@@ -223,9 +227,13 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             event.setEventStartTime(et_EventStartTime.getText().toString());
             event.setEventEndTime(et_EventEndTime.getText().toString());
 
+            Team team = (Team) spin_eventTeam.getSelectedItem();
+            event.setTeamId(team.getObjectId());
+            event.setEventTeam(spin_eventTeam.getSelectedItem().toString());
+
             User user = singleton.getCurrentUser();
 
-            event.setCreator(user.getEmail());
+            event.setCreator(user.getObjectId());
 
             ArrayList<CalendarEvent> events = singleton.getUserEvents();
 
@@ -242,7 +250,9 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             eventToAdd.put("eventStartTime", et_EventStartTime.getText().toString());
             eventToAdd.put("eventEndTime", et_EventEndTime.getText().toString());
             eventToAdd.put("eventType", spin_eventType.getSelectedItem().toString());
-            eventToAdd.put("creator", ParseUser.getCurrentUser().getEmail());
+            eventToAdd.put("teamId", event.getTeamId());
+            eventToAdd.put("eventTeam", spin_eventTeam.getSelectedItem().toString());
+            eventToAdd.put("creator", ParseUser.getCurrentUser().getObjectId());
 
             try {
                 eventToAdd.saveInBackground(new SaveCallback() {

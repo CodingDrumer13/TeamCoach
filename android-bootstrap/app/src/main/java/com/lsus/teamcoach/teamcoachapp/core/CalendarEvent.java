@@ -13,11 +13,8 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
     protected String eventName, eventType;
     protected String eventDate;
     protected String eventStartTime, eventEndTime;
-    protected String objectId, creator;
-
-    private final int BEFORE = -1;
-    private final int EQUAL = 0;
-    private final int AFTER = 1;
+    protected String objectId, teamId, creator;
+    protected String eventTeam;
 
 
     public CalendarEvent(){}
@@ -61,6 +58,18 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
     public String getObjectId() { return objectId; }
 
     public void setObjectId(String objectId) { this.objectId = objectId; }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getEventTeam() {return eventTeam;}
+
+    public void setEventTeam(String eventTeam) {this.eventTeam = eventTeam;}
 
     public String getCreator() {return creator;}
 

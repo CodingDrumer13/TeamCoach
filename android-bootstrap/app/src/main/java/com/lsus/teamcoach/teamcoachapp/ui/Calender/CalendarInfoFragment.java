@@ -3,6 +3,8 @@ package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import javax.inject.Inject;
@@ -65,6 +68,10 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     Button btnCalendarInfoBack;
     @InjectView(R.id.btnEventDateInfo)
     Button btnEventDateInfo;
+    @InjectView(R.id.btnCalendarInfoAddSession)
+    Button btnCalendarInfoAddSession;
+    @InjectView(R.id.btnCalendarInfoCreateSession)
+    Button btnCalendarInfoCreateSession;
 
 
     @Override
@@ -87,6 +94,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         btnCalendarInfoEdit.setOnClickListener(this);
         btnCalendarInfoSubmit.setOnClickListener(this);
         btnEventDateInfo.setOnClickListener(this);
+        btnCalendarInfoAddSession.setOnClickListener(this);
+        btnCalendarInfoCreateSession.setOnClickListener(this);
 
         tvEventNameInfo.setText(String.format("%s", event.getEventName()));
         tvEventTeamInfo.setText(event.getEventTeam());
@@ -153,6 +162,16 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             dpd.show();
         }
 
+        if(view.getId() == btnCalendarInfoCreateSession.getId())
+        {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+
+            AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
+            newFragment.setParent(this);
+            newFragment.show(ft, "dialog");
+        }
+
     }
 
     private boolean isValid(){
@@ -193,6 +212,9 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         btnEventDateInfo.setVisibility(View.VISIBLE);
         tvEventDateInfo.setVisibility(View.GONE);
+
+        btnCalendarInfoAddSession.setVisibility(View.VISIBLE);
+        btnCalendarInfoCreateSession.setVisibility(View.VISIBLE);
 
         btnCalendarInfoEdit.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.VISIBLE);

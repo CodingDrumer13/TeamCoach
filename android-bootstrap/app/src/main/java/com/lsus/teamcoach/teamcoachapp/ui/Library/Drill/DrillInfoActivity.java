@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.core.DrillPictureObject;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.parse.FindCallback;
@@ -46,7 +48,7 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.DRILL_INFO_PA
 /**
  * Created by TeamCoach on 3/18/2015.
  */
-public class DrillInfoActivity extends BootstrapActivity implements RatingBar.OnRatingBarChangeListener{
+public class DrillInfoActivity extends BootstrapActivity implements View.OnClickListener{
     @Inject protected BootstrapService bootstrapService;
     @Inject protected LogoutService logoutService;
 
@@ -73,6 +75,7 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
     private SafeAsyncTask<Boolean> authenticationTask;
     private String parent;
     ArrayList<Drill> group;
+    private DrillInfoFragment drillInfoFragment;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -86,75 +89,17 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
             parent = (String) getIntent().getExtras().getSerializable(DRILL_INFO_PARENT);
         }
 
-        /**
-         * If the drill has a picture, It retrieves the picture, retrieves the data for the picture,
-         * then sets up the picture to be displayed.
-         */
-        if(drill.getHasPicture()){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-            ParseQuery<ParseObject> query = new ParseQuery("DrillPicture");
-            query.whereEqualTo("drillId", drill.getGroupId());
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    if(e == null){
-                        picture = list.get(0).getParseFile("picture");
+        drillInfoFragment = new DrillInfoFragment();
+        drillInfoFragment.setRetainInstance(true);
+        drillInfoFragment.setParent(this);
+        drillInfoFragment.setDrill(drill);
+        drillInfoFragment.setButtons(btnEdit, btnRemove, btnSubmit);
 
-                        picture.getDataInBackground(new GetDataCallback() {
-                            @Override
-                            public void done(byte[] bytes, ParseException e) {
-                                Bitmap bmp = null;
-                                try {
-                                    bmp = BitmapFactory.decodeByteArray(picture.getData(), 0, picture.getData().length);
-                                    drillPicture.setVisibility(View.VISIBLE);
-                                    drillPicture.setImageBitmap(bmp);
-                                } catch (ParseException e1) {}
-
-                            }
-                        });
-                    }else {}
-                }
-            });
-        }
-
-
-
-        //TODO make drill age and type editable.
-        drillName.setText(String.format("%s", drill.getDrillName()));
-        drillAge.setText(String.format("%s", drill.getDrillAge()));
-        drillType.setText(String.format("%s", drill.getDrillType()));
-        drillDescription.setText(String.format("%s", drill.getDrillDescription()));
-        drillRating.setRating(drill.getDrillRating());
-        ratingBarRating.setText("(" + String.format("%.1f",drill.getDrillRating()) + " out of 5.0)");
-        ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
-
-
-        /**
-         * Checks to see if the user is the creator of the drill.
-         */
-        Singleton singleton = Singleton.getInstance();
-        if(drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
-            btnEdit.setVisibility(View.VISIBLE);
-        }
-
-        /**
-         * If the user is not the creator, make rating the drill possible
-         */
-        if(!drill.getCreator().equalsIgnoreCase(singleton.getCurrentUser().getEmail())){
-            drillRating.setOnRatingBarChangeListener(this);
-        } else {
-            drillRating.setIsIndicator(true);
-        }
-
-        /**
-         * Checks to see if the user is an Admin
-         */
-        if(singleton.getCurrentUser().getRole().equalsIgnoreCase("Admin")){
-            timesUsed.setVisibility(View.VISIBLE);
-            timesUsedNum.setText(String.format("%s", drill.getTimesUsed()));
-            timesUsedNum.setVisibility(View.VISIBLE);
-            btnEdit.setVisibility(View.VISIBLE);
-        }
+        fragmentTransaction.replace(R.id.drill_activity_container, drillInfoFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -186,302 +131,17 @@ public class DrillInfoActivity extends BootstrapActivity implements RatingBar.On
     public void onClick(View view) {
         if(view.getId() == btnEdit.getId()) {
             //The Edit button has been clicked
-            onEdit();
+            drillInfoFragment.onEdit();
         }else if(view.getId() == btnSubmit.getId()){
             //The Submit button has been clicked
-            onSubmit();
+            drillInfoFragment.onSubmit();
         }else if(view.getId() == btnRemove.getId()){
             //The Remove button has been clicked
-            onRemove();
-        }else if(view.getId() == ratingSubmit.getId()){
-            submitRating();
+            drillInfoFragment.onRemove();
         }
     }
 
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        ratingSubmit.setVisibility(View.VISIBLE);
-        ratingBarRating.setVisibility(View.GONE);
-        ratingBarNumber.setVisibility(View.GONE);
-        userRating = ratingBar.getRating();
-    }
+    public void refreshParent(){
 
-    private void onEdit() {
-        drillName.setVisibility(View.GONE);
-        drillDescription.setVisibility(View.GONE);
-
-        editName.setVisibility(View.VISIBLE);
-        editDescription.setVisibility(View.VISIBLE);
-
-        editName.setText(drillName.getText());
-        editDescription.setText(drillDescription.getText());
-
-        btnEdit.setVisibility(View.GONE);
-        btnRemove.setVisibility(View.VISIBLE);
-        btnSubmit.setVisibility(View.VISIBLE);
-    }
-
-    private void onSubmit() {
-        if(isValid()){
-            drillName.setVisibility(View.VISIBLE);
-            drillDescription.setVisibility(View.VISIBLE);
-
-            editName.setVisibility(View.GONE);
-            editDescription.setVisibility(View.GONE);
-
-            drillName.setText(editName.getText());
-            drillDescription.setText(editDescription.getText());
-
-            btnSubmit.setVisibility(View.GONE);
-            btnRemove.setVisibility(View.GONE);
-            btnEdit.setVisibility(View.VISIBLE);
-
-            //TODO Handle if drill is the same, no need to update.
-            drill = checkDifferences(drill);
-
-            if(!drill.getIsGroup()) {
-                authenticationTask = new SafeAsyncTask<Boolean>() {
-                    public Boolean call() throws Exception {
-
-                        //Implement try/catch for update error
-                        bootstrapService.update(drill);
-
-                        return true;
-                    }
-                };
-                authenticationTask.execute();
-            } else {
-
-
-                authenticationTask = new SafeAsyncTask<Boolean>() {
-                    public Boolean call() throws Exception {
-                        group = new ArrayList<Drill>();
-                        group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
-
-                        return true;
-                    }
-
-                    @Override
-                    protected void onFinally() throws RuntimeException {
-                        Toaster.showLong(DrillInfoActivity.this, "Updating drills, please wait.");
-
-                        for (Drill drill : group){
-                            drill = checkDifferences(drill);
-                        }
-
-                        authenticationTask = new SafeAsyncTask<Boolean>() {
-                            public Boolean call() throws Exception {
-
-                                for (final Drill drill : group) {
-                                    bootstrapService.update(drill);
-                                }
-
-                                return true;
-                            }
-
-                            @Override
-                            protected void onFinally() throws RuntimeException {
-
-                            }
-                        };
-                        authenticationTask.execute();
-
-                    }
-                };
-                authenticationTask.execute();
-            }
-        }
-    }
-
-    private void onRemove(){
-        if(!drill.getIsGroup()) {
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-
-                    //Implement try/catch for update error
-                    bootstrapService.remove(drill);
-
-                    return true;
-                }
-            };
-            authenticationTask.execute();
-        } else {
-
-
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-                    group = new ArrayList<Drill>();
-                    group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
-
-                    return true;
-                }
-
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    Toaster.showLong(DrillInfoActivity.this, "Removing drills, please wait.");
-
-                    for (Drill drill : group) {
-                        drill = checkDifferences(drill);
-                    }
-
-                    authenticationTask = new SafeAsyncTask<Boolean>() {
-                        public Boolean call() throws Exception {
-
-                            for (final Drill drill : group) {
-                                bootstrapService.remove(drill);
-                            }
-
-                            return true;
-                        }
-
-                        @Override
-                        protected void onFinally() throws RuntimeException {
-                            DrillInfoActivity.this.finish();
-                        }
-                    };
-                    authenticationTask.execute();
-
-                }
-            };
-            authenticationTask.execute();
-        }
-    }
-
-    private void submitRating(){
-        Toaster.showShort(this, "Submitting rating");
-
-
-        //Sets the new rating for the drill.
-        float currentDrillRating = drill.getDrillRating();
-        int numRatings = drill.getNumberOfRatings();
-        int newNumRatings = numRatings + 1;
-        float newRating = ((currentDrillRating * numRatings) + userRating) / newNumRatings;
-
-        drill.setDrillRating(newRating);
-        drill.setNumberOfRatings(newNumRatings);
-
-        if(!drill.getIsGroup()) {
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-
-                    //Implement try/catch for update error
-                    bootstrapService.update(drill);
-
-                    return true;
-                }
-
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    ratingSubmit.setVisibility(View.GONE);
-
-                    ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
-                    ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
-
-                    Toaster.showShort(DrillInfoActivity.this, "Rating submitted!");
-                }
-            };
-            authenticationTask.execute();
-        } else {
-            authenticationTask = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-                    group = new ArrayList<Drill>();
-                    group.addAll(bootstrapService.getGroupDrills(drill.getGroupId()));
-
-                    return true;
-                }
-
-                @Override
-                protected void onFinally() throws RuntimeException {
-
-                    for (Drill drill : group){
-                        drill = checkDifferences(drill);
-                    }
-
-                    authenticationTask = new SafeAsyncTask<Boolean>() {
-                        public Boolean call() throws Exception {
-
-                            for (final Drill drill : group) {
-                                bootstrapService.update(drill);
-                            }
-
-                            return true;
-                        }
-
-                        @Override
-                        protected void onFinally() throws RuntimeException {
-                            ratingSubmit.setVisibility(View.GONE);
-
-                            ratingBarRating.setText("(" + String.format("%.2f",drill.getDrillRating()) + " out of 5.0)");
-                            ratingBarNumber.setText(drill.getNumberOfRatings() + " user ratings");
-
-                            Toaster.showShort(DrillInfoActivity.this, "Rating submitted!");
-                        }
-                    };
-                    authenticationTask.execute();
-
-                }
-            };
-            authenticationTask.execute();
-
-        }
-    }
-
-
-    /**
-     * Checks to see if drill information has changed.
-     *
-     * @param drill
-     * @return
-     */
-    private Drill checkDifferences(Drill drill) {
-        /**
-         * Checks to see if the Drill Name has changed
-         */
-        if(!drill.getDrillName().equalsIgnoreCase(drillName.getText().toString())){
-            drill.setDrillName(drillName.getText().toString());
-        }
-
-        /**
-         * Checks to see if the Drill description has changed.
-         */
-        if(!drill.getDrillDescription().equalsIgnoreCase(drillDescription.getText().toString())){
-            drill.setDrillDescription(drillDescription.getText().toString());
-        }
-
-        /**
-         * Checks to see if the drill rating has changed.
-         */
-        if(drill.getDrillRating() != this.drill.getDrillRating()){
-            drill.setDrillRating(this.drill.getDrillRating());
-        }
-
-        /**
-         * Checks to see if the number of ratings of the drill has changed.
-         */
-        if(drill.getNumberOfRatings() != this.drill.getNumberOfRatings()){
-            drill.setNumberOfRatings(this.drill.getNumberOfRatings());
-        }
-
-        return drill;
-    }
-
-    /**
-     * Validates that all fields are filled out and there are no errors.
-     * @return
-     */
-    private boolean isValid(){
-        //TODO make checks here!
-
-        if(drillName.getText().toString().equalsIgnoreCase("")){
-            Toaster.showShort(this, "Please fill out all fields.");
-            return false;
-        }
-
-        if(drillDescription.getText().toString().equalsIgnoreCase("")){
-            Toaster.showShort(this, "Please fill out all fields.");
-            return false;
-        }
-
-        return true;
     }
 }

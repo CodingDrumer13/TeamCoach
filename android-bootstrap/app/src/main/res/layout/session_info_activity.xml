@@ -73,8 +73,5 @@
                 android:onClick="onClick"
                 />
         </LinearLayout>
-
-        </LinearLayout>
-
-
+    </LinearLayout>
 </RelativeLayout>

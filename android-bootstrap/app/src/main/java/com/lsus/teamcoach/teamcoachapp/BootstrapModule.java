@@ -22,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
@@ -121,7 +122,8 @@ import retrofit.converter.GsonConverter;
                 NewsFragment.class,
                 AddNewsFragment.class,
                 AboutUsActivity.class,
-                SessionInfoFragment.class
+                SessionInfoFragment.class,
+                DrillInfoFragment.class
         }
 )
 public class BootstrapModule {
@@ -190,5 +192,4 @@ public class BootstrapModule {
                 .setConverter(new GsonConverter(gson))
                 .build();
     }
-
 }

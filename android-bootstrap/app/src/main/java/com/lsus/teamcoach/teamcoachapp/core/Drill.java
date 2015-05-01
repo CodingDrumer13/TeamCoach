@@ -22,6 +22,8 @@ public class Drill implements Serializable {
     protected boolean hasPicture;
     protected String creator;
 
+    public Drill(){}
+
     public Drill(String groupId, String drillName, String drillType, String drillAge, String drillDescription, String creator){
         this.groupId = groupId;
         this.drillName = drillName;
@@ -33,6 +35,8 @@ public class Drill implements Serializable {
         this.numberOfRatings = 0;
         this.creator = creator;
     }
+
+    public void setObjectId(String objectId) { this.objectId = objectId; }
 
     public String getObjectId() { return objectId; }
 

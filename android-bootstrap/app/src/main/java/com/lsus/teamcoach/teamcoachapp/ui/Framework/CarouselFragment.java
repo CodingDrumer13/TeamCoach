@@ -53,6 +53,7 @@ public class CarouselFragment extends Fragment {
         Singleton singleton = Singleton.getInstance();
         User user = singleton.getCurrentUser();
 
+
         Log.d("User in Carousel", user.toString());
 
         try {

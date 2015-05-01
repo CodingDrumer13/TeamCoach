@@ -55,4 +55,7 @@ public interface DrillService {
      */
     @DELETE(Constants.Http.URL_DRILL_FRAG+"/{id}")
     Drill remove(@Path("id") String id);
+
+    @DELETE(Constants.Http.URL_DRILL_PICTURE_FRAG+"/{id}")
+    DrillPictureObject removePicture(@Path("id") String id);
 }

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+            <!-- Drill Name -->
+            <TextView
+                android:id="@+id/tv_drill_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="5dip"
+                android:singleLine="true"
+                android:layout_marginBottom="15dip"
+                android:textStyle="bold"
+                android:textColor="@color/table_text_selector" />
+            <EditText
+                android:id="@+id/et_drill_name"
+                style="@style/SignInEditText"
+                android:visibility="gone"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <!-- Drill Age -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/table_text_selector"
+                    android:textStyle="bold"
+                    android:text="Age Group: "
+                    />
+                <TextView
+                    android:id="@+id/tv_drill_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:singleLine="true"
+                    android:layout_marginEnd="20sp"
+                    android:textColor="@color/table_text_selector" />
+
+                <!-- Drill Type -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/table_text_selector"
+                    android:textStyle="bold"
+                    android:text="Type: "
+                    />
+                <TextView
+                    android:id="@+id/tv_drill_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:singleLine="true"
+
+                    android:textColor="@color/table_text_selector" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Drill Rating -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/table_text_selector"
+                    android:textStyle="bold"
+                    android:text="Rating: "
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/drillRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="0.5"/>
+
+                    <Button
+                        android:id="@+id/button_rating_submit"
+                        style="@style/ShadowText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background_states"
+                        android:text="Submit"
+                        android:textColor="@color/text"
+                        android:visibility="gone"
+                        android:onClick="onClick"
+                        />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_rating_bar_rating"
+                            android:layout_width="wrap_content"
+                            android:paddingTop="3dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/table_text_selector"
+                            android:textStyle="italic"
+                            android:text="( out of 5.0)"
+                            />
+                        <TextView
+                            android:id="@+id/tv_rating_bar_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/table_text_selector"
+                            android:textStyle="italic"
+                            android:text=" user ratings."
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_drillImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                />
+
+
+            <!-- Drill Description -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/table_text_selector"
+                android:textStyle="bold"
+                android:text="Description: "
+                />
+            <TextView
+                android:id="@+id/tv_drill_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/table_text_selector"
+                />
+            <EditText
+                android:layout_height="150dp"
+                android:id="@+id/et_drill_description"
+                style="@style/SignInEditText"
+                android:inputType="textCapSentences|textMultiLine"
+                android:gravity="top"
+                android:visibility="gone"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="top">
+
+                <!-- Drill Times Used -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/table_text_selector"
+                    android:textStyle="bold"
+                    android:text="Times Used: "
+                    android:id="@+id/tv_drill_times_used"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/tv_drill_times_used_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:singleLine="true"
+                    android:textColor="@color/table_text_selector"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+</ScrollView>

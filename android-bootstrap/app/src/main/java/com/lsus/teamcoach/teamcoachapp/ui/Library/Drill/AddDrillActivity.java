@@ -328,7 +328,6 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                             drillPicture.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    Toaster.showShort(AddDrillActivity.this, drillPicture.getObjectId());
                                     if (typeSelected) refreshList();
                                     AddDrillActivity.this.finish();
                                 }
@@ -379,7 +378,7 @@ public class AddDrillActivity extends BootstrapActivity implements View.OnClickL
                     sAgeGroupBottom.setSelection(i);
                     age = sAgeGroupBottom.getSelectedItem().toString();
 
-                    ParseObject drillObject = assembleDrillObject(false);
+                    ParseObject drillObject = assembleDrillObject(true);
 
                     try {
                         drillObject.save();

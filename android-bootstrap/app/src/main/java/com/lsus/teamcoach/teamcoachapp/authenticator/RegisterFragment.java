@@ -1,11 +1,15 @@
 package com.lsus.teamcoach.teamcoachapp.authenticator;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +27,10 @@ import com.lsus.teamcoach.teamcoachapp.R.id;
 import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.User;
+import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+import com.parse.Parse;
+import com.parse.ParseException;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -47,6 +54,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
     private String userAlias;
     private String userUsername;
 
+    private final TextWatcher watcher = validationTextWatcher();
+
+
     protected Dialog onCreateDialog(int id) {
         final ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setMessage(getText(R.string.message_registering));
@@ -63,7 +73,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
     }
 
     @Inject BootstrapService bootstrapService;
-    @Inject Bus bus;
 
     @InjectView(id.btnRegister) protected Button confirmRegisterButton;
     @InjectView(id.tvRegisterCancel) protected TextView cancelRegister;
@@ -89,6 +98,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
         Views.inject(this, view);
         confirmRegisterButton.setOnClickListener(this);
         cancelRegister.setOnClickListener(this);
+        confirmRegisterButton.setEnabled(false);
+
+        firstName.addTextChangedListener(watcher);
+        lastName.addTextChangedListener(watcher);
+        email.addTextChangedListener(watcher);
+        password.addTextChangedListener(watcher);
+
+        radioButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                updateUIWithValidation();
+            }
+        });
     }
 
     /**
@@ -142,9 +165,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
                 public Boolean call() throws Exception {
 
                     User user = new User(userUsername, userPassword, userAlias, userRole, userEmail, userFirstName, userLastName);
-
                     User loginResponse = bootstrapService.register(user);
                     token = loginResponse.getSessionToken();
+
 
                     return true;
                 }
@@ -157,6 +180,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
                         if (cause != null) {
                             Toaster.showLong(getActivity(), cause.getMessage());
                         }
+                    }else{
+                        //Warning! Maybe an error besides a taken parse username
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Attention")
+                                .setMessage("There is already an account associated with this email address")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        email.requestFocus();
+                                    }
+                                })
+                                .show();
                     }
                 }
 
@@ -169,7 +204,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
                 protected void onFinally() throws RuntimeException {
                     hideProgress();
                     authenticationTask = null;
-                }
+                    }
             };
             authenticationTask.execute();
 
@@ -194,4 +229,32 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
         this.bootstrapAuthenticatorActivity = bootstrapAuthenticatorActivity;
     }
 
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+
+        };
+    }
+
+    //    Input Check for edittext
+    private void updateUIWithValidation() {
+        final boolean populated = populated(email) && populated(password) && populated(firstName) && populated(lastName) && radioGroupPopulated(radioButtons);
+        confirmRegisterButton.setEnabled(populated);
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
+    }
+
+    private boolean radioGroupPopulated(final RadioGroup radioButtons) {
+        if (radioButtons.getCheckedRadioButtonId() == -1) {
+//            no radio buttons are checked
+              return false;
+        } else {
+//            one of the radio buttons is checked
+            return true;
+        }
+    }
 }

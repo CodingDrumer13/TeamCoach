@@ -15,15 +15,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
+import com.lsus.teamcoach.teamcoachapp.core.Drill;
+import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -36,9 +42,12 @@ import butterknife.Views;
 public class CalendarInfoFragment extends Fragment implements View.OnClickListener {
 
  private SafeAsyncTask<Boolean> authenticationTask;
-    private CalendarEvent event;
+    protected CalendarEvent event;
     protected CalendarListFragment calListFragment;
+    protected SelectCalendarSessionListFragment calSessionListFrag;
     protected Singleton singleton = Singleton.getInstance();
+    protected User user = singleton.getCurrentUser();
+    private ArrayList<Drill> sessionDrillList;
 
     @Inject
     protected BootstrapService bootstrapService;
@@ -162,6 +171,20 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             dpd.show();
         }
 
+        if(view.getId() == btnCalendarInfoAddSession.getId())
+        {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+
+            AddCalSessionFrag newFragment = new AddCalSessionFrag();
+            newFragment.setParent(this);
+            newFragment.setAge(event.getEventTeamAge());
+            newFragment.show(ft, "dialog");
+
+
+        }
+
+
         if(view.getId() == btnCalendarInfoCreateSession.getId())
         {
             FragmentManager fm = getFragmentManager();
@@ -170,6 +193,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
             newFragment.setParent(this);
             newFragment.show(ft, "dialog");
+
         }
 
     }
@@ -196,7 +220,12 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         spinEventTeamInfo.setVisibility(View.VISIBLE);
 
         //Set adapter for team spinner
-        ArrayAdapter<Team> spinnerArrayAdapter = new ArrayAdapter<Team>(this.getActivity(), R.layout.teamcoach_spinner_item, singleton.getUserTeams()); //selected item will look like a spinner set from XML
+        ArrayList<String> teamNames = new ArrayList<String>();
+        for(int i =0; i < singleton.getUserTeams().size(); i++)
+        {
+            teamNames.add(singleton.getUserTeams().get(i).getTeamName());
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this.getActivity(), R.layout.teamcoach_spinner_item, teamNames); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinEventTeamInfo.setAdapter(spinnerArrayAdapter);
 
@@ -209,6 +238,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         spinEventTypeInfo.setAdapter(eventTypeAdapter);
 
         spinEventTypeInfo.setSelection(getIndex(spinEventTypeInfo, tvEventTypeInfo.getText().toString()));
+        spinEventTeamInfo.setSelection(getIndex(spinEventTeamInfo, tvEventTeamInfo.getText().toString()));
 
         btnEventDateInfo.setVisibility(View.VISIBLE);
         tvEventDateInfo.setVisibility(View.GONE);
@@ -248,10 +278,9 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         event.setEventName(etEventNameInfo.getText().toString());
         event.setEventType(spinEventTypeInfo.getSelectedItem().toString());
         event.setEventDate(tvEventDateInfo.getText().toString());
-        event.setEventTeam(spinEventTeamInfo.getSelectedItem().toString());
-
         Team team = (Team) spinEventTeamInfo.getSelectedItem();
-        event.setTeamId(team.getObjectId());
+        event.setEventTeam(team.getTeamName());
+
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -295,4 +324,15 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         }
         return index;
     }
+
+    public void setSessionToAdd(Session session){
+        sessionDrillList = new ArrayList<Drill>();
+        sessionDrillList.addAll(session.getDrillList());
+    }
+
+    public void refreshList(){
+        calSessionListFrag.refresh();
+    }
+
+
 }

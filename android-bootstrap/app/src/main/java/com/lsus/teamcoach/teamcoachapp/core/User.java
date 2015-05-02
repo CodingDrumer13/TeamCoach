@@ -4,10 +4,7 @@ import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class User implements Serializable {
 
@@ -17,7 +14,7 @@ public class User implements Serializable {
     protected String lastName;
     protected String username;
     protected String password;
-    protected String phone;
+    protected String phonenumber;
     protected String objectId;
     protected String sessionToken;
     protected String gravatarId;
@@ -32,7 +29,7 @@ public class User implements Serializable {
     protected String team;
     protected ArrayList<Drill> drills;
 
-    public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName){
+    public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName, String userphoneNumber){
         this.firstName = userFirstName;
         this.lastName = userLastName;
         this.username = userUsername;
@@ -40,6 +37,7 @@ public class User implements Serializable {
         this.alias = userAlias;
         this.role = userRole;
         this.email = userEmail;
+        this.phonenumber = userphoneNumber;
     }
 
     public String getUsername() {
@@ -50,12 +48,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhonenumber() {
+        return phonenumber;
     }
 
-    public void setPhone(final String phone) {
-        this.phone = phone;
+    public void setPhonenumber(final String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getObjectId() {

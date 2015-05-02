@@ -18,10 +18,6 @@ import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import javax.inject.Inject;
 
 import butterknife.InjectView;
@@ -36,13 +32,13 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     @InjectView(R.id.iv_avatar) protected ImageView avatar;
     @InjectView(R.id.tv_name) protected TextView name;
     @InjectView(R.id.tv_userEmail) protected TextView email;
-    @InjectView(R.id.tv_username) protected TextView username;
+    @InjectView(R.id.tv_phonenumber) protected TextView tv_phonenumber;
     @InjectView(R.id.tv_role) protected TextView role;
     @InjectView(R.id.button_Edit) protected Button button_Edit;
     @InjectView(R.id.button_Submit) protected Button button_Submit;
     @InjectView(R.id.et_name) protected EditText et_name;
     @InjectView(R.id.et_userEmail) protected  EditText et_email;
-    @InjectView(R.id.et_username) protected EditText et_username;
+    @InjectView(R.id.et_phonenubmer) protected EditText et_phonenubmer;
     @InjectView(R.id.tv_roleTag) protected TextView tv_roleTag;
 
     private User user;
@@ -59,7 +55,6 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
             user = (User) getIntent().getExtras().getSerializable(USER);
         }
 
-
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -73,7 +68,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
         email.setText(String.format("%s", user.getEmail()));
 
-        username.setText(String.format("%s", user.getUsername()));
+        tv_phonenumber.setText(String.format("%s", user.getPhonenumber()));
 
         // Gets the logged in accounts user information
         AccountManager accountManager = AccountManager.get(getApplicationContext());
@@ -110,15 +105,15 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         et_name.setVisibility(View.VISIBLE);
         email.setVisibility(View.GONE);
         et_email.setVisibility(View.VISIBLE);
-        username.setVisibility(View.GONE);
-        et_username.setVisibility(View.VISIBLE);
+        tv_phonenumber.setVisibility(View.GONE);
+        et_phonenubmer.setVisibility(View.VISIBLE);
         role.setVisibility(View.GONE);
         tv_roleTag.setVisibility(View.GONE);
 
         //Sets the text in the EditText fields
         et_name.setText(String.format("%s", name.getText().toString()));
         et_email.setText(String.format("%s", email.getText().toString()));
-        et_username.setText(String.format("%s", username.getText().toString()));
+        et_phonenubmer.setText(String.format("%s", tv_phonenumber.getText().toString()));
 
     }
 
@@ -136,8 +131,8 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
             et_name.setVisibility(View.GONE);
             email.setVisibility(View.VISIBLE);
             et_email.setVisibility(View.GONE);
-            username.setVisibility(View.VISIBLE);
-            et_username.setVisibility(View.GONE);
+            tv_phonenumber.setVisibility(View.VISIBLE);
+            et_phonenubmer.setVisibility(View.GONE);
             role.setVisibility(View.VISIBLE);
             tv_roleTag.setVisibility(View.VISIBLE);
 
@@ -163,7 +158,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
             name.setText(String.format("%s", et_name.getText().toString()));
             email.setText(String.format("%s", et_email.getText().toString()));
-            username.setText(String.format("%s", et_username.getText().toString()));
+            tv_phonenumber.setText(String.format("%s", et_phonenubmer.getText().toString()));
         }
     }
 

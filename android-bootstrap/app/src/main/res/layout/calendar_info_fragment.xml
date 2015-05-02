@@ -48,6 +48,22 @@
         android:textColor="@color/table_text_selector"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <!--//Added this in so it would run-->
+    <TextView
+        android:id="@+id/tv_event_team_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:singleLine="true"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold" />
+    <Spinner
+        android:id="@+id/spin_event_team_info"
+        style="@style/SignInEditText"
+        android:visibility="gone"
+        />
+    <!--SO yeah you might need to delete this-->
+
 
 <FrameLayout android:layout_width="fill_parent"
     android:layout_height="wrap_content" android:orientation="horizontal"

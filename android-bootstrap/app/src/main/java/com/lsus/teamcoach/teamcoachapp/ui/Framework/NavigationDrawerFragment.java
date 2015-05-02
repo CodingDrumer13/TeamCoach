@@ -108,6 +108,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[] {
                         getString(R.string.title_home),
+                        getString(R.string.profile),
                         getString(R.string.title_timer),
                         getString(R.string.about_us)
                 }));

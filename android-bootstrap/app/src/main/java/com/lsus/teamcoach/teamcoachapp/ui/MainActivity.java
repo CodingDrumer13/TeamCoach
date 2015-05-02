@@ -25,6 +25,7 @@ import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.NavItemSelectedEvent;
 import com.lsus.teamcoach.teamcoachapp.ui.AboutUs.AboutUsActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapFragmentActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.CarouselFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
@@ -43,6 +44,8 @@ import javax.inject.Inject;
 
 import butterknife.Views;
 import retrofit.RetrofitError;
+
+import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
 
 /**
@@ -72,8 +75,6 @@ public class MainActivity extends BootstrapFragmentActivity {
     protected void onCreate(final Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-
 
         super.onCreate(savedInstanceState);
 
@@ -127,9 +128,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         checkAuth();
-
     }
 
     private boolean isTablet() {
@@ -160,7 +159,6 @@ public class MainActivity extends BootstrapFragmentActivity {
         if (userHasAuthenticated) {
 
             Ln.d("Foo");
-            Log.d("User Email", singleton.getCurrentUser().getEmail());
 
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
@@ -195,11 +193,7 @@ public class MainActivity extends BootstrapFragmentActivity {
             };
             authenticationTask.execute();
 
-
-
-
         }
-
     }
 
     private void checkAuth() {
@@ -246,6 +240,9 @@ public class MainActivity extends BootstrapFragmentActivity {
             case android.R.id.home:
                 //menuDrawer.toggleMenu();
                 return true;
+            case R.id.profile:
+                navigateToProfile();
+                return true;
             case R.id.timer:
                 navigateToTimer();
                 return true;
@@ -267,6 +264,11 @@ public class MainActivity extends BootstrapFragmentActivity {
         startActivity(i);
     }
 
+    private void navigateToProfile() {
+        User user = singleton.getCurrentUser();
+        startActivity(new Intent(this, UserActivity.class).putExtra(USER, user));
+    }
+
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
 
@@ -278,13 +280,18 @@ public class MainActivity extends BootstrapFragmentActivity {
                 // do nothing as we're already on the home screen.
                 break;
             case 1:
+                // Profile
+                navigateToProfile();
+                break;
+            case 2:
                 // Timer
                 navigateToTimer();
                 break;
-            case 2:
+            case 3:
                 // About US
                 navigateToAboutScreen();
                 break;
         }
     }
+
 }

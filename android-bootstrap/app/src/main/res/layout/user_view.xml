@@ -75,10 +75,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="Username: "
+        android:text="Phone N
+        umber: "
         />
     <TextView
-        android:id="@+id/tv_username"
+        android:id="@+id/tv_phonenumber"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -88,7 +89,7 @@
         android:textColor="@color/table_text_selector"
         />
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/et_phonenubmer"
         style="@style/SignInEditText"
         android:visibility="gone"
         />
@@ -114,7 +115,6 @@
         android:layout_marginBottom="20dip"
         android:textColor="@color/table_text_selector"
         />
-
 
     <Button
         android:id="@+id/button_Edit"

@@ -45,6 +45,11 @@ public final class Constants {
          */
         public static final String URL_BASE = "https://api.parse.com";
 
+        /**
+         * Request A Password Reset
+         */
+        public static final String URL_PASSWORD_RESET_FRAG = "/1/requestPasswordReset";
+        public static final String URL_PASSWORD_RESET = URL_BASE + URL_PASSWORD_RESET_FRAG;
 
         /**
          * Authentication URL

@@ -147,6 +147,8 @@
         We pride ourselves at providing pristine user interface that sets our customers apart from their competitors.
         Any questions about our staff or products can be directed to teamcoach@gmail.com.
     </string>
+    <string name="profile">Profile</string>
+    <string name="resetpasswordcontent">Please enter your email address to reset your password.</string>
 
 
 </resources>

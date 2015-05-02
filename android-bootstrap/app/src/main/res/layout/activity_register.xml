@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/main_background"
+    android:background="@drawable/field_background"
     android:id="@+id/RegisterView"
     android:paddingBottom="10dp"
     android:paddingLeft="15dp"
@@ -30,7 +30,7 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@android:color/black" />
 
-            <!--  Email Label -->
+           <!--Last Name-->
             <TextView
                 style="@style/ShadowText"
                 android:layout_width="fill_parent"
@@ -46,6 +46,24 @@
                 android:id="@+id/etLastName"
                 style="@style/SignInEditText"/>
 
+            <!--Phone Number-->
+            <TextView
+                style="@style/ShadowText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:text="Phone Number"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etRegisterPhoneNumber"
+                style="@style/SignInEditText"
+                android:inputType="phone" />
+
+            <!--  Email Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text"
@@ -57,7 +75,9 @@
                 android:paddingTop="10dp"/>
 
             <EditText android:id="@+id/etEmail"
-                style="@style/SignInEditText"/>
+                style="@style/SignInEditText"
+                android:inputType="textEmailAddress" />
+
             <!-- Password Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -70,6 +90,7 @@
                 android:paddingTop="10dp"/>
             <EditText android:id="@+id/etPassword"
                 style="@style/SignInEditText"/>
+
             <!-- Register Button -->
             <RadioGroup
                 android:layout_width="match_parent"
@@ -114,6 +135,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dip"
                 android:onClick="onRegister"/>
+
             <!-- Link to Login Screen -->
             <TextView android:id="@+id/tvRegisterCancel"
                 style="@style/ShadowText"

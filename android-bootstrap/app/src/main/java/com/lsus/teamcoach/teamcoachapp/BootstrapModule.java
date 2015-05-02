@@ -9,6 +9,7 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.ApiKeyProvider;
 import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.authenticator.RegisterFragment;
+import com.lsus.teamcoach.teamcoachapp.authenticator.ResetPasswordFragment;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.PostFromAnyThreadBus;
@@ -122,6 +123,7 @@ import retrofit.converter.GsonConverter;
                 NewsFragment.class,
                 AddNewsFragment.class,
                 AboutUsActivity.class,
+                ResetPasswordFragment.class,
                 SessionInfoFragment.class,
                 DrillInfoFragment.class,
                 AddDrillFragment.class
@@ -193,4 +195,5 @@ public class BootstrapModule {
                 .setConverter(new GsonConverter(gson))
                 .build();
     }
+
 }

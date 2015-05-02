@@ -38,6 +38,13 @@ public interface UserService {
     User register(@Body User user);
 
     /**
+     * Request a password reset
+     * @param email
+     */
+    @POST(Constants.Http.URL_PASSWORD_RESET_FRAG)
+    Object passwordReset(@Body Email email);
+
+    /**
      * update a user in the database
      *
      * @param user The user

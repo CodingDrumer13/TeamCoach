@@ -10,22 +10,26 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -94,6 +98,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @InjectView(id.b_signin) protected Button signInButton;
     @InjectView(id.b_register) protected Button registerButton;
     @InjectView(id.loginLayout) protected LinearLayout loginLayout;
+    @InjectView(id.tv_forgot_password) protected TextView forgotPassword;
+    @InjectView(id.cb_show_password) protected CheckBox showPassword;
+    @InjectView(id.iv_TeamCoachImage) protected ImageView iv_TeamCoachImage;
+    @InjectView(id.loginContainer) LinearLayout loginContainer;
 
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -185,6 +193,27 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 handleRegister(registerButton);
             }
         });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForgotPasswordScreen(forgotPassword);
+            }
+        });
+
+        showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!showPassword.isChecked()) {
+                    // show password
+                    passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    passwordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
@@ -340,6 +369,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 return;
             }
 
+            //Hide logo
+            iv_TeamCoachImage.setVisibility(View.GONE);
+
             // Create a new Fragment to be placed in the activity layout
             RegisterFragment registerFragment = new RegisterFragment();
             registerFragment.setBootstrapAuthenticatorActivity(this);
@@ -448,5 +480,18 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                         string.message_auth_failed);
             }
         }
+    }
+
+    public void showForgotPasswordScreen(final View v){
+        loginContainer.setVisibility(View.GONE);
+
+        ResetPasswordFragment resetPasswordFragment = new ResetPasswordFragment();
+        resetPasswordFragment.setBootstrapAuthenticatorActivity(this);
+        resetPasswordFragment.setArguments(getIntent().getExtras());
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("resetPasswordFragment");
+        ft.replace(id.content_frame ,resetPasswordFragment);
+        ft.commit();
     }
 }

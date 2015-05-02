@@ -53,24 +53,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
     private String userPassword;
     private String userAlias;
     private String userUsername;
+    private String userPhoneNumber;
 
     private final TextWatcher watcher = validationTextWatcher();
-
-
-    protected Dialog onCreateDialog(int id) {
-        final ProgressDialog dialog = new ProgressDialog(getActivity());
-        dialog.setMessage(getText(R.string.message_registering));
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(true);
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(final DialogInterface dialog) {
-                if (authenticationTask != null) {
-                    authenticationTask.cancel(true);
-                }
-            }
-        });
-        return dialog;
-    }
 
     @Inject BootstrapService bootstrapService;
 
@@ -83,6 +68,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
     @InjectView(id.registerRadioGroup) protected RadioGroup radioButtons;
     @InjectView(id.coachRB) protected RadioButton coachRadioButton;
     @InjectView(id.playerRB) protected RadioButton playerRadioButton;
+    @InjectView(id.etRegisterPhoneNumber) protected EditText et_phonenumber;
 
     @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,6 +90,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
         lastName.addTextChangedListener(watcher);
         email.addTextChangedListener(watcher);
         password.addTextChangedListener(watcher);
+        et_phonenumber.addTextChangedListener(watcher);
 
         radioButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -143,6 +130,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
         userPassword = password.getText().toString();
         userAlias = firstName.getText().toString();
         userUsername = email.getText().toString();
+        userPhoneNumber = et_phonenumber.getText().toString();
+
 
         boolean givenRole = false;
 
@@ -164,7 +153,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
 
-                    User user = new User(userUsername, userPassword, userAlias, userRole, userEmail, userFirstName, userLastName);
+                    User user = new User(userUsername, userPassword, userAlias, userRole, userEmail, userFirstName, userLastName, userPhoneNumber);
                     User loginResponse = bootstrapService.register(user);
                     token = loginResponse.getSessionToken();
 
@@ -221,6 +210,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener  
             onRegister(confirmRegisterButton);
         }else if(view.getId() == cancelRegister.getId()){
             //The cancel text has been clicked
+            bootstrapAuthenticatorActivity.iv_TeamCoachImage.setVisibility(View.VISIBLE);
             bootstrapAuthenticatorActivity.getSupportFragmentManager().beginTransaction().remove(RegisterFragment.this).commit();
         }
     }

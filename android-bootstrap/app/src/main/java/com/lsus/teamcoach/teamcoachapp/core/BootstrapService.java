@@ -150,6 +150,10 @@ public class BootstrapService {
         return getUserService().authenticate(email, password);
     }
 
+    public Object passwordReset(Email email){
+        return getUserService().passwordReset(email);
+    }
+
     /**
      * Registers the user with Parse.com
      */

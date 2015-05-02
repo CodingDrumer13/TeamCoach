@@ -43,9 +43,16 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/spin_eventTeam"
+            android:layout_gravity="center_horizontal"
+            android:hint="Team"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/spin_eventType"
             android:layout_gravity="center_horizontal"
-            android:hint="Team Age Group"/>
+            android:hint="Event Type"/>
 
         <EditText
             android:layout_width="match_parent"

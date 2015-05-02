@@ -1,10 +1,10 @@
 package com.lsus.teamcoach.teamcoachapp.ui.Calender;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -38,6 +38,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
  private SafeAsyncTask<Boolean> authenticationTask;
     private CalendarEvent event;
     protected CalendarListFragment calListFragment;
+    protected Singleton singleton = Singleton.getInstance();
 
     @Inject
     protected BootstrapService bootstrapService;
@@ -47,12 +48,12 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     TextView tvEventNameInfo;
     @InjectView(R.id.et_event_name_info)
     EditText etEventNameInfo;
-    @InjectView(R.id.et_event_start_date_info)
-    EditText etEventDateInfo;
-    @InjectView(R.id.et_event_start_time_info)
-    EditText etEventStartTimeInfo;
-    @InjectView((R.id.et_event_end_time_info))
-    EditText etEventEndTimeInfo;
+    @InjectView(R.id.tv_event_team_info)
+    TextView tvEventTeamInfo;
+    @InjectView(R.id.spin_event_team_info)
+    Spinner spinEventTeamInfo;
+    @InjectView(R.id.tv_event_start_date_info)
+    TextView tvEventDateInfo;
     @InjectView(R.id.tv_event_type_info)
     TextView tvEventTypeInfo;
     @InjectView(R.id.spin_event_type_info)
@@ -67,10 +68,10 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     Button btnCalendarInfoBack;
     @InjectView(R.id.btnEventDateInfo)
     Button btnEventDateInfo;
-    @InjectView(R.id.btnEventStartTimeInfo)
-    Button btnEventStartTimeInfo;
-    @InjectView(R.id.btnEventEndTimeInfo)
-    Button btnEventEndTimeInfo;
+    @InjectView(R.id.btnCalendarInfoAddSession)
+    Button btnCalendarInfoAddSession;
+    @InjectView(R.id.btnCalendarInfoCreateSession)
+    Button btnCalendarInfoCreateSession;
 
 
     @Override
@@ -85,34 +86,28 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
         Views.inject(this, view);
 
+        CalendarFragment calFrag = (CalendarFragment)this.getParentFragment();
+        calFrag.btnNewEvent.setVisibility(View.GONE);
+
         btnCalendarInfoBack.setOnClickListener(this);
         btnCalendarInfoDelete.setOnClickListener(this);
         btnCalendarInfoEdit.setOnClickListener(this);
         btnCalendarInfoSubmit.setOnClickListener(this);
         btnEventDateInfo.setOnClickListener(this);
-        btnEventStartTimeInfo.setOnClickListener(this);
-        btnEventEndTimeInfo.setOnClickListener(this);
+        btnCalendarInfoAddSession.setOnClickListener(this);
+        btnCalendarInfoCreateSession.setOnClickListener(this);
 
         tvEventNameInfo.setText(String.format("%s", event.getEventName()));
-        etEventDateInfo.setText(event.getEventDate());
-        etEventStartTimeInfo.setText(event.getEventStartTime());
-        etEventEndTimeInfo.setText(event.getEventEndTime());
+        tvEventTeamInfo.setText(event.getEventTeam());
+        tvEventDateInfo.setText(event.getEventDate());
         tvEventTypeInfo.setText(String.format("%s", event.getEventType()));
 
         btnCalendarInfoEdit.setVisibility(View.VISIBLE);
         btnCalendarInfoDelete.setVisibility(View.GONE);
 
         btnEventDateInfo.setVisibility(View.GONE);
-        btnEventStartTimeInfo.setVisibility(View.GONE);
-        btnEventEndTimeInfo.setVisibility(View.GONE);
 
-//        btnEventDateInfo.setClickable(false);
-//        btnEventStartTimeInfo.setClickable(false);
-//        btnEventEndTimeInfo.setClickable(false);
-
-        etEventDateInfo.setKeyListener(null);
-        etEventStartTimeInfo.setKeyListener(null);
-        etEventEndTimeInfo.setKeyListener(null);
+        tvEventDateInfo.setKeyListener(null);
 
     }
 
@@ -138,6 +133,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             onDelete();
         }else if (view.getId() == btnCalendarInfoBack.getId()) {
             this.getFragmentManager().popBackStack();
+            CalendarFragment calFrag = (CalendarFragment)this.getParentFragment();
+            calFrag.btnNewEvent.setVisibility(View.VISIBLE);
         }
         if(view.getId() == btnEventDateInfo.getId()) {
             // Launch Date Picker Dialog
@@ -157,7 +154,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
                             else {
                                 day = String.valueOf(dayOfMonth);}
                             // Display Selected date in textbox
-                            etEventDateInfo.setText(month + "-"
+                            tvEventDateInfo.setText(month + "-"
                                     + day + "-" + year);
 
                         }
@@ -165,74 +162,14 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             dpd.show();
         }
 
-        if(view.getId() == btnEventStartTimeInfo.getId()){
-            // Launch Time Picker Dialog
-            TimePickerDialog tpd = new TimePickerDialog(getActivity(),
-                    new TimePickerDialog.OnTimeSetListener() {
+        if(view.getId() == btnCalendarInfoCreateSession.getId())
+        {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-                            // Display Selected time in textbox
-                            String minuteString;
-                            if(minute < 10){
-                                minuteString = "0" + minute;}
-                            else
-                                minuteString = String.valueOf(minute);
-                            String am_pm;
-                            String hour;
-                            if(hourOfDay >= 12){ //Times after 12 noon
-                                am_pm = "PM";
-                                if(hourOfDay == 12){
-                                    hour = String.valueOf(hourOfDay);}
-                                else {
-                                    hour = String.valueOf(hourOfDay - 12);}}
-                            else if(hourOfDay == 0) { //Midnight
-                                am_pm = "AM";
-                                hour = String.valueOf(hourOfDay + 12);
-                            }
-                            else {
-                                am_pm = "AM";
-                                hour = String.valueOf(hourOfDay);}
-                            etEventStartTimeInfo.setText(hour + ":" + minuteString + " " + am_pm);
-                        }
-                    }, event.getStartHour(), event.getStartMinute(), false);
-            tpd.show();
-        }
-
-        if(view.getId() == btnEventEndTimeInfo.getId()) {
-            // Launch Time Picker Dialog
-            TimePickerDialog tpd = new TimePickerDialog(getActivity(),
-                    new TimePickerDialog.OnTimeSetListener() {
-
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-                            // Display Selected time in textbox
-                            String minuteString;
-                            if(minute < 10){
-                                minuteString = "0" + minute;}
-                            else
-                                minuteString = String.valueOf(minute);
-                            String am_pm;
-                            String hour;
-                            if(hourOfDay >= 12){ //Times after 12 noon
-                                am_pm = "PM";
-                                if(hourOfDay == 12){
-                                    hour = String.valueOf(hourOfDay);}
-                                else {
-                                    hour = String.valueOf(hourOfDay - 12);}}
-                            else if(hourOfDay == 0) { //Midnight
-                                am_pm = "AM";
-                                hour = String.valueOf(hourOfDay + 12);
-                            }
-                            else {
-                                am_pm = "AM";
-                                hour = String.valueOf(hourOfDay);}
-                            etEventEndTimeInfo.setText(hour + ":" + minuteString + " " + am_pm);
-                        }
-                    }, event.getEndHour(), event.getEndMinute(), false);
-            tpd.show();
+            AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
+            newFragment.setParent(this);
+            newFragment.show(ft, "dialog");
         }
 
     }
@@ -255,7 +192,15 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         etEventNameInfo.setText(tvEventNameInfo.getText());
 
-        //Sets up the values for the Age Groups
+        tvEventTeamInfo.setVisibility(View.GONE);
+        spinEventTeamInfo.setVisibility(View.VISIBLE);
+
+        //Set adapter for team spinner
+        ArrayAdapter<Team> spinnerArrayAdapter = new ArrayAdapter<Team>(this.getActivity(), R.layout.teamcoach_spinner_item, singleton.getUserTeams()); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinEventTeamInfo.setAdapter(spinnerArrayAdapter);
+
+        //Sets up the values for the Event Types
         ArrayAdapter<CharSequence> eventTypeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.event_type_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -266,8 +211,10 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         spinEventTypeInfo.setSelection(getIndex(spinEventTypeInfo, tvEventTypeInfo.getText().toString()));
 
         btnEventDateInfo.setVisibility(View.VISIBLE);
-        btnEventStartTimeInfo.setVisibility(View.VISIBLE);
-        btnEventEndTimeInfo.setVisibility(View.VISIBLE);
+        tvEventDateInfo.setVisibility(View.GONE);
+
+        btnCalendarInfoAddSession.setVisibility(View.VISIBLE);
+        btnCalendarInfoCreateSession.setVisibility(View.VISIBLE);
 
         btnCalendarInfoEdit.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.VISIBLE);
@@ -300,9 +247,11 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         // Setting Editing information to a team
         event.setEventName(etEventNameInfo.getText().toString());
         event.setEventType(spinEventTypeInfo.getSelectedItem().toString());
-        event.setEventDate(etEventDateInfo.getText().toString());
-        event.setEventStartTime(etEventStartTimeInfo.getText().toString());
-        event.setEventEndTime(etEventEndTimeInfo.getText().toString());
+        event.setEventDate(tvEventDateInfo.getText().toString());
+        event.setEventTeam(spinEventTeamInfo.getSelectedItem().toString());
+
+        Team team = (Team) spinEventTeamInfo.getSelectedItem();
+        event.setTeamId(team.getObjectId());
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -317,16 +266,20 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         etEventNameInfo.setVisibility(View.GONE);
         spinEventTypeInfo.setVisibility(View.GONE);
+        spinEventTeamInfo.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.GONE);
 
         tvEventNameInfo.setVisibility(View.VISIBLE);
+        tvEventTeamInfo.setVisibility(View.VISIBLE);
         tvEventTypeInfo.setVisibility(View.VISIBLE);
 
+        btnEventDateInfo.setVisibility(View.GONE);
+        tvEventDateInfo.setVisibility(View.VISIBLE);
+
         tvEventNameInfo.setText(event.getEventName());
-        tvEventNameInfo.setText(event.getEventType());
-        etEventDateInfo.setText(event.getEventDate());
-        etEventStartTimeInfo.setText(event.getEventStartTime());
-        etEventEndTimeInfo.setText(event.getEventEndTime());
+        tvEventTeamInfo.setText(event.getEventTeam());
+        tvEventTypeInfo.setText(event.getEventType());
+        tvEventDateInfo.setText(event.getEventDate());
 
         btnCalendarInfoEdit.setVisibility(View.VISIBLE);
         btnCalendarInfoDelete.setVisibility(View.GONE);

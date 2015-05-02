@@ -39,7 +39,7 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_eventDate, R.id.tv_eventName,
+        return new int[]{R.id.tv_eventDate, R.id.tv_eventTeam, R.id.tv_eventName,
                             R.id.tv_eventTime};
     }
 
@@ -49,8 +49,9 @@ public class CalendarListAdapter extends AlternatingColorListAdapter<CalendarEve
         super.update(position, item);
 
                 setText(0, item.getEventDate());
-                setText(1, item.getEventName());
-                setText(2, item.getTimeSpan());
+                setText(1, item.getEventTeam());
+                setText(2, item.getEventName());
+                setText(3, item.getTimeSpan());
 
 
 

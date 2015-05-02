@@ -123,7 +123,8 @@ import retrofit.converter.GsonConverter;
                 AddNewsFragment.class,
                 AboutUsActivity.class,
                 SessionInfoFragment.class,
-                DrillInfoFragment.class
+                DrillInfoFragment.class,
+                AddDrillFragment.class
         }
 )
 public class BootstrapModule {

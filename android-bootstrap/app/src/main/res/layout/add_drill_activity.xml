@@ -1,125 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@drawable/gradient_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddDrillName"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/table_text_selector"
-        android:hint="Drill Name"/>
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
-            android:text="From:"
-            android:textSize="27dp"
-            android:visibility="gone"
-            android:textColor="@color/table_text_selector" />
-
-        <Spinner
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/sAddDrillAgeGroupBottom"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            style="@style/teamcoach_spinner_style"
-            android:hint="Age Group"/>
-
-        <TextView
-            android:id="@+id/tv_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
-            android:text="To:"
-            android:textSize="27dp"
-            android:visibility="gone"
-            android:textColor="@color/table_text_selector" />
-
-        <Spinner
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/sAddDrillAgeGroupTop"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            style="@style/teamcoach_spinner_style"
-            android:hint="Age Group"
-            android:visibility="gone"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Age Range"
-            android:background="@drawable/button_background_states"
-            android:textColor="@color/text"
-            android:id="@+id/btnAddAgeGroup"
-            android:gravity="end"/>
-
-    </LinearLayout>
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sAddDrillType"
-        android:paddingTop="5dp"
-        android:paddingBottom="10dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/teamcoach_spinner_style"
-        android:hint="Drill Type"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Image"
-        android:background="@drawable/button_background_states"
-        android:textColor="@color/text"
-        android:id="@+id/btnAddImage" />
-
-
-    <ImageView
-        android:id="@+id/iv_drillImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:id="@+id/etAddDrillDescription"
-        android:layout_gravity="center_horizontal"
-        android:hint="Drill Description"
-        android:textColor="@color/table_text_selector"
-        android:singleLine="false"/>
+        android:layout_above="@+id/button_container"
+        android:id="@+id/drill_activity_container">
+    </FrameLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:id="@+id/button_container"
+        android:layout_alignParentBottom="true">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
             android:background="@drawable/button_background_states"
+            android:layout_centerInParent="true"
             android:textColor="@color/text"
             android:id="@+id/btnCancelAddDrill" />
 
@@ -127,9 +38,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/submit"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:background="@drawable/button_background_states"
+            android:layout_centerInParent="true"
             android:textColor="@color/text"
             android:id="@+id/btnAddDrill" />
 
         </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -51,7 +51,7 @@ public class DrillListFragment extends ItemListFragment<Drill> {
         Views.inject(this, view);
 
         parent.setHeaderVisibility(true);
-        parent.setHeader(type + " Drills");
+        parent.setHeader(age + " " + type + " Drills");
     }
 
     @Override

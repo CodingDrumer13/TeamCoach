@@ -41,6 +41,7 @@ public class TeamsListFragment extends ItemListFragment<Team> {
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
     protected Fragment parentFragment;
+    private Button addButton;
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -111,6 +112,8 @@ public class TeamsListFragment extends ItemListFragment<Team> {
         teamInfoFragment.setParentFragment(this);
         teamInfoFragment.setRetainInstance(true);
         teamInfoFragment.setTeam(item);
+        teamInfoFragment.setAddButton(addButton);
+        addButton.setVisibility(View.GONE);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -185,6 +188,10 @@ public class TeamsListFragment extends ItemListFragment<Team> {
 
     public void setParentFragment(TeamsFragment teamsFragment) {
         this.parentFragment = teamsFragment;
+    }
+
+    public void setAddButton(Button addButton){
+        this.addButton = addButton;
     }
 
 }

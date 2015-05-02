@@ -105,24 +105,26 @@ public class DrillInfoFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void done(List<ParseObject> list, ParseException e) {
                     if(e == null){
-                        picture = list.get(0).getParseFile("picture");
-                        pictureId = list.get(0).getObjectId();
+                        if(list.size() != 0) {
+                            picture = list.get(0).getParseFile("picture");
+                            pictureId = list.get(0).getObjectId();
 
-                        picture.getDataInBackground(new GetDataCallback() {
-                            @Override
-                            public void done(byte[] bytes, ParseException e) {
-                                Bitmap bmp = null;
-                                try {
-                                    bmp = BitmapFactory.decodeByteArray(picture.getData(), 0, picture.getData().length);
-                                    drillPicture.setVisibility(View.VISIBLE);
-                                    drillPicture.setImageBitmap(bmp);
-                                } catch (ParseException e1) {}
+                            picture.getDataInBackground(new GetDataCallback() {
+                                @Override
+                                public void done(byte[] bytes, ParseException e) {
+                                    Bitmap bmp = null;
+                                    try {
+                                        bmp = BitmapFactory.decodeByteArray(picture.getData(), 0, picture.getData().length);
+                                        drillPicture.setVisibility(View.VISIBLE);
+                                        drillPicture.setImageBitmap(bmp);
+                                    } catch (ParseException e1) {}
 
-                            }
-                        });
-                    }else {
-
-                    }
+                                }
+                            });
+                        } else {
+                            Toaster.showShort(DrillInfoFragment.this.getActivity(), "This drill's picture has been removed.");
+                        }
+                    }else {}
                 }
             });
         }

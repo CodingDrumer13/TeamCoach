@@ -48,6 +48,7 @@ public class TeamsFragment extends Fragment implements View.OnClickListener{
         teamsListFragment = new TeamsListFragment();
         teamsListFragment.setRetainInstance(true);
         teamsListFragment.setParentFragment(this);
+        teamsListFragment.setAddButton(btnNewTeam);
         fragmentTransaction.replace(R.id.content, teamsListFragment);
         fragmentTransaction.commit();
 

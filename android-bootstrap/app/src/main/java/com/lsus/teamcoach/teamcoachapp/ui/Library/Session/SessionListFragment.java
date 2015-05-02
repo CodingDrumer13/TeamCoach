@@ -55,7 +55,7 @@ public class SessionListFragment extends ItemListFragment<Session> {
         Views.inject(this, view);
 
         parent.setHeaderVisibility(true);
-        parent.setHeader(type + " Sessions");
+        parent.setHeader(age + " " + type + " Sessions");
     }
 
     @Override

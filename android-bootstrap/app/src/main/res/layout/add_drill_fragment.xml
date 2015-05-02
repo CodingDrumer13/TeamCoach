@@ -21,7 +21,6 @@
             android:hint="Drill Name"/>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -76,7 +75,7 @@
                 android:background="@drawable/button_background_states"
                 android:textColor="@color/text"
                 android:id="@+id/btnAddAgeGroup"
-                android:layout_gravity="end"/>
+                android:layout_gravity="end|center"/>
 
         </LinearLayout>
 
@@ -94,6 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Image"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:background="@drawable/button_background_states"
             android:textColor="@color/text"
             android:id="@+id/btnAddImage"
@@ -103,6 +104,7 @@
             android:id="@+id/iv_drillImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone"
             />
 
@@ -111,6 +113,7 @@
             android:layout_height="200sp"
             android:id="@+id/etAddDrillDescription"
             android:layout_gravity="center_horizontal"
+            android:gravity="top"
             android:hint="Drill Description"
             style="@style/SignInEditText"
             android:singleLine="false"/>

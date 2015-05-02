@@ -75,8 +75,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
-        android:text="Phone N
-        umber: "
+        android:text="Phone Number: "
         />
     <TextView
         android:id="@+id/tv_phonenumber"

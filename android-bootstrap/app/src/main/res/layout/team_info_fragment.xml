@@ -92,7 +92,6 @@
     android:id="@+id/tvTeamCode"
     />
 
-
     <Button
         android:id="@+id/btn_Team_Info_Edit"
         style="@style/ShadowText"

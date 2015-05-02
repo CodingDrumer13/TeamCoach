@@ -21,7 +21,7 @@
                 android:singleLine="true"
                 android:layout_marginBottom="15dip"
                 android:textStyle="bold"
-                android:textColor="@color/table_text_selector" />
+                android:textColor="#000000" />
             <EditText
                 android:id="@+id/et_drill_name"
                 style="@style/SignInEditText"
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/table_text_selector"
+                    android:textColor="#000000"
                     android:textStyle="bold"
                     android:text="Age Group: "
                     />
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/table_text_selector"
+                    android:textColor="#000000"
                     android:textStyle="bold"
                     android:text="Type: "
                     />
@@ -81,7 +81,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/table_text_selector"
+                    android:textColor="#000000"
                     android:textStyle="bold"
                     android:text="Rating: "
                     />
@@ -154,7 +154,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/table_text_selector"
+                android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="Description: "
                 />
@@ -163,7 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/table_text_selector"
+                android:textColor="#000000"
+                android:background="@drawable/border_background"
                 />
             <EditText
                 android:layout_height="150dp"
@@ -171,7 +172,9 @@
                 style="@style/SignInEditText"
                 android:inputType="textCapSentences|textMultiLine"
                 android:gravity="top"
+                android:textColor="#000000"
                 android:visibility="gone"
+                android:background="@drawable/border_background"
                 />
 
             <LinearLayout
@@ -186,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/table_text_selector"
+                    android:textColor="#000000"
                     android:textStyle="bold"
                     android:text="Times Used: "
                     android:id="@+id/tv_drill_times_used"
@@ -198,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:singleLine="true"
-                    android:textColor="@color/table_text_selector"
+                    android:textColor="#000000"
                     android:visibility="gone"
                     />
             </LinearLayout>

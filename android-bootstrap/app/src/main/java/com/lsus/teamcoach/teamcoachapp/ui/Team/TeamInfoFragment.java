@@ -35,6 +35,7 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     private SafeAsyncTask<Boolean> authenticationTask;
     private Team team;
     protected TeamsListFragment teamsListFragment;
+    private Button addButton;
 
     @Inject protected BootstrapService bootstrapService;
     @Inject protected LogoutService logoutService;
@@ -103,6 +104,7 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
             //The Submit button has been clicked
             onDelete();
         }else if (view.getId() == btnTeamBack.getId()) {
+            addButton.setVisibility(View.VISIBLE);
             this.getFragmentManager().popBackStack();
         }
     }
@@ -155,6 +157,7 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
             // Should be on success
             @Override protected void onFinally() throws RuntimeException {
                 teamsListFragment.refresh();
+                addButton.setVisibility(View.VISIBLE);
                 authenticationTask=null;
             }
         };
@@ -203,5 +206,9 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
             }
         }
         return index;
+    }
+
+    public void setAddButton(Button addButton){
+        this.addButton = addButton;
     }
 }

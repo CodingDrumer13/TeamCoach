@@ -120,7 +120,7 @@ public class FindTeamFragment extends Fragment implements View.OnClickListener
 
                 @Override
                 public void onSuccess(final Boolean authSuccess) {
-//                    parentFragment
+                    parentFragment.rosterListFragment.refresh();
                 }
 
                 @Override

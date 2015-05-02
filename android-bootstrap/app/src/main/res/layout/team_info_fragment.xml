@@ -66,7 +66,7 @@
 
     <Spinner
         android:id="@+id/sp_Team_Age_Group"
-        style="@style/Spinner"
+        style="@style/teamcoach_spinner_style"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,15 +82,16 @@
         android:textColor="@color/table_text_selector"
         android:textStyle="bold"
         android:text="Team Code: "
+        android:id="@+id/tvTeamCodeLabel"
         />
     <TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:textColor="@color/table_text_selector"
-    android:textStyle="bold"
-    android:id="@+id/tvTeamCode"
-    />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold"
+        android:id="@+id/tvTeamCode"
+        />
 
     <Button
         android:id="@+id/btn_Team_Info_Edit"

@@ -79,7 +79,6 @@ public class RosterListFragment extends ItemListFragment<User> {
             @Override
             public List<User> loadData() throws Exception {
 
-//                try {
                     List<User> latest = null;
 
                     if (getActivity() != null) {
@@ -95,13 +94,6 @@ public class RosterListFragment extends ItemListFragment<User> {
                     } else {
                         return Collections.emptyList();
                     }
-//                } catch (final OperationCanceledException e) {
-//                    final Activity activity = getActivity();
-//                    if (activity != null) {
-//                        activity.finish();
-//                    }
-//                    return initialItems;
-//                }
             }
         };
 
@@ -118,9 +110,9 @@ public class RosterListFragment extends ItemListFragment<User> {
         super.onLoadFinished(loader, items);
         Log.d("Size of items", ""+items.size());
         if(items.size() == 0){
-//            parentFragment.showButton();
+            parentFragment.showButton();
         }else{
-//            parentFragment.hideButton();
+            parentFragment.hideButton();
         }
     }
 

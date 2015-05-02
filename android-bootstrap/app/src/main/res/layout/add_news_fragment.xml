@@ -2,7 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp">
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,41 +20,55 @@
         android:id="@+id/btn_new_back"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:id="@+id/add_news_title" />
-
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_add_news_title"
-        style="@style/SignInEditText"/>
+        android:layout_weight="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Message"
-        android:id="@+id/tv_add_news_message" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_add_news_message"
-        style="@style/SignInEditText"
-        android:layout_weight="1"
-        android:inputType="textCapSentences|textMultiLine"
-        android:gravity="top"
-        />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sp_news_team"
-        style="@style/teamcoach_spinner_style"
-        >
-        </Spinner>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:id="@+id/add_news_title" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_add_news_title"
+                style="@style/SignInEditText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Message"
+                android:id="@+id/tv_add_news_message" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_add_news_message"
+                style="@style/SignInEditText"
+                android:layout_weight="1"
+                android:inputType="textCapSentences|textMultiLine"
+                android:gravity="top"
+                android:lines="4" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sp_news_team"
+                style="@style/teamcoach_spinner_style"
+                >
+                </Spinner>
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:layout_width="match_parent"
@@ -63,6 +81,7 @@
         android:onClick="onClick"
         android:gravity="center"
         android:id="@+id/btn_send_message"
+        android:layout_gravity="bottom"
         />
 
 </LinearLayout>

@@ -87,7 +87,6 @@ public class RosterFragment extends Fragment implements View.OnClickListener {
         ft.replace(rosterListFragment.getId(), findTeamFragment);
         ft.addToBackStack("findTeamFragment");
         ft.commit();
-
         hideButton();
     }
 

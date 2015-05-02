@@ -58,6 +58,8 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
     Button btnTeamDelete;
     @InjectView(R.id.btn_team_info_back)
     Button btnTeamBack;
+    @InjectView(R.id.tvTeamCodeLabel)
+    TextView tvTeamCodeLabel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,15 +125,17 @@ public class TeamInfoFragment extends Fragment implements View.OnClickListener{
         tvTeamName.setVisibility(View.GONE);
         tvTeamAgeGroup.setVisibility(View.GONE);
 
+        tvTeamCodeLabel.setVisibility(View.GONE);
+        tvTeamCode.setVisibility(View.GONE);
+
         etTeamName.setVisibility(View.VISIBLE);
         spTeamAgeGroup.setVisibility(View.VISIBLE);
-        spTeamAgeGroup.setBackgroundColor(Color.BLACK);
 
         etTeamName.setText(tvTeamName.getText());
 
         //Sets up the values for the Age Groups
         ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.age_group_array, android.R.layout.simple_spinner_item);
+                R.array.age_group_array, R.layout.teamcoach_spinner_item);
         // Specify the layout to use when the list of choices appears
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

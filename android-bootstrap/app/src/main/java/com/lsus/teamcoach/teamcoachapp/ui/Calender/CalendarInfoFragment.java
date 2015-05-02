@@ -12,11 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
@@ -25,9 +23,9 @@ import com.lsus.teamcoach.teamcoachapp.core.CalendarEvent;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
-import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionDrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 
 import java.util.ArrayList;
@@ -49,6 +47,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     protected Singleton singleton = Singleton.getInstance();
     protected User user = singleton.getCurrentUser();
     private ArrayList<Drill> sessionDrillList;
+    private CalendarDrillListFragment drillListFragment;
+    private boolean editClicked = false;
 
     @Inject
     protected BootstrapService bootstrapService;
@@ -81,9 +81,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     @InjectView(R.id.btnCalendarInfoAddSession)
     Button btnCalendarInfoAddSession;
     @InjectView(R.id.btnCalendarInfoCreateSession)
-    Button btnCalendarInfoCreateSession;
-    @InjectView(R.id.calendar_drill_list_container)
-    FrameLayout drillListContainer;
+    Button btnCalendarInfoAddDrill;
 
 
     @Override
@@ -107,7 +105,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         btnCalendarInfoSubmit.setOnClickListener(this);
         btnEventDateInfo.setOnClickListener(this);
         btnCalendarInfoAddSession.setOnClickListener(this);
-        btnCalendarInfoCreateSession.setOnClickListener(this);
+        btnCalendarInfoAddDrill.setOnClickListener(this);
 
         tvEventNameInfo.setText(String.format("%s", event.getEventName()));
         tvEventTeamInfo.setText(event.getEventTeam());
@@ -121,6 +119,27 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         tvEventDateInfo.setKeyListener(null);
 
+        if(event.getEventSession() == null) event.setEventSession(new ArrayList<Drill>());
+
+        sessionDrillList = event.getEventSession();
+
+        if (sessionDrillList.size() != 0){
+
+            btnCalendarInfoAddSession.setVisibility(View.GONE);
+
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            drillListFragment = new CalendarDrillListFragment();
+            drillListFragment.setRetainInstance(true);
+            if(sessionDrillList == null)  sessionDrillList = new ArrayList<Drill>();
+            drillListFragment.setDrillList(sessionDrillList);
+            drillListFragment.setParent(this);
+
+            fragmentTransaction.replace(R.id.calendar_drill_list_container, drillListFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 
     public void setParentFragment(CalendarListFragment calListFragment){
@@ -135,15 +154,20 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         if (view.getId() == btnCalendarInfoEdit.getId()) {
             //The Edit button has been clicked
+            editClicked = true;
             onEdit();
+
         } else if (view.getId() == btnCalendarInfoSubmit.getId()) {
             //The Submit button has been clicked
+            editClicked = false;
             onSubmit();
         }
         else if (view.getId() == btnCalendarInfoDelete.getId()) {
             //The Delete button has been clicked
+            editClicked = false;
             onDelete();
         }else if (view.getId() == btnCalendarInfoBack.getId()) {
+            editClicked = false;
             this.getFragmentManager().popBackStack();
             CalendarFragment calFrag = (CalendarFragment)this.getParentFragment();
             calFrag.btnNewEvent.setVisibility(View.VISIBLE);
@@ -183,22 +207,19 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
             newFragment.setParent(this);
             newFragment.setAge(event.getEventTeamAge());
             newFragment.show(ft, "dialog");
-
-
         }
 
 
-        if(view.getId() == btnCalendarInfoCreateSession.getId())
+        if(view.getId() == btnCalendarInfoAddDrill.getId())
         {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
 
-            AddSessionDialogFragment newFragment = new AddSessionDialogFragment();
+            CalDrillSelectorDialogFrag newFragment = new CalDrillSelectorDialogFrag();
+            newFragment.setAge(event.getEventTeamAge());
             newFragment.setParent(this);
             newFragment.show(ft, "dialog");
-
         }
-
     }
 
     private boolean isValid(){
@@ -246,8 +267,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         btnEventDateInfo.setVisibility(View.VISIBLE);
         tvEventDateInfo.setVisibility(View.GONE);
 
-        btnCalendarInfoAddSession.setVisibility(View.VISIBLE);
-        btnCalendarInfoCreateSession.setVisibility(View.VISIBLE);
+        if(sessionDrillList.size() == 0) btnCalendarInfoAddSession.setVisibility(View.VISIBLE);
+        btnCalendarInfoAddDrill.setVisibility(View.VISIBLE);
 
         btnCalendarInfoEdit.setVisibility(View.GONE);
         btnCalendarInfoSubmit.setVisibility(View.VISIBLE);
@@ -272,7 +293,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         };
         authenticationTask.execute();
 
-
+        CalendarFragment calFrag = (CalendarFragment)this.getParentFragment();
+        calFrag.btnNewEvent.setVisibility(View.VISIBLE);
         this.getFragmentManager().popBackStack();
     }
 
@@ -281,8 +303,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         event.setEventName(etEventNameInfo.getText().toString());
         event.setEventType(spinEventTypeInfo.getSelectedItem().toString());
         event.setEventDate(tvEventDateInfo.getText().toString());
-        Team team = (Team) spinEventTeamInfo.getSelectedItem();
-        event.setEventTeam(team.getTeamName());
+        event.setEventTeam(spinEventTeamInfo.getSelectedItem().toString());
+        event.setEventSession(sessionDrillList);
 
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
@@ -313,8 +335,11 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         tvEventTypeInfo.setText(event.getEventType());
         tvEventDateInfo.setText(event.getEventDate());
 
-        btnCalendarInfoEdit.setVisibility(View.VISIBLE);
         btnCalendarInfoDelete.setVisibility(View.GONE);
+        btnCalendarInfoAddSession.setVisibility(View.GONE);
+        btnCalendarInfoAddDrill.setVisibility(View.GONE);
+
+        btnCalendarInfoEdit.setVisibility(View.VISIBLE);
 
     }
 
@@ -333,8 +358,35 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
         sessionDrillList.addAll(session.getDrillList());
     }
 
+    public void setDrillToAdd(Drill drill){
+        sessionDrillList.add(drill);
+    }
+
+    public void initList(){
+        btnCalendarInfoAddSession.setVisibility(View.GONE);
+        btnCalendarInfoAddDrill.setVisibility(View.VISIBLE);
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        drillListFragment = new CalendarDrillListFragment();
+        drillListFragment.setRetainInstance(true);
+        if(sessionDrillList == null)  sessionDrillList = new ArrayList<Drill>();
+        drillListFragment.setDrillList(sessionDrillList);
+        drillListFragment.setParent(this);
+
+        fragmentTransaction.replace(R.id.calendar_drill_list_container, drillListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
     public void refreshList(){
-        calSessionListFrag.refresh();
+        drillListFragment.refresh();
+    }
+
+    public boolean isEditClicked(){
+        return editClicked;
     }
 
 

@@ -1,8 +1,8 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -15,6 +15,7 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
     protected String eventStartTime, eventEndTime;
     protected String objectId, creator, sessionId;
     protected String eventTeam, eventTeamAge;
+    protected ArrayList<Drill> eventSession;
 
 
     public CalendarEvent(){}
@@ -27,6 +28,10 @@ public class CalendarEvent implements Serializable, Comparable<CalendarEvent> {
         this.eventEndTime = eventEndTime;
         this.eventType = eventType;
     }
+
+    public ArrayList<Drill> getEventSession(){ return eventSession;}
+
+    public void setEventSession(ArrayList<Drill> eventSession) {this.eventSession = eventSession; }
 
     public String getEventName() {
         return eventName;

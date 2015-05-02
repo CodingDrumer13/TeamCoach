@@ -48,7 +48,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 result = new NewsListFragment();
                 break;
             case 1:
-                result = new UserListFragment();
+                result = new CalendarFragment();
                 break;
             case 2:
                 result = new TeamsFragment();
@@ -60,7 +60,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
                 result = new AdminFragment();
                 break;
             case 5:
-                result = new CalendarFragment();
+                result = new UserListFragment();
                 break;
             default:
                 result = null;
@@ -79,7 +79,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
             case 0:
                 return resources.getString(R.string.page_messages);
             case 1:
-                return resources.getString(R.string.page_main_menu);
+                return "Calendar";
             case 2:
                 return resources.getString(R.string.page_team);
             case 3:
@@ -87,7 +87,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
             case 4:
                 return resources.getString(R.string.page_admin);
             case 5:
-                return "Calendar";
+                return resources.getString(R.string.page_main_menu);
             default:
                 return null;
         }

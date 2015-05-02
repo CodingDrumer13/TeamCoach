@@ -23,7 +23,10 @@ import com.lsus.teamcoach.teamcoachapp.ui.Calender.AddEventFrag;
 import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalDrillSelectorDialogFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarDrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarSelectListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.SelectCalendarSessionListFragment;
@@ -130,7 +133,10 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordFragment.class,
                 SessionInfoFragment.class,
                 DrillInfoFragment.class,
-                AddDrillFragment.class
+                AddDrillFragment.class,
+                CalendarDrillListFragment.class,
+                CalDrillSelectorDialogFrag.class,
+                CalendarSelectListFragment.class
         }
 )
 public class BootstrapModule {

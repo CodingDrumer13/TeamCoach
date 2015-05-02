@@ -88,7 +88,6 @@ public class AddCalSessionFrag extends DialogFragment implements View.OnClickLis
             type = spinner.getSelectedItem().toString();
             selectListFragment.setType(type);
             selectListFragment.refresh();
-            Toaster.showShort(this.getActivity(), "Age: " + age + " Type: " + type);
 
 //            FragmentManager fragmentManager = getChildFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -269,8 +269,6 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             eventToAdd.put("creator", ParseUser.getCurrentUser().getObjectId());
             eventToAdd.put("eventSession", new ArrayList<Drill>());
 
-
-
             try {
                 eventToAdd.saveInBackground(new SaveCallback() {
                     @Override

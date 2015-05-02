@@ -48,22 +48,6 @@
         android:textColor="@color/table_text_selector"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <!--//Added this in so it would run-->
-    <TextView
-        android:id="@+id/tv_event_team_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:singleLine="true"
-        android:textColor="@color/table_text_selector"
-        android:textStyle="bold" />
-    <Spinner
-        android:id="@+id/spin_event_team_info"
-        style="@style/SignInEditText"
-        android:visibility="gone"
-        />
-    <!--SO yeah you might need to delete this-->
-
 
 <FrameLayout android:layout_width="fill_parent"
     android:layout_height="wrap_content" android:orientation="horizontal"
@@ -152,10 +136,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_above="@+id/button_container"
-        android:id="@+id/calendar_drill_list_container"
-        android:visibility="gone">
+        android:id="@+id/calendar_drill_list_container">
     </FrameLayout>
 
     <Button
@@ -169,7 +152,7 @@
         android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:onClick="onClick"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="2dp" />
 
     <Button
         android:id="@+id/btnCalendarInfoCreateSession"
@@ -177,7 +160,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background_states"
-        android:text="Create Session"
+        android:text="Add Drill"
         android:textColor="@color/text"
         android:visibility="gone"
         android:layout_gravity="center_horizontal"
@@ -216,7 +199,7 @@
             android:textColor="@color/text"
             android:visibility="invisible"
             android:onClick="onClick"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp" />
 
         <Button
             android:id="@+id/btnCalendarInfoDelete"
@@ -232,7 +215,7 @@
             android:textColor="@color/text"
             android:visibility="invisible"
             android:onClick="onClick"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -22,6 +22,7 @@ import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Session;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
@@ -258,8 +259,10 @@ public class AddSessionDialogFragment extends DialogFragment implements View.OnC
             this.parent = (TypeFragment) parent;
         } else if(parent instanceof DrillListFragment){
             this.parent = (DrillListFragment) parent;
-        }else if(parent instanceof SessionListFragment){
+        }else if(parent instanceof SessionListFragment) {
             this.parent = (SessionListFragment) parent;
+        }else if(parent instanceof CalendarInfoFragment) {
+            this.parent = (CalendarInfoFragment) parent;
         }
     }
 

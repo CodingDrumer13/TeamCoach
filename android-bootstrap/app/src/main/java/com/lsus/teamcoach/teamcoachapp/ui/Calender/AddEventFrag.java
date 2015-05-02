@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.*;
@@ -173,10 +174,12 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         String endHour;
         if((mHour+1) >= 12){
             am_pm = "PM";
-            if ((mHour+1) == 12)
-                hour = String.valueOf(mHour+1);
-            else
-                hour = String.valueOf((mHour+1)-12);
+            if ((mHour+1) == 12){
+                am_pm = "PM";
+                hour = String.valueOf(mHour+1);}
+            else{
+                am_pm="PM";
+                hour = String.valueOf((mHour+1)-12);}
             endHour = String.valueOf(Integer.parseInt(hour));}
         else {
             am_pm = "AM";
@@ -188,9 +191,18 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             endMinute = String.valueOf((mMinute + 30) - 60);
             if (((mMinute + 30) - 60) < 10){
                endMinute = "0" + endMinute;
-               endHour = String.valueOf(((Integer.parseInt(hour))+1));}
-            else
-                endHour = String.valueOf(Integer.parseInt(hour)+1);
+                if(Integer.parseInt(hour)+1 >= 12)
+                    am_pm="PM";
+                else
+                    am_pm="AM";
+               endHour = String.valueOf(((Integer.parseInt(hour))+1));
+            }
+            else {
+                if(Integer.parseInt(hour)+1 >= 12)
+                    am_pm="PM";
+                else
+                    am_pm="AM";
+                endHour = String.valueOf(Integer.parseInt(hour)+1);}
         }
         else
             endMinute = String.valueOf(mMinute + 30);
@@ -228,8 +240,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             event.setEventEndTime(et_EventEndTime.getText().toString());
 
             Team team = (Team) spin_eventTeam.getSelectedItem();
-            event.setTeamId(team.getObjectId());
-            event.setEventTeam(spin_eventTeam.getSelectedItem().toString());
+            event.setEventTeam(team.getTeamName());
 
             User user = singleton.getCurrentUser();
 
@@ -243,16 +254,18 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
                 parseList.put(e);
             }
 
-            //Saving team to Team class on Parse.com
+            //Saving team to Event class on Parse.com
             ParseObject eventToAdd = new ParseObject("Event");
             eventToAdd.put("eventName", et_eventTitle.getText().toString());
             eventToAdd.put("eventDate", et_EventStartDate.getText().toString());
             eventToAdd.put("eventStartTime", et_EventStartTime.getText().toString());
             eventToAdd.put("eventEndTime", et_EventEndTime.getText().toString());
             eventToAdd.put("eventType", spin_eventType.getSelectedItem().toString());
-            eventToAdd.put("teamId", event.getTeamId());
-            eventToAdd.put("eventTeam", spin_eventTeam.getSelectedItem().toString());
+            eventToAdd.put("eventTeam", team.getTeamName());
+            eventToAdd.put("eventTeamAge", team.getAgeGroup());
             eventToAdd.put("creator", ParseUser.getCurrentUser().getObjectId());
+
+
 
             try {
                 eventToAdd.saveInBackground(new SaveCallback() {
@@ -284,12 +297,6 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
         }
 
             if (view == btnDate) {
-
-//                // Process to get Current Date
-//                final Calendar c = Calendar.getInstance();
-//                mYear = c.get(Calendar.YEAR);
-//                mMonth = c.get(Calendar.MONTH);
-//                mDay = c.get(Calendar.DAY_OF_MONTH);
 
                 // Launch Date Picker Dialog
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(),

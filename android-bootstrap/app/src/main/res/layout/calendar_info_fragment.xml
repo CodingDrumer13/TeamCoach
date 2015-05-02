@@ -150,6 +150,14 @@
         android:textStyle="bold"
         android:textColor="#ff000000" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_container"
+        android:id="@+id/calendar_drill_list_container"
+        android:visibility="gone">
+    </FrameLayout>
+
     <Button
         android:id="@+id/btnCalendarInfoAddSession"
         style="@style/ShadowText"

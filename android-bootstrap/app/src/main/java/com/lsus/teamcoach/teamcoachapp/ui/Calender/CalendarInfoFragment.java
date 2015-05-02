@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -81,6 +82,8 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
     Button btnCalendarInfoAddSession;
     @InjectView(R.id.btnCalendarInfoCreateSession)
     Button btnCalendarInfoCreateSession;
+    @InjectView(R.id.calendar_drill_list_container)
+    FrameLayout drillListContainer;
 
 
     @Override

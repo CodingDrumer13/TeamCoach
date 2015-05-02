@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -264,6 +267,7 @@ public class AddEventFrag extends DialogFragment implements View.OnClickListener
             eventToAdd.put("eventTeam", team.getTeamName());
             eventToAdd.put("eventTeamAge", team.getAgeGroup());
             eventToAdd.put("creator", ParseUser.getCurrentUser().getObjectId());
+            eventToAdd.put("eventSession", new ArrayList<Drill>());
 
 
 

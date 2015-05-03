@@ -149,6 +149,7 @@
     </string>
     <string name="profile">Profile</string>
     <string name="resetpasswordcontent">Please enter your email address to reset your password.</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

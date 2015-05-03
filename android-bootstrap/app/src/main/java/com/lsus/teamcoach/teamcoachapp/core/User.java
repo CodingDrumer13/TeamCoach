@@ -14,7 +14,7 @@ public class User implements Serializable {
     protected String lastName;
     protected String username;
     protected String password;
-    protected String phonenumber;
+    protected String phoneNumber;
     protected String objectId;
     protected String sessionToken;
     protected String gravatarId;
@@ -29,7 +29,7 @@ public class User implements Serializable {
     protected String team;
     protected ArrayList<Drill> drills;
 
-    public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName, String userphoneNumber){
+    public User(String userUsername, String userPassword, String userAlias, String userRole, String userEmail, String userFirstName, String userLastName, String userPhoneNumber){
         this.firstName = userFirstName;
         this.lastName = userLastName;
         this.username = userUsername;
@@ -37,7 +37,7 @@ public class User implements Serializable {
         this.alias = userAlias;
         this.role = userRole;
         this.email = userEmail;
-        this.phonenumber = userphoneNumber;
+        this.phoneNumber = userPhoneNumber;
     }
 
     public String getUsername() {
@@ -48,12 +48,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(final String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getObjectId() {

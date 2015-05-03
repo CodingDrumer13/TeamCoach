@@ -2,6 +2,7 @@
 
 package com.lsus.teamcoach.teamcoachapp.ui;
 
+import android.accounts.AccountManager;
 import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
@@ -9,7 +10,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.view.Window;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.BootstrapServiceProvider;
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.Team;
@@ -28,6 +33,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivit
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapFragmentActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.CarouselFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.ItemListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
@@ -56,8 +62,12 @@ import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
  */
 public class MainActivity extends BootstrapFragmentActivity {
 
+    private static final String FORCE_REFRESH = "forceRefresh";
+
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected BootstrapService bootstrapService;
+    @Inject protected LogoutService logoutService;
+
 
     private boolean userHasAuthenticated = false;
 
@@ -249,6 +259,9 @@ public class MainActivity extends BootstrapFragmentActivity {
             case R.id.aboutus:
                 navigateToAboutScreen();
                 return true;
+            case R.id.logout:
+                logout();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -268,6 +281,45 @@ public class MainActivity extends BootstrapFragmentActivity {
         User user = singleton.getCurrentUser();
         startActivity(new Intent(this, UserActivity.class).putExtra(USER, user));
     }
+
+    private void logout() {
+            new LogoutService(this, AccountManager.get(this)).logout(new Runnable() {
+                @Override
+                public void run() {
+                    // Calling a refresh will force the service to look for a logged in user
+                    // and when it finds none the user will be requested to log in again.
+                    forceRefresh();
+                }
+            });
+    }
+
+    /**
+     * Force a refresh of the items displayed ignoring any cached items
+     */
+    protected void forceRefresh() {
+        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
+        try {
+            serviceProvider.getService(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (AccountsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ActionBarActivity getActionBarActivity() {
+        return ((ActionBarActivity) this);
+    }
+
+    /**
+     * Is this fragment still part of an activity and usable from the UI-thread?
+     *
+     * @return true if usable on the UI-thread, false otherwise
+     */
+    protected boolean isUsable() {
+        return this != null;
+    }
+
 
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
@@ -290,6 +342,10 @@ public class MainActivity extends BootstrapFragmentActivity {
             case 3:
                 // About US
                 navigateToAboutScreen();
+                break;
+            case 4:
+                // Logout
+                logout();
                 break;
         }
     }

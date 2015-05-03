@@ -36,7 +36,6 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        setHasOptionsMenu(false);
 
     }
 

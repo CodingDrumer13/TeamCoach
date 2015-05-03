@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 
@@ -49,7 +52,7 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        this.setHasOptionsMenu(false);
+
     }
 
     @Override
@@ -58,6 +61,7 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
         setEmptyText("No Events");
     }
 
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
@@ -68,7 +72,6 @@ public class CalendarListFragment extends ItemListFragment<CalendarEvent> {
 
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
-
 
     }
 

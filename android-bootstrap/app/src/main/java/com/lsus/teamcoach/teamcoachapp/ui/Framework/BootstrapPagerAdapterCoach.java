@@ -40,7 +40,7 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
     //Important
     //Number of Fragments on the Carousel has to be set
     @Override
-    public int getCount() { return 5; }
+    public int getCount() { return 4; }
 
     // Gets each fragment for the Carousel
     @Override
@@ -51,16 +51,13 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
                 result = new NewsFragment();
                 break;
             case 1:
-                result = new UserListFragment();
+                result = new CalendarFragment();
                 break;
             case 2:
                 result = new TeamsFragment();
                 break;
             case 3:
                 result = new LibraryFragment();
-                break;
-            case 4:
-                result = new CalendarFragment();
                 break;
             default:
                 result = null;
@@ -79,13 +76,11 @@ public class BootstrapPagerAdapterCoach extends FragmentPagerAdapter {
             case 0:
                 return resources.getString(R.string.page_messages);
             case 1:
-                return resources.getString(R.string.page_main_menu);
+                return resources.getString(R.string.page_calendar);
             case 2:
                 return resources.getString(R.string.page_teams_list);
             case 3:
                 return resources.getString(R.string.page_library);
-            case 4:
-                return resources.getString(R.string.page_calendar);
             default:
                 return null;
         }

@@ -13,6 +13,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.ui.Framework.BootstrapActivity;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Extra.USER;
 
@@ -44,6 +46,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
     private User user;
     private SafeAsyncTask<Boolean> authenticationTask;
     private String authToken;
+    private Singleton singleton = Singleton.getInstance();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
         email.setText(String.format("%s", user.getEmail()));
 
-        tv_phonenumber.setText(String.format("%s", user.getPhonenumber()));
+        tv_phonenumber.setText(String.format("%s", user.getPhoneNumber()));
 
         // Gets the logged in accounts user information
         AccountManager accountManager = AccountManager.get(getApplicationContext());
@@ -119,6 +122,7 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
 
     private void onSubmit(){
         if(validateFields()){
+            showProgress();
             button_Submit.setVisibility(View.GONE);
             button_Edit.setVisibility(View.VISIBLE);
 
@@ -142,23 +146,45 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
             user.setEmail(et_email.getText().toString());
             user.setFirstName(firstName);
             user.setLastName(lastName);
+            user.setPhoneNumber(et_phonenubmer.getText().toString());
 
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
 
-                    //Implement try/catch for update error
                     bootstrapService.update(user);
-
                     return true;
+                }
+
+                @Override
+                protected void onException(final Exception e) throws RuntimeException {
+                    // Retrofit Errors are handled inside of the {
+                    if(!(e instanceof RetrofitError)) {
+                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                        if(cause != null) {
+                            Toaster.showLong(UserActivity.this, cause.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onSuccess(final Boolean authSuccess) {
+                    //Update user in singleton
+                    singleton.setCurrentUser(user);
+
+                    name.setText(String.format("%s", et_name.getText().toString()));
+                    email.setText(String.format("%s", et_email.getText().toString()));
+                    tv_phonenumber.setText(String.format("%s", et_phonenubmer.getText().toString()));
+                }
+
+                @Override
+                protected void onFinally() throws RuntimeException {
+                    hideProgress();
+                    authenticationTask = null;
                 }
             };
             authenticationTask.execute();
 
-            //Update user in singlton
 
-            name.setText(String.format("%s", et_name.getText().toString()));
-            email.setText(String.format("%s", et_email.getText().toString()));
-            tv_phonenumber.setText(String.format("%s", et_phonenubmer.getText().toString()));
         }
     }
 
@@ -204,6 +230,22 @@ public class UserActivity extends BootstrapActivity implements View.OnClickListe
         }
 
         return lastName;
+    }
+
+    /**
+     * Hide progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void hideProgress() {
+        dismissDialog(0);
+    }
+
+    /**
+     * Show progress dialog
+     */
+    @SuppressWarnings("deprecation")
+    protected void showProgress() {
+        showDialog(0);
     }
 }
 

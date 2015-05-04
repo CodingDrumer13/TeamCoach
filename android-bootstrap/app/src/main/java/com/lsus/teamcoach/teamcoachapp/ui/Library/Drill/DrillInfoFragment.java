@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Drill;
 import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -68,6 +71,7 @@ public class DrillInfoFragment extends Fragment implements View.OnClickListener,
     private SafeAsyncTask<Boolean> authenticationTask;
     private ArrayList<Drill> group;
     private View view;
+    private Bitmap pictureBitmap;
 
     private DrillInfoActivity parent;
 
@@ -115,8 +119,11 @@ public class DrillInfoFragment extends Fragment implements View.OnClickListener,
                                     Bitmap bmp = null;
                                     try {
                                         bmp = BitmapFactory.decodeByteArray(picture.getData(), 0, picture.getData().length);
+                                        pictureBitmap = bmp;
                                         drillPicture.setVisibility(View.VISIBLE);
                                         drillPicture.setImageBitmap(bmp);
+                                        //TODO Enlarge image on click.
+                                        //drillPicture.setOnClickListener(DrillInfoFragment.this);
                                     } catch (ParseException e1) {}
 
                                 }
@@ -174,6 +181,14 @@ public class DrillInfoFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         if(view.getId() == ratingSubmit.getId()){
             submitRating();
+        }
+        if(view.getId() == drillPicture.getId()){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+
+            ViewPictureDialogFragment newFragment = new ViewPictureDialogFragment();
+            newFragment.setPictureBitmap(pictureBitmap);
+            newFragment.show(ft, "dialog");
         }
     }
 

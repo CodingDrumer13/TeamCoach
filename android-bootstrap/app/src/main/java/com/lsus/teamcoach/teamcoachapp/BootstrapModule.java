@@ -28,6 +28,7 @@ import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarDrillListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarSelectListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.ViewPictureDialogFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Calender.SelectCalendarSessionListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
@@ -136,7 +137,8 @@ import retrofit.converter.GsonConverter;
                 AddDrillFragment.class,
                 CalendarDrillListFragment.class,
                 CalDrillSelectorDialogFrag.class,
-                CalendarSelectListFragment.class
+                CalendarSelectListFragment.class,
+                ViewPictureDialogFragment.class
         }
 )
 public class BootstrapModule {

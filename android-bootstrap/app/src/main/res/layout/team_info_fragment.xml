@@ -115,7 +115,7 @@
         <Button
             android:id="@+id/btn_Team_info_Submit"
             style="@style/ShadowText"
-            android:layout_width="wrap_content"
+            android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="20dp"
@@ -131,7 +131,7 @@
         <Button
             android:id="@+id/btn_Team_Info_Delete"
             style="@style/ShadowText"
-            android:layout_width="wrap_content"
+            android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="10dp"

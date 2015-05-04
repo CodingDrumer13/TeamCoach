@@ -79,7 +79,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
             case 0:
                 return resources.getString(R.string.page_messages);
             case 1:
-                return "Calendar";
+                return resources.getString(R.string.page_calendar);
             case 2:
                 return resources.getString(R.string.page_team);
             case 3:
@@ -87,7 +87,7 @@ public class BootstrapPagerAdapterAdmin extends FragmentPagerAdapter {
             case 4:
                 return resources.getString(R.string.page_admin);
             case 5:
-                return resources.getString(R.string.page_main_menu);
+                return resources.getString(R.string.page_users);
             default:
                 return null;
         }

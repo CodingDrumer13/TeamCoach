@@ -2,7 +2,8 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:id="@+id/etAddDrillName"
             android:layout_gravity="center_horizontal"
             style="@style/SignInEditText"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             android:hint="Drill Name"/>
 
@@ -76,7 +77,8 @@
                 android:background="@drawable/button_background_states"
                 android:textColor="@color/text"
                 android:id="@+id/btnAddAgeGroup"
-                android:layout_gravity="end|center"/>
+                android:layout_gravity="end|center"
+                android:layout_marginBottom="5dp"/>
 
         </LinearLayout>
 
@@ -98,6 +100,7 @@
             android:paddingRight="5dp"
             android:background="@drawable/button_background_states"
             android:textColor="@color/text"
+            android:layout_marginBottom="5dp"
             android:id="@+id/btnAddImage"
             android:layout_gravity="center_horizontal"/>
 

@@ -17,6 +17,7 @@
     <string name="page_teams_list">Teams</string>
     <string name="page_library">Library</string>
     <string name="page_calendar">Calendar</string>
+    <string name="page_users">Users</string>
 
 
     <string name="title_column">Title</string>

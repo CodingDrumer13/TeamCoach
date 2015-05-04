@@ -298,13 +298,24 @@ public class MainActivity extends BootstrapFragmentActivity {
      */
     protected void forceRefresh() {
         getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
-        try {
-            serviceProvider.getService(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (AccountsException e) {
-            e.printStackTrace();
-        }
+        authenticationTask = new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                serviceProvider.getService(MainActivity.this);
+                return true;
+            }
+
+            @Override
+            public void onSuccess(final Boolean authSuccess) {
+
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                authenticationTask = null;
+            }
+        };
+        authenticationTask.execute();
     }
 
     private ActionBarActivity getActionBarActivity() {

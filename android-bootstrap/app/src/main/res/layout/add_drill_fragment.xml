@@ -37,7 +37,7 @@
                 android:textColor="@color/table_text_selector" />
 
             <Spinner
-                android:minWidth="90dp"
+                android:minWidth="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sAddDrillAgeGroupBottom"
@@ -59,7 +59,7 @@
                 android:textColor="@color/table_text_selector" />
 
             <Spinner
-                android:minWidth="90dp"
+                android:minWidth="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sAddDrillAgeGroupTop"

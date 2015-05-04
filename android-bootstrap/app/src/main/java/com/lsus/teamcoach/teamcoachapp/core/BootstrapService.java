@@ -236,7 +236,7 @@ public class BootstrapService {
 
     public List<CalendarEvent> getEvents(String creator){
         String constraint = "{\"creator\":\"" + creator + "\"}";
-        return getCalendarService().getEvents(constraint).getResults(); }
+        return getCalendarService().getEvents(constraint, "-eventDate,-eventStartTime").getResults(); }
 
     public CalendarEvent setEvent(CalendarEvent event) { return  getCalendarService().addEvent(event); }
 

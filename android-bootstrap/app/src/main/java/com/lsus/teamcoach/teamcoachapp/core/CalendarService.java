@@ -30,7 +30,7 @@ public interface CalendarService {
 
     @GET(Constants.Http.URL_EVENT_FRAG)
 
-    CalendarWrapper getEvents(@Query("where") String constraint);
+    CalendarWrapper getEvents(@Query("where") String constraint, @Query("order") String eventTime);
 
     /**
      * update an event in the database

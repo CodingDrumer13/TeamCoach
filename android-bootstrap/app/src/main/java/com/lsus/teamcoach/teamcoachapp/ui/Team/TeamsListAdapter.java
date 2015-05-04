@@ -32,7 +32,7 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<Team> {
 
     @Override
     protected int[] getChildViewIds() {
-        return new int[]{R.id.tv_teamName};
+        return new int[]{R.id.tv_teamName, R.id.tv_teamAge};
     }
 
     @Override
@@ -40,5 +40,6 @@ public class TeamsListAdapter extends AlternatingColorListAdapter<Team> {
         super.update(position, item);
 
         setText(0, item.getTeamName());
+        setText(1, item.getAgeGroup());
     }
 }

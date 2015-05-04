@@ -6,17 +6,23 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_teamName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text_selector"
-        android:textSize="20dp"
-        android:singleLine="true"
-        android:paddingLeft="10dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Team Name"
+        android:id="@+id/tv_teamName"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:background="#ff2149a3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age Group"
+        android:id="@+id/tv_teamAge"
+        android:paddingLeft="15dp"
+        android:textColor="#ff000000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     <!--
         <TextView
             android:id="@+id/tv_arrow"

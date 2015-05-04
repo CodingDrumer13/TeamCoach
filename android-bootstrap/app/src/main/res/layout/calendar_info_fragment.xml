@@ -41,7 +41,7 @@
         android:textStyle="bold" />
     <Spinner
         android:id="@+id/spin_event_team_info"
-        style="@style/Spinner"
+        style="@style/teamcoach_spinner_style"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
 
     <Spinner
         android:id="@+id/spin_event_type_info"
-        style="@style/Spinner"
+        style="@style/teamcoach_spinner_style"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,7 +103,6 @@
         android:layout_marginRight="100dp"
         android:id="@+id/tvDate" />
 
-    android:layout_height="wrap_content">
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_weight="1"
         android:id="@+id/tv_event_start_date_info"
@@ -120,6 +119,7 @@
         android:layout_weight="0" android:id="@+id/btnEventDateInfo" android:text="Set Date"
         android:layout_width="wrap_content"
         android:visibility="gone"
+        android:background="@drawable/button_background_states"
         android:layout_gravity="right"></Button>
 
     </FrameLayout>
@@ -136,7 +136,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/button_container"
         android:id="@+id/calendar_drill_list_container">
     </FrameLayout>

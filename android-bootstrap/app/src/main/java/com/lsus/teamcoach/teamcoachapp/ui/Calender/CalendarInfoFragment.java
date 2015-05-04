@@ -255,7 +255,7 @@ public class CalendarInfoFragment extends Fragment implements View.OnClickListen
 
         //Sets up the values for the Event Types
         ArrayAdapter<CharSequence> eventTypeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.event_type_array, android.R.layout.simple_spinner_item);
+                R.array.event_type_array, R.layout.teamcoach_spinner_item);
         // Specify the layout to use when the list of choices appears
         eventTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

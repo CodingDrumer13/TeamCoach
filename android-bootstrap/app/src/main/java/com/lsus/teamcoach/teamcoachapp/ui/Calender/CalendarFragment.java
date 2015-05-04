@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.lsus.teamcoach.teamcoachapp.Injector;
 import com.lsus.teamcoach.teamcoachapp.R;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 
 import javax.inject.Inject;
 
@@ -84,18 +86,20 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
 
     //Only called from TeamListFragment
     public void addEvent(View v){
-        Toast.makeText(this.getActivity(), "Add Event.", Toast.LENGTH_SHORT).show();
+        Singleton singleton = Singleton.getInstance();
+        if((singleton.getUserTeams() != null) && singleton.getUserTeams().size() != 0) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        AddEventFrag newFragment = new AddEventFrag();
-        newFragment.setParent(this);
-        newFragment.show(ft, "dialog");
+            AddEventFrag newFragment = new AddEventFrag();
+            newFragment.setParent(this);
+            newFragment.show(ft, "dialog");
+        } else {
+            Toaster.showLong(this.getActivity(), "Please add a team before creating an event.");
+        }
     }
 
     public void refreshLists(){
-
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

@@ -173,7 +173,7 @@ public class MainActivity extends BootstrapFragmentActivity {
             authenticationTask = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
 
-                    //TODO set the team, sessions and drills here!!!!
+                    //TODO set the team, sessions and drills here!!!
                     ArrayList < Team > teams = new ArrayList<Team>();
                     teams.addAll(serviceProvider.getService(MainActivity.this).getTeams(singleton.getCurrentUser().getEmail()));
                     singleton.setUserTeams(teams);

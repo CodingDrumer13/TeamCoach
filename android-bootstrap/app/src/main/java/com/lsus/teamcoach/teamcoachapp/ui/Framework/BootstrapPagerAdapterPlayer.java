@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterFragment;
@@ -42,7 +43,7 @@ public class BootstrapPagerAdapterPlayer extends FragmentPagerAdapter {
         final Fragment result;
         switch (position) {
             case 0:
-                result = new NewsListFragment();
+                result = new NewsFragment();
                 break;
             case 1:
                 result = new RosterFragment();

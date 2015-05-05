@@ -71,8 +71,8 @@ public class NewsListFragment extends ItemListFragment<News> {
 
 
 //      Autmaticly scroll to the bottom?
-        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        listView.setStackFromBottom(true);
+//        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        listView.setStackFromBottom(true);
     }
 
     @Override

@@ -71,7 +71,6 @@ public class AddCalSessionFrag extends DialogFragment implements View.OnClickLis
 
         btnCancelSelectDrill.setOnClickListener(this);
 
-        Toaster.showShort(this.getActivity(), "Age: " + age + " Type: " + type);
     }
 
     @Override

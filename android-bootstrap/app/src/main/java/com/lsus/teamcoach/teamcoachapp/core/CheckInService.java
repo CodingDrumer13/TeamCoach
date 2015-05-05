@@ -1,7 +1,5 @@
 package com.lsus.teamcoach.teamcoachapp.core;
 
-import java.util.List;
-
 import retrofit.http.GET;
 
 public interface CheckInService {

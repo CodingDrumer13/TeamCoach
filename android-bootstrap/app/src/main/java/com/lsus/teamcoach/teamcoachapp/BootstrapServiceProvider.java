@@ -6,11 +6,9 @@ import android.app.Activity;
 
 import com.lsus.teamcoach.teamcoachapp.authenticator.ApiKeyProvider;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
-import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 
@@ -39,7 +37,14 @@ public class BootstrapServiceProvider {
     public BootstrapService getService(final Activity activity)
             throws IOException, AccountsException {
         // The call to keyProvider.getAuthKey(...) is what initiates the login screen. Call that now.
-        keyProvider.getAuthKey(activity);
+
+        //The user token
+        if(keyProvider.getAuthKey(activity) != null){
+            String token =  keyProvider.getAuthKey(activity);
+            Singleton singleton = Singleton.getInstance();
+            singleton.setToken(token);
+        }
+
 
         // TODO: See how that affects the bootstrap service.
         return new BootstrapService(restAdapter);

@@ -10,8 +10,6 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Auth.AUTHTOKEN_TYPE;
 import static com.lsus.teamcoach.teamcoachapp.core.Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE;

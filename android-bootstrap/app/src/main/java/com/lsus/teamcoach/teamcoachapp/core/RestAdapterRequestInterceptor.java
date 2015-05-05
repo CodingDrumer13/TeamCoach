@@ -19,7 +19,7 @@ public class RestAdapterRequestInterceptor implements RequestInterceptor {
     @Override
     public void intercept(RequestFacade request) {
 
-        // Add header to set content type of JSON
+        // Add header to set content sessionType of JSON
         request.addHeader("Content-Type", "application/json");
 
         // Add auth info for PARSE, normally this is where you'd add your auth info for this request (if needed).

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Event Date"
+        android:id="@+id/tv_eventDate"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:background="#ff2149a3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team"
+        android:id="@+id/tv_eventTeam"
+        android:paddingLeft="15dp"
+        android:textColor="#ff000000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Name"
+        android:paddingLeft="15dp"
+        android:id="@+id/tv_eventName"
+        android:textColor="#ff000000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5:30 PM - 7:00 PM"
+        android:id="@+id/tv_eventTime"
+        android:paddingLeft="15dp"
+        android:textColor="#ff000000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>

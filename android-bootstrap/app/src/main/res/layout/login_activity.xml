@@ -3,91 +3,130 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    android:orientation="vertical" >
+    android:background="@drawable/field_background"
+    android:orientation="vertical"
+    android:id="@+id/loginLayout">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="false">
+    <ImageView
+        android:id="@+id/iv_TeamCoachImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/teamcoachicon"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp" >
+            android:layout_height="0dp"
+            android:layout_weight="1" >
 
-            <TextView
-                style="@style/ShadowText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="@string/label_email_address"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text" />
-
-            <AutoCompleteTextView
-                android:id="@+id/et_email"
-                style="@style/SignInEditText"
-                android:completionThreshold="1"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:nextFocusDown="@+id/et_password" />
-
-            <TextView
-                style="@style/ShadowText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:text="@string/label_password"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text" />
-
-            <EditText
-                android:id="@+id/et_password"
-                style="@style/SignInEditText"
-                android:imeOptions="actionDone"
-                android:password="false" />
-
-            <Button
-                android:id="@+id/b_signin"
-                style="@style/ShadowText"
+            <FrameLayout
+                android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/button_background_states"
-                android:gravity="center"
-                android:onClick="handleLogin"
-                android:padding="10dp"
-                android:text="@string/label_sign_in"
-                android:textColor="@color/text"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/b_register"
-                style="@style/ShadowText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/button_background_states"
-                android:gravity="center"
-                android:onClick="handleRegister"
-                android:padding="10dp"
-                android:text="@string/label_register"
-                android:textColor="@color/text"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:id="@+id/loginContainer">
 
+                    <TextView
+                        style="@style/ShadowText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/label_email_address"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/text" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/et_email"
+                        style="@style/SignInEditText"
+                        android:completionThreshold="1"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:nextFocusDown="@+id/et_password" />
+
+                    <TextView
+                        style="@style/ShadowText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/label_password"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/text" />
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        style="@style/SignInEditText"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:password="false" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Show Password"
+                        android:id="@+id/cb_show_password"
+                        android:checked="false" />
+
+                    <Button
+                        android:id="@+id/b_signin"
+                        style="@style/ShadowText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/button_background_states"
+                        android:gravity="center"
+                        android:onClick="handleLogin"
+                        android:padding="10dp"
+                        android:text="@string/label_sign_in"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/b_register"
+                        style="@style/ShadowText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/button_background_states"
+                        android:gravity="center"
+                        android:onClick="handleRegister"
+                        android:padding="10dp"
+                        android:text="@string/label_register"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/ShadowText"
+                        android:id="@+id/tv_forgot_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text="Forgot your password?"
+                        android:padding="10dp"
+                        android:textSize="20dip"
+                        android:textColor="@color/text"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </ScrollView>
 </LinearLayout>

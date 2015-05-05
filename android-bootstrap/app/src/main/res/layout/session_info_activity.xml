@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/coaching_background"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/button_container"
+        android:id="@+id/session_activity_container">
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/button_container"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/button_session_edit"
+            style="@style/ShadowText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_states"
+            android:text="Edit"
+            android:textColor="@color/text"
+            android:visibility="gone"
+            android:onClick="onClick"
+            />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/button_session_submit"
+                style="@style/ShadowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/button_background_states"
+                android:text="Submit"
+                android:textColor="@color/text"
+                android:visibility="gone"
+                android:onClick="onClick"
+                />
+
+            <Button
+                android:id="@+id/button_session_remove"
+                style="@style/ShadowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/button_background_states"
+                android:text="Delete"
+                android:textColor="@color/text"
+                android:visibility="gone"
+                android:onClick="onClick"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,66 @@
+
+package com.lsus.teamcoach.teamcoachapp.ui.Framework;
+
+import android.view.LayoutInflater;
+
+import com.lsus.teamcoach.teamcoachapp.R;
+import com.lsus.teamcoach.teamcoachapp.R.drawable;
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+
+import java.util.List;
+
+/**
+ * List adapter that colors rows in alternating colors
+ *
+ * @param <V>
+ */
+public abstract class TransparentListAdapter<V> extends
+        SingleTypeAdapter<V> {
+
+    private final int primaryResource;
+
+    private final int secondaryResource;
+
+    /**
+     * Create adapter with alternating row colors
+     *
+     * @param layoutId
+     * @param inflater
+     * @param items
+     */
+    public TransparentListAdapter(final int layoutId, final LayoutInflater inflater,
+                                       final List<V> items) {
+        this(layoutId, inflater, items, true);
+    }
+
+    /**
+     * Create adapter with alternating row colors
+     *
+     * @param layoutId
+     * @param inflater
+     * @param items
+     * @param selectable
+     */
+    public TransparentListAdapter(final int layoutId, final LayoutInflater inflater,
+                                       final List<V> items, final boolean selectable) {
+        super(inflater, layoutId);
+
+        if (selectable) {
+            primaryResource = drawable.abc_ab_stacked_transparent_light_holo;
+            secondaryResource = drawable.abc_ab_stacked_transparent_light_holo;
+        } else {
+            primaryResource = R.color.pager_background;
+            secondaryResource = R.color.pager_background_alternate;
+        }
+
+        setItems(items);
+    }
+
+    @Override
+    protected void update(final int position, final V item) {
+        if (position % 2 != 0)
+            updater.view.setBackgroundResource(primaryResource);
+        else
+            updater.view.setBackgroundResource(secondaryResource);
+    }
+}

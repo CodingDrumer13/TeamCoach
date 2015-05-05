@@ -15,18 +15,22 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -37,12 +41,16 @@ import com.lsus.teamcoach.teamcoachapp.R.layout;
 import com.lsus.teamcoach.teamcoachapp.R.string;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
+import com.lsus.teamcoach.teamcoachapp.core.Singleton;
+import com.lsus.teamcoach.teamcoachapp.core.Team;
 import com.lsus.teamcoach.teamcoachapp.core.User;
 import com.lsus.teamcoach.teamcoachapp.events.UnAuthorizedErrorEvent;
+import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
 import com.lsus.teamcoach.teamcoachapp.ui.TextWatcherAdapter;
 import com.lsus.teamcoach.teamcoachapp.util.Ln;
 import com.lsus.teamcoach.teamcoachapp.util.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.parse.ParseUser;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -89,6 +97,11 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
     @InjectView(id.b_register) protected Button registerButton;
+    @InjectView(id.loginLayout) protected LinearLayout loginLayout;
+    @InjectView(id.tv_forgot_password) protected TextView forgotPassword;
+    @InjectView(id.cb_show_password) protected CheckBox showPassword;
+    @InjectView(id.iv_TeamCoachImage) protected ImageView iv_TeamCoachImage;
+    @InjectView(id.loginContainer) LinearLayout loginContainer;
 
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -107,10 +120,12 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
     private String password;
 
+    private Bundle bundle;
+
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
-     * oauth token or some other type of timed token that expires/etc. We're just using the parse.com
+     * oauth token or some other sessionType of timed token that expires/etc. We're just using the parse.com
      * sessionId to prove the example of how to utilize a token.
      */
     private String token;
@@ -123,9 +138,11 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        this.bundle = bundle;
 
         Injector.inject(this);
 
+        //Making Changes
         accountManager = AccountManager.get(this);
 
         final Intent intent = getIntent();
@@ -137,6 +154,9 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         setContentView(layout.login_activity);
 
         Views.inject(this);
+//
+//        getResources().getDrawable(R.drawable.field_background).;
+        //loginLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.field_background));
 
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
@@ -174,7 +194,29 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
             }
         });
 
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForgotPasswordScreen(forgotPassword);
+            }
+        });
 
+        showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!showPassword.isChecked()) {
+                    // show password
+                    passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    passwordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
     }
 
     private List<String> userEmailAccounts() {
@@ -262,11 +304,20 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
 
-                final String query = String.format("%s=%s&%s=%s",
-                        PARAM_USERNAME, email, PARAM_PASSWORD, password);
-
                 User loginResponse = bootstrapService.authenticate(email, password);
                 token = loginResponse.getSessionToken();
+
+                ParseUser.logInInBackground(email, password);
+
+                Singleton singleton = Singleton.getInstance();
+                singleton.setCurrentUser(loginResponse);
+                singleton.setToken(token);
+
+                //TODO set the team, sessions and drills here!!!!
+                ArrayList<Team> teams = new ArrayList<Team>();
+                teams.addAll(bootstrapService.getTeams(singleton.getCurrentUser().getEmail()));
+                singleton.setUserTeams(teams);
+
 
                 return true;
             }
@@ -306,8 +357,34 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      */
     public void handleRegister(final View view) {
         // Switching to Register screen
-        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(getApplicationContext(), RegisterFragment.class);
+//        startActivity(i);]]
+
+        if (loginLayout != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (bundle != null) {
+                return;
+            }
+
+            //Hide logo
+            iv_TeamCoachImage.setVisibility(View.GONE);
+
+            // Create a new Fragment to be placed in the activity layout
+            RegisterFragment registerFragment = new RegisterFragment();
+            registerFragment.setBootstrapAuthenticatorActivity(this);
+
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            registerFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id.content_frame, registerFragment).commit();
+        }
     }
     /**
      * Called when response is received from the server for confirm credentials
@@ -333,15 +410,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * AccountAuthenticatorResult which is sent back to the caller. Also sets
      * the authToken in AccountManager for this account.
      */
-
-    protected void finishLogin() {
+    protected void finishLogin(String token, String email, String password) {
         final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
-        if (requestNewAccount) {
-            accountManager.addAccountExplicitly(account, password, null);
-        } else {
-            accountManager.setPassword(account, password);
-        }
+        accountManager.addAccountExplicitly(account, password, null);
 
         authToken = token;
 
@@ -352,10 +424,21 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         if (authTokenType != null
                 && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
             intent.putExtra(KEY_AUTHTOKEN, authToken);
+            //Added because intent.putExtra(KEY_AUTHTOKEN, authToken); doesn't work
+            accountManager.setAuthToken(account, authTokenType, authToken);
         }
 
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+
+        // Added so the MainActivity will restart after each log-in
+        Intent parentActivityIntent = new Intent(this, MainActivity.class);
+
+        parentActivityIntent.addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(parentActivityIntent);
+
         finish();
     }
 
@@ -383,7 +466,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
     public void onAuthenticationResult(final boolean result) {
         if (result) {
             if (!confirmCredentials) {
-                finishLogin();
+                finishLogin(token, email, password);
             } else {
                 finishConfirmCredentials(true);
             }
@@ -397,5 +480,18 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                         string.message_auth_failed);
             }
         }
+    }
+
+    public void showForgotPasswordScreen(final View v){
+        loginContainer.setVisibility(View.GONE);
+
+        ResetPasswordFragment resetPasswordFragment = new ResetPasswordFragment();
+        resetPasswordFragment.setBootstrapAuthenticatorActivity(this);
+        resetPasswordFragment.setArguments(getIntent().getExtras());
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("resetPasswordFragment");
+        ft.replace(id.content_frame ,resetPasswordFragment);
+        ft.commit();
     }
 }

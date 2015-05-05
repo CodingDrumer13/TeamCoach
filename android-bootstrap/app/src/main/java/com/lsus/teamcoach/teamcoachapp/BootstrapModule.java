@@ -3,9 +3,13 @@ package com.lsus.teamcoach.teamcoachapp;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lsus.teamcoach.teamcoachapp.authenticator.ApiKeyProvider;
 import com.lsus.teamcoach.teamcoachapp.authenticator.BootstrapAuthenticatorActivity;
 import com.lsus.teamcoach.teamcoachapp.authenticator.LogoutService;
+import com.lsus.teamcoach.teamcoachapp.authenticator.RegisterFragment;
+import com.lsus.teamcoach.teamcoachapp.authenticator.ResetPasswordFragment;
 import com.lsus.teamcoach.teamcoachapp.core.BootstrapService;
 import com.lsus.teamcoach.teamcoachapp.core.Constants;
 import com.lsus.teamcoach.teamcoachapp.core.PostFromAnyThreadBus;
@@ -13,16 +17,55 @@ import com.lsus.teamcoach.teamcoachapp.core.RestAdapterRequestInterceptor;
 import com.lsus.teamcoach.teamcoachapp.core.RestErrorHandler;
 import com.lsus.teamcoach.teamcoachapp.core.TimerService;
 import com.lsus.teamcoach.teamcoachapp.core.UserAgentProvider;
-import com.lsus.teamcoach.teamcoachapp.ui.BootstrapTimerActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.CheckInsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.AboutUs.AboutUsActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.AddCalSessionFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.AddEventFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Admin.AdminFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.BootstrapTimerActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.CheckInsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalDrillSelectorDialogFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarDrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarSelectListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.ViewPictureDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.SelectCalendarSessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.AddNewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListAdapter;
+import com.lsus.teamcoach.teamcoachapp.ui.News.NewsListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.BootstrapDefault.UserListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Calender.CalendarListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Framework.NavigationDrawerFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.AgeFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.AddDrillFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Drill.DrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.LibraryListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.DrillSelectorDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SelectListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionDrillListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionInfoActivity;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.TypeFragment;
 import com.lsus.teamcoach.teamcoachapp.ui.MainActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.NavigationDrawerFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.NewsActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.NewsListFragment;
-import com.lsus.teamcoach.teamcoachapp.ui.UserActivity;
-import com.lsus.teamcoach.teamcoachapp.ui.UserListFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.AddSessionDialogFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Library.Session.SessionListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.CoachListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.FindTeamFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Roster.RosterListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.AddTeamFrag;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamInfoFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamMenuListFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsFragment;
+import com.lsus.teamcoach.teamcoachapp.ui.Team.TeamsListFragment;
 import com.squareup.otto.Bus;
 
 import javax.inject.Singleton;
@@ -39,6 +82,7 @@ import retrofit.converter.GsonConverter;
 @Module(
         complete = false,
 
+        //Have to add new Fragments and Activities here
         injects = {
                 BootstrapApplication.class,
                 BootstrapAuthenticatorActivity.class,
@@ -50,7 +94,51 @@ import retrofit.converter.GsonConverter;
                 NewsListFragment.class,
                 UserActivity.class,
                 UserListFragment.class,
-                TimerService.class
+                TimerService.class,
+                RegisterFragment.class,
+                LibraryListFragment.class,
+                TeamMenuListFragment.class,
+                TeamsListFragment.class,
+                DrillListFragment.class,
+                TeamsFragment.class,
+                AdminFragment.class,
+                DrillInfoActivity.class,
+                LibraryFragment.class,
+                AddTeamFrag.class,
+                AddDrillDialogFragment.class,
+                SessionListFragment.class,
+                AddSessionDialogFragment.class,
+                SessionInfoActivity.class,
+                AddSessionDialogFragment.class,
+                TeamInfoFragment.class,
+                AddDrillFragment.class,
+                AgeFragment.class,
+                TypeFragment.class,
+                RosterListFragment.class,
+                RosterFragment.class,
+                FindTeamFragment.class,
+                CoachListFragment.class,
+                AddDrillActivity.class,
+                DrillSelectorDialogFragment.class,
+                SelectListFragment.class,
+                CalendarFragment.class,
+                CalendarListFragment.class,
+                AddCalSessionFrag.class,
+                SelectCalendarSessionListFragment.class,
+                AddEventFrag.class,
+                CalendarInfoFragment.class,
+                SessionDrillListFragment.class,
+                NewsFragment.class,
+                AddNewsFragment.class,
+                AboutUsActivity.class,
+                ResetPasswordFragment.class,
+                SessionInfoFragment.class,
+                DrillInfoFragment.class,
+                AddDrillFragment.class,
+                CalendarDrillListFragment.class,
+                CalDrillSelectorDialogFrag.class,
+                CalendarSelectListFragment.class,
+                ViewPictureDialogFragment.class
         }
 )
 public class BootstrapModule {

@@ -12,6 +12,13 @@
     </item>
 
     <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_action_person"
+        bootstrap:showAsAction="never"
+        android:title="@string/profile">
+    </item>
+
+    <item
         android:id="@+id/timer"
         android:icon="@drawable/ic_action_timer"
         bootstrap:showAsAction="always"
@@ -19,10 +26,15 @@
     </item>
 
     <item
+        android:id="@+id/aboutus"
+        bootstrap:showAsAction="never"
+        android:title="@string/about_us" >
+    </item>
+
+    <item
         android:id="@+id/logout"
         bootstrap:showAsAction="never"
         android:title="@string/logout_action" >
     </item>
-
 
 </menu>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnCalendarInfoBack"
+        android:background="@drawable/button_background_states"
+        style="@style/ShadowText"
+        android:text="Back"
+        android:textColor="@color/text"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        />
+
+    <!-- Team Name -->
+    <TextView
+        android:id="@+id/tv_event_name_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:singleLine="true"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold" />
+    <EditText
+        android:id="@+id/et_event_name_info"
+        style="@style/SignInEditText"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_event_team_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:singleLine="true"
+        android:textColor="@color/table_text_selector"
+        android:textStyle="bold" />
+    <Spinner
+        android:id="@+id/spin_event_team_info"
+        style="@style/teamcoach_spinner_style"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/table_text_selector"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <FrameLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Type:"
+                android:id="@+id/tvType"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:textColor="#ff000000"
+                android:layout_gravity="left" />
+
+            <TextView
+                android:id="@+id/tv_event_type_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginTop="15dp"
+                android:singleLine="true"
+                android:layout_marginBottom="20dip"
+                android:textColor="#ff000000"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50dp" />
+
+            <Spinner
+                android:id="@+id/spin_event_type_info"
+                style="@style/teamcoach_spinner_style"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/table_text_selector"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_gravity="left"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="50dp" />
+
+            <!-- Date and Time -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff000000"
+                android:textStyle="bold"
+                android:text="Date:"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="100dp"
+                android:id="@+id/tvDate" />
+
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:id="@+id/tv_event_start_date_info"
+                android:editable="false"
+                android:visibility="visible"
+                android:textColor="#ff000000"
+                android:layout_gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:textAppearance="?android:attr/textAppearanceMedium">
+                <requestFocus></requestFocus>
+            </TextView>
+
+            <Button android:layout_height="wrap_content"
+                android:layout_weight="0" android:id="@+id/btnEventDateInfo" android:text="Set Date"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/button_background_states"
+                android:layout_gravity="right"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="50dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                ></Button>
+
+        </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Session:"
+        android:id="@+id/tvSession"
+        android:textStyle="bold"
+        android:textColor="#ff000000" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:layout_above="@+id/button_container"
+        android:id="@+id/calendar_drill_list_container">
+    </FrameLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <Button
+            android:id="@+id/btnCalendarInfoAddSession"
+            style="@style/ShadowText"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_states"
+            android:text="Add Session"
+            android:textColor="@color/text"
+            android:visibility="gone"
+            android:onClick="onClick"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/btnCalendarInfoCreateSession"
+            style="@style/ShadowText"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_states"
+            android:text="Add Drill"
+            android:textColor="@color/text"
+            android:visibility="gone"
+            android:onClick="onClick"
+            android:layout_weight="1"
+            />
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCalendarInfoEdit"
+        style="@style/ShadowText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_states"
+        android:text="Edit"
+        android:textColor="@color/text"
+        android:visibility="invisible"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnCalendarInfoSubmit"
+            style="@style/ShadowText"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Submit"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            android:layout_marginTop="2dp" />
+
+        <Button
+            android:id="@+id/btnCalendarInfoDelete"
+            style="@style/ShadowText"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background_states"
+            android:text="Delete"
+            android:textColor="@color/text"
+            android:visibility="invisible"
+            android:onClick="onClick"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

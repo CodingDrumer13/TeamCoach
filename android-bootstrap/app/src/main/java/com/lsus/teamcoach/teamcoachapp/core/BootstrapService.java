@@ -71,12 +71,12 @@ public class BootstrapService {
      */
     public List<News> getTeamNews(String teamId){
         String constraint = "{\"teamId\":\"" + teamId + "\"}";
-        return getNewsService().getTeamNews(constraint, "createdAt").getResults();
+        return getNewsService().getTeamNews(constraint, "-createdAt").getResults();
     }
 
     public List<News> getCoachNews(String coachId) {
         String constraint = "{\"creator\":\"" + coachId + "\"}";
-        return getNewsService().getCoachNews(constraint, "createdAt").getResults();
+        return getNewsService().getCoachNews(constraint, "-createdAt").getResults();
     }
 
     /**
